@@ -1,9 +1,16 @@
-# Bounties-API
-[![CircleCI](https://circleci.com/gh/Bounties-Network/BountiesAPI.svg?style=svg)](https://circleci.com/gh/Bounties-Network/BountiesAPI) [![codecov](https://codecov.io/gh/Bounties-Network/BountiesAPI/branch/master/graph/badge.svg)](https://codecov.io/gh/Bounties-Network/BountiesAPI)
+# Delphi-API
 
-[Deployed Production API - Mainnet Contract](https://api.bounties.network)
+## Setup
 
-[Deployed Staging API - Rinkeby Contract great for testing](https://staging.api.bounties.network)
+###### Running the contract subscriber
+
+Before starting you'll need [Docker]((https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac) up and running on your machine and a local Ethereum network running on your localhost:8545. [Deth](https://github.com/c-o-l-o-r/deth) plays nicely with this setup.
+
+```
+cd contract_subscriber
+docker build --tag subscriber .
+docker run -it --network bridge --name subscriber -e eth_network="deth" subscriber
+```
 
 ## Setup
 [Download Docker stable version](https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac)
@@ -34,7 +41,8 @@ docker-compose up
 By default, the sync will connect to mainNet. To change to a rinkeby sync or other, you will need to adjust the eth_network key in the [environment file](https://github.com/Bounties-Network/BountiesAPI/blob/master/.env). As an example, it can be changed to `eth_network=rinkeby`.
 
 ## API Schema and Documentation
-Visit the [production](http://a2e716ea2144911e898ed02122fce8e2-236283655.us-east-1.elb.amazonaws.com:83/) or staging [endpoint](http://afb256214274611e898ed02122fce8e2-504516521.us-east-1.elb.amazonaws.com:83/). Both default to the swagger documentation ui. The local version also serves the documentation.
+
+We plan to closely follow the architecture described in the [BountiesAPI repo](https://github.com/Bounties-Network/BountiesAPI).
 
 ## Architecture
 
