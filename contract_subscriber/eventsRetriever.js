@@ -1,14 +1,18 @@
 const { cloneDeep, chain } = require('lodash'),
-	  { getAsync } = require('./redis_config'),
-	  { SQS_PARAMS } = require('./constants'),
+	  // { getAsync } = require('./redis_config'),
+	  // { SQS_PARAMS } = require('./constants'),
 	  { abiDecoder, getTransaction, getBlock } = require('./web3_config'),
-	   sqs = require('./sqs_config');
+	   // sqs = require('./sqs_config')
+		 { pretty_print } = require('./utils.js');
 
 
 async function sendEvents(events) {
+
 	try {
 		let highestBlock;
 		for (let event of events) {
+
+			/*
 			let {
 				event: eventName,
 				transactionHash,
@@ -31,6 +35,11 @@ async function sendEvents(events) {
 			}
 
 			bountyId = bountyId === '-1' ? _bountyId : bountyId;
+			*/
+
+			const transactionHash = event.transactionHash
+			const blockNumber = event.blockNumber
+			const eventName = event.event
 
 			const rawTransaction = await getTransaction(transactionHash);
 			const transactionFrom = rawTransaction.from;
@@ -43,19 +52,31 @@ async function sendEvents(events) {
 			const blockData = await getBlock(blockNumber);
 			const eventTimestamp = blockData.timestamp.toString();
 
-			// Set Up SQS Params
-			messageParams = cloneDeep(SQS_PARAMS);
-			messageParams.MessageAttributes.Event.StringValue = eventName;
-			messageParams.MessageAttributes.BountyId.StringValue = bountyId;
-			messageParams.MessageAttributes.FulfillmentId.StringValue = fulfillmentId;
-			messageParams.MessageAttributes.MessageDeduplicationId.StringValue = messageDeduplicationId;
-			messageParams.MessageAttributes.TransactionHash.StringValue = transactionHash;
-			messageParams.MessageAttributes.ContractMethodInputs.StringValue = JSON.stringify(contractMethodInputs);
-			messageParams.MessageAttributes.TimeStamp.StringValue = eventTimestamp;
-			messageParams.MessageAttributes.TransactionFrom.StringValue = transactionFrom || '0x';
-			messageParams.MessageDeduplicationId = messageDeduplicationId;
+			pretty_print([
+				["Transaction Hash", transactionHash],
+				["Block Number", blockNumber],
+				["Event Name", eventName],
+				["Raw Transaction", rawTransaction],
+				["Transaction From", rawTransaction.from],
+				["Raw Contract Methods", rawContractMethodInputs],
+				["Contract Method Inputs", contractMethodInputs],
+				["Block Data", blockData],
+				["Event Timestamp", eventTimestamp],
+			])
 
-			await sqs.sendMessage(messageParams).promise();
+			// Set Up SQS Params
+			// messageParams = cloneDeep(SQS_PARAMS);
+			// messageParams.MessageAttributes.Event.StringValue = eventName;
+			// messageParams.MessageAttributes.BountyId.StringValue = bountyId;
+			// messageParams.MessageAttributes.FulfillmentId.StringValue = fulfillmentId;
+			// messageParams.MessageAttributes.MessageDeduplicationId.StringValue = messageDeduplicationId;
+			// messageParams.MessageAttributes.TransactionHash.StringValue = transactionHash;
+			// messageParams.MessageAttributes.ContractMethodInputs.StringValue = JSON.stringify(contractMethodInputs);
+			// messageParams.MessageAttributes.TimeStamp.StringValue = eventTimestamp;
+			// messageParams.MessageAttributes.TransactionFrom.StringValue = transactionFrom || '0x';
+			// messageParams.MessageDeduplicationId = messageDeduplicationId;
+			//
+			// await sqs.sendMessage(messageParams).promise();
 			highestBlock = blockNumber;
 		}
 

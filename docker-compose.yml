@@ -1,98 +1,98 @@
 version: '3'
 
 services:
-  sqs:
-    build:
-      context: ./local_queue
-    volumes:
-      - ./local_queue/elasticmq.conf:/elasticmq.conf
-    ports:
-      - 9324:9324
-  db:
-    image: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: bounties
-    volumes:
-      - psql_bounties:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-  redis:
-    image: "redis"
-    volumes:
-      - redis_bounties:/data
-    ports:
-      - "6379:6379"
-  bounties_api:
-    build:
-      context: ./bounties_api
-      dockerfile: Dockerfile
-    restart: always
-    env_file:
-      - .env
-    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:83"
-    volumes:
-      - ./bounties_api:/code
-    ports:
-      - "8000:83"
-    depends_on:
-      - db
-      - redis
-  bounties_subscriber:
-    build:
-      context: ./bounties_api
-      dockerfile: Dockerfile
-    restart: always
-    env_file:
-      - .env
-    command: bash -c "sleep 5 && python3 manage.py bounties_subscriber"
-    volumes:
-      - ./bounties_api:/code
-    depends_on:
-      - sqs
-      - db
-      - redis
-      - bounties_api
-  sql_jobs:
-    # In production, these run an as an hourly cronjob.
-    # Here, we use a local.sh to just run it more often
-    build:
-      context: ./sql_jobs
-      dockerfile: Dockerfile
-    command: bash -c "./local.sh"
-    env_file:
-      - .env
-    volumes:
-      - ./sql_jobs:/usr/src/app
-  track_bounty_expirations:
-    # TODO - just make this a cronjob. It does not need to be a long-running job
-    build:
-      context: ./bounties_api
-      dockerfile: Dockerfile
-    restart: always
-    env_file:
-      - .env
-    command: python3 manage.py track_bounty_expirations
-    volumes:
-      - ./bounties_api:/code
-    depends_on:
-      - db
-      - bounties_api
-  get_token_values:
-    # In production, these run an as an every 5 minute cronjob.
-    # Here, we use a local.sh to just put it in a bash loop
-    build:
-      context: ./bounties_api
-      dockerfile: Dockerfile
-    restart: always
-    env_file:
-      - .env
-    command: bash -c "./local.sh"
-    volumes:
-      - ./bounties_api:/code
-    depends_on:
-      - db
-      - bounties_api
+  # sqs:
+  #   build:
+  #     context: ./local_queue
+  #   volumes:
+  #     - ./local_queue/elasticmq.conf:/elasticmq.conf
+  #   ports:
+  #     - 9324:9324
+  # db:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: bounties
+  #   volumes:
+  #     - psql_bounties:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  # redis:
+  #   image: "redis"
+  #   volumes:
+  #     - redis_bounties:/data
+  #   ports:
+  #     - "6379:6379"
+  # bounties_api:
+  #   build:
+  #     context: ./bounties_api
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   env_file:
+  #     - .env
+  #   command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:83"
+  #   volumes:
+  #     - ./bounties_api:/code
+  #   ports:
+  #     - "8000:83"
+  #   depends_on:
+  #     - db
+  #     - redis
+  # delphi_subscriber:
+  #   build:
+  #     context: ./delphi_api
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   env_file:
+  #     - .env
+  #   command: bash -c "sleep 5 && python3 manage.py bounties_subscriber"
+  #   volumes:
+  #     - ./delphi_api:/code
+  #   depends_on:
+  #     - sqs
+  #     - db
+  #     - redis
+  #    - bounties_api
+  # sql_jobs:
+  #   # In production, these run an as an hourly cronjob.
+  #   # Here, we use a local.sh to just run it more often
+  #   build:
+  #     context: ./sql_jobs
+  #     dockerfile: Dockerfile
+  #   command: bash -c "./local.sh"
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./sql_jobs:/usr/src/app
+  # track_bounty_expirations:
+  #   # TODO - just make this a cronjob. It does not need to be a long-running job
+  #   build:
+  #     context: ./bounties_api
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   env_file:
+  #     - .env
+  #   command: python3 manage.py track_bounty_expirations
+  #   volumes:
+  #     - ./bounties_api:/code
+  #   depends_on:
+  #     - db
+  #     - bounties_api
+  # get_token_values:
+  #   # In production, these run an as an every 5 minute cronjob.
+  #   # Here, we use a local.sh to just put it in a bash loop
+  #   build:
+  #     context: ./bounties_api
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   env_file:
+  #     - .env
+  #   command: bash -c "./local.sh"
+  #   volumes:
+  #     - ./bounties_api:/code
+  #   depends_on:
+  #     - db
+  #     - bounties_api
   contract_subscriber:
     build:
       context: ./contract_subscriber
@@ -103,11 +103,11 @@ services:
     volumes:
       - ./contract_subscriber:/usr/src/app
       - /usr/src/app/node_modules
-    depends_on:
-      - sqs
-      - redis
-volumes:
-  psql_bounties:
-    external: true
-  redis_bounties:
-    external: true
+    # depends_on:
+    #   - sqs
+    #   - redis
+# volumes:
+#   psql_bounties:
+#     external: true
+#   redis_bounties:
+#     external: true
