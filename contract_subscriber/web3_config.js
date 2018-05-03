@@ -1,3 +1,4 @@
+
 const ds_json = require('./contracts/DelphiStake.json'),
 		dv_json = require('./contracts/DelphiVoting.json'),
 		eip_json = require('./contracts/EIP20.json'),

@@ -8,6 +8,23 @@ services:
   #     - ./local_queue/elasticmq.conf:/elasticmq.conf
   #   ports:
   #     - 9324:9324
+
+  rabbitmq:
+    image: rabbitmq
+    hostname: "rabbit"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    labels:
+      NAME: "rabbitmq"
+    volumes:
+      - "./local_queue/enabled_plugins:/etc/rabbitmq/enabled_plugins"
+
   # db:
   #   image: postgres
   #   environment:
@@ -93,21 +110,42 @@ services:
   #   depends_on:
   #     - db
   #     - bounties_api
-  contract_subscriber:
+  # contract_subscriber:
+  #   build:
+  #     context: ./contract_subscriber
+  #   restart: always
+  #   env_file:
+  #     - .env
+  #   #command: npm start
+  #   volumes:
+  #     - ./contract_subscriber:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   stdin_open: true
+  #   tty: true
+  #   depends_on:
+  #     - rabbitmq
+    #   - redis
+
+  mock_contract_subscriber:
     build:
-      context: ./contract_subscriber
+      context: ./mock_contract_subscriber
     restart: always
     env_file:
       - .env
-    command: npm start
+    #command: npm start
     volumes:
-      - ./contract_subscriber:/usr/src/app
+      - ./mock_contract_subscriber:/usr/src/app
       - /usr/src/app/node_modules
-    # depends_on:
-    #   - sqs
-    #   - redis
+    depends_on:
+      - rabbitmq
+    stdin_open: true
+    tty: true
 # volumes:
 #   psql_bounties:
 #     external: true
 #   redis_bounties:
 #     external: true
+networks:
+  delphi:
+    #driver: bridge
+    external: true
