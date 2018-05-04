@@ -5,14 +5,14 @@ from delphi import views
 
 router = DefaultRouter()
 
-router.register(r'bounty', views.BountyViewSet)
-router.register(r'fulfillment', views.FulfillmentViewSet)
-router.register(r'category', views.CategoryViewSet)
+# router.register(r'bounty', views.BountyViewSet)
+# router.register(r'fulfillment', views.FulfillmentViewSet)
+# router.register(r'category', views.CategoryViewSet)
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^stats/(?P<address>\w+)/$', views.BountyStats.as_view()),
-    url(r'^user/(?P<address>\w+)/$', views.UserProfile.as_view()),
-    url(r'^leaderboard/$', views.Leaderboard.as_view()),
-    url(r'^token/$', views.Tokens.as_view())
+    # url(r'^', include(router.urls)),
+    # url(r'^stats/(?P<address>\w+)/$', views.BountyStats.as_view()),
+    # url(r'^user/(?P<address>\w+)/$', views.UserProfile.as_view()),
+    # url(r'^leaderboard/$', views.Leaderboard.as_view()),
+    # url(r'^token/$', views.Tokens.as_view())
 ]

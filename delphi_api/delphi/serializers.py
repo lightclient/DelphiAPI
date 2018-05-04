@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from delphi.models import Bounty, Fulfillment, Category, RankedCategory, Token
+from delphi.models import Token
 from delphi.constants import STAGE_CHOICES
 
 
@@ -18,73 +18,24 @@ class CustomSerializer(serializers.ModelSerializer):
             return expanded_fields
 
 
-class RankedCategorySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = RankedCategory
-        fields = '__all__'
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = '__all__'
-
-
-class BountyFulfillmentSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Bounty
-        fields = [
-            'id',
-            'bounty_id',
-            'title',
-            'tokenSymbol',
-            'tokenDecimals',
-            'fulfillmentAmount']
-
-
-class FulfillmentSerializer(CustomSerializer):
-    bounty_data = BountyFulfillmentSerializer(read_only=True, source='bounty')
-
-    class Meta:
-        model = Fulfillment
-        fields = '__all__'
-        extra_kwargs = {
-            'data_json': {'write_only': True},
-            'data_fulfiller': {'write_only': True},
-        }
-
-
 class TokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
         fields = '__all__'
 
 
-class BountySerializer(CustomSerializer):
-    bountyStage = serializers.ChoiceField(choices=STAGE_CHOICES)
-    categories = CategorySerializer(read_only=True, many=True)
-    current_market_token_data = TokenSerializer(read_only=True, source='token')
-    fulfillment_count = serializers.ReadOnlyField(source='fulfillments.count')
-
-    class Meta:
-        model = Bounty
-        fields = '__all__'
-        extra_fields = ['id']
-        extra_kwargs = {
-            'data_categories': {'write_only': True},
-            'data_issuer': {'write_only': True},
-            'data_json': {'write_only': True},
-        }
-
-
-class LeaderboardSerializer(serializers.Serializer):
-    address = serializers.CharField(max_length=256)
-    name = serializers.CharField(max_length=256)
-    email = serializers.CharField(max_length=256)
-    githubusername = serializers.CharField(max_length=256)
-    total = serializers.DecimalField(decimal_places=0, max_digits=128)
-    total_usd = serializers.FloatField()
-    bounties_fulfilled = serializers.IntegerField(read_only=True)
-    fulfillments_accepted = serializers.IntegerField(read_only=True)
+# class BountySerializer(CustomSerializer):
+#     bountyStage = serializers.ChoiceField(choices=STAGE_CHOICES)
+#     categories = CategorySerializer(read_only=True, many=True)
+#     current_market_token_data = TokenSerializer(read_only=True, source='token')
+#     fulfillment_count = serializers.ReadOnlyField(source='fulfillments.count')
+#
+#     class Meta:
+#         model = Bounty
+#         fields = '__all__'
+#         extra_fields = ['id']
+#         extra_kwargs = {
+#             'data_categories': {'write_only': True},
+#             'data_issuer': {'write_only': True},
+#             'data_json': {'write_only': True},
+#         }

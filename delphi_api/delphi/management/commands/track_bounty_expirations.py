@@ -2,7 +2,6 @@ import time
 from datetime import datetime, timezone
 from django.core.management.base import BaseCommand
 from delphi.constants import ACTIVE_STAGE, EXPIRED_STAGE
-from delphi.models import Bounty
 import logging
 
 logger = logging.getLogger('django')
@@ -16,16 +15,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            while True:
-                expired_bounties = Bounty.objects.filter(
-                    deadline__lt=datetime.now(timezone.utc),
-                    bountyStage=ACTIVE_STAGE
-                )
-                for bounty in expired_bounties:
-                    bounty.bountyStage=EXPIRED_STAGE
-                    bounty.save()
-                    bounty.record_bounty_state(bounty.deadline)
-                time.sleep(60)
+            # while True:
+            #     expired_bounties = Bounty.objects.filter(
+            #         deadline__lt=datetime.now(timezone.utc),
+            #         bountyStage=ACTIVE_STAGE
+            #     )
+            #     for bounty in expired_bounties:
+            #         bounty.bountyStage=EXPIRED_STAGE
+            #         bounty.save()
+            #         bounty.record_bounty_state(bounty.deadline)
+            #     time.sleep(60)
         except Exception as e:
             # goes to rollbar
             logger.exception(e)
