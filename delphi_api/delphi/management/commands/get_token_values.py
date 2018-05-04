@@ -2,8 +2,8 @@ import requests
 from math import pow
 from decimal import Decimal
 from django.core.management.base import BaseCommand
-from std_bounties.constants import DEAD_STAGE, COMPLETED_STAGE
-from std_bounties.models import Token, Bounty
+from delphi.constants import DEAD_STAGE, COMPLETED_STAGE
+from delphi.models import Token, Bounty
 import logging
 
 logger = logging.getLogger('django')

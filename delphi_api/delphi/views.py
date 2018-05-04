@@ -4,12 +4,12 @@ from django.db import connection
 from django.db.models import Count
 from django.http import JsonResponse, Http404
 from rest_framework.views import APIView
-from bounties.utils import dictfetchall
-from std_bounties.constants import STAGE_CHOICES
-from std_bounties.models import Bounty, Fulfillment, RankedCategory, Token
-from std_bounties.queries import LEADERBOARD_QUERY
-from std_bounties.serializers import BountySerializer, FulfillmentSerializer, RankedCategorySerializer, LeaderboardSerializer, TokenSerializer
-from std_bounties.filters import BountiesFilter, FulfillmentsFilter
+from app.utils import dictfetchall
+from delphi.constants import STAGE_CHOICES
+from delphi.models import Bounty, Fulfillment, RankedCategory, Token
+from delphi.queries import LEADERBOARD_QUERY
+from delphi.serializers import BountySerializer, FulfillmentSerializer, RankedCategorySerializer, LeaderboardSerializer, TokenSerializer
+from delphi.filters import BountiesFilter, FulfillmentsFilter
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework_filters.backends import DjangoFilterBackend
 

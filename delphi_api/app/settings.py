@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'rest_framework_filters',
-    'std_bounties',
+    'delphi',
     'analytics',
     'django_nose',
 ]
@@ -70,12 +70,12 @@ MIDDLEWARE = [
     'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
-ROOT_URLCONF = 'bounties.urls'
+ROOT_URLCONF = 'delphi.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['bounties/templates'],
+        'DIRS': ['delphi/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,7 +88,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bounties.wsgi.application'
+WSGI_APPLICATION = 'delphi.wsgi.application'
 
 
 # Database
@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'bounties.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bounties',
+        'NAME': 'delphi',
         'USER': os.environ.get('psql_user', 'postgres'),
         'PASSWORD': os.environ.get('psql_password'),
         'HOST': os.environ.get('psql_host', 'localhost'),

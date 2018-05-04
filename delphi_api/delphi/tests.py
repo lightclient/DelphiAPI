@@ -7,7 +7,7 @@ from django.test import TestCase
 
 # Create your tests here.
 from utils.functional_tools import narrower, formatter, merge, pipe
-from std_bounties.models import Bounty, Fulfillment
+from delphi.models import Bounty, Fulfillment
 
 import logging
 

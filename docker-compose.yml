@@ -55,18 +55,18 @@ services:
   #   depends_on:
   #     - db
   #     - redis
-  # delphi_subscriber:
-  #   build:
-  #     context: ./delphi_api
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   env_file:
-  #     - .env
-  #   command: bash -c "sleep 5 && python3 manage.py bounties_subscriber"
-  #   volumes:
-  #     - ./delphi_api:/code
-  #   depends_on:
-  #     - sqs
+  delphi_subscriber:
+    build:
+      context: ./delphi_api
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    command: bash -c "sleep 15 && python3 manage.py delphi_subscriber"
+    volumes:
+      - ./delphi_api:/code
+    depends_on:
+      - rabbitmq
   #     - db
   #     - redis
   #    - bounties_api

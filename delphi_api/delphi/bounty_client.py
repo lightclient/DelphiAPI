@@ -1,10 +1,10 @@
 import datetime
 from decimal import Decimal
-from std_bounties.models import Bounty, Fulfillment
-from std_bounties.serializers import BountySerializer, FulfillmentSerializer
-from std_bounties.constants import DRAFT_STAGE, ACTIVE_STAGE, DEAD_STAGE, COMPLETED_STAGE, EXPIRED_STAGE
-from std_bounties.client_helpers import map_bounty_data, map_token_data, map_fulfillment_data, get_token_pricing, get_historic_pricing
-from bounties.utils import getDateTimeFromTimestamp
+from delphi.models import Bounty, Fulfillment
+from delphi.serializers import BountySerializer, FulfillmentSerializer
+from delphi.constants import DRAFT_STAGE, ACTIVE_STAGE, DEAD_STAGE, COMPLETED_STAGE, EXPIRED_STAGE
+from delphi.client_helpers import map_bounty_data, map_token_data, map_fulfillment_data, get_token_pricing, get_historic_pricing
+from app.utils import getDateTimeFromTimestamp
 from django.db import transaction
 import logging
 

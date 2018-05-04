@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 from django.contrib.postgres.fields import JSONField
 
 from django.db import models
-from std_bounties.constants import STAGE_CHOICES, DRAFT_STAGE, EXPIRED_STAGE, ACTIVE_STAGE
+from delphi.constants import STAGE_CHOICES, DRAFT_STAGE, EXPIRED_STAGE, ACTIVE_STAGE
 from django.core.exceptions import ObjectDoesNotExist
-from bounties.utils import calculate_token_value
+from app.utils import calculate_token_value
 
 
 class Category(models.Model):

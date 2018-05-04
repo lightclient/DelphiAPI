@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
-from std_bounties import views
+from delphi import views
 
 
 router = DefaultRouter()

@@ -6,8 +6,8 @@ from urllib.parse import urljoin
 
 from web3 import Web3, HTTPProvider
 from web3.contract import ConciseContract
-from std_bounties.contract import data
-from std_bounties.models import Token
+from delphi.contract import data
+from delphi.models import Token
 from utils.functional_tools import wrapped_partial, narrower, formatter, flatten, pipe, pluck, merge
 
 from rest_framework.reverse import reverse

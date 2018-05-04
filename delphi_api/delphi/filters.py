@@ -1,5 +1,5 @@
 import rest_framework_filters as filters
-from std_bounties.models import Bounty, Category, Fulfillment
+from delphi.models import Bounty, Category, Fulfillment
 
 
 class CategoriesFilter(filters.FilterSet):
@@ -34,4 +34,3 @@ class BountiesFilter(filters.FilterSet):
             'deadline': ['lt', 'gt', 'exact'],
             'bounty_id': ['exact'],
         }
-

@@ -1,10 +1,10 @@
 from functools import partial, update_wrapper
 from decimal import Decimal
 
-from bounties import settings
-from std_bounties.bounty_client import BountyClient
-from std_bounties.client_helpers import bounty_url_for, apply_and_notify, formatted_fulfillment_amount, token_price, format_deadline, usd_price, token_lock_price
-from std_bounties.models import Bounty
+from app import settings
+from delphi.bounty_client import BountyClient
+from delphi.client_helpers import bounty_url_for, apply_and_notify, formatted_fulfillment_amount, token_price, format_deadline, usd_price, token_lock_price
+from delphi.models import Bounty
 from utils.functional_tools import merge, narrower, wrapped_partial
 
 from slackclient import SlackClient

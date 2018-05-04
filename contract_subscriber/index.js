@@ -16,7 +16,7 @@ async function handler() {
 
 			let fromBlock = 0;
 
-			let voting_events = await DelphiVoting.getPastEvents({fromBlock, toBlock: 'latest'});
+			//let voting_events = await DelphiVoting.getPastEvents({fromBlock, toBlock: 'latest'});
 			let stake_events = await DelphiStake.getPastEvents({fromBlock, toBlock: 'latest'});
 
 			// console.log("voting events:")

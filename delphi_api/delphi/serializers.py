@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from std_bounties.models import Bounty, Fulfillment, Category, RankedCategory, Token
-from std_bounties.constants import STAGE_CHOICES
+from delphi.models import Bounty, Fulfillment, Category, RankedCategory, Token
+from delphi.constants import STAGE_CHOICES
 
 
 class CustomSerializer(serializers.ModelSerializer):
