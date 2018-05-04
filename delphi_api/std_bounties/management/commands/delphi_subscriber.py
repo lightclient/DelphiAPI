@@ -43,8 +43,7 @@ class Command(BaseCommand):
 
                 event = message_attributes['Event']['StringValue']
                 bounty_id = int(message_attributes['BountyId']['StringValue'])
-                fulfillment_id = int(
-                    message_attributes['FulfillmentId']['StringValue'])
+                fulfillment_id = int(message_attributes['FulfillmentId']['StringValue'])
                 message_deduplication_id = message_attributes['MessageDeduplicationId']['StringValue']
                 transaction_from = message_attributes['TransactionFrom']['StringValue']
                 transaction_hash = message_attributes['TransactionHash']['StringValue']
