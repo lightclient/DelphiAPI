@@ -24,10 +24,10 @@ async function handler() {
 	});
 
 	const claimant_whitelisted = {
-		eventName: 'ClaimantWhitelisted',
-		eventTimeStamp: '1525330759',
-		contractMethodInputs: JSON.stringify({ claimant: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57'}),
-		transactionFrom: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
+		event_name: 'ClaimantWhitelisted',
+		timstamp: '1525330759',
+		contract_method_inputs: JSON.stringify({ claimant: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57'}),
+		transaction_from: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
 	}
 
 	// const new_stake = {
@@ -65,14 +65,14 @@ async function handler() {
 	// }
 
 	const new_stake = {
-		eventName: 'StakeCreated',
-		stakeAddress: '0x345cA3e014Aaf5dcA488057592ee47305D9B3e10',
+		event_name: 'StakeCreated',
+		stake: '0x345cA3e014Aaf5dcA488057592ee47305D9B3e10',
 		staker: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
-		claimableStake: '100',
+		claimable_stake: '100',
 		token: '0x8f0483125FCb9aaAEFA9209D8E9d7b9C8B9Fb90F',
-		minimumFee: '10',
+		minimum_fee: '10',
 		data: 'i love cats',
-		stakeReleaseTime: '1525421121',
+		release_time: '1525421121',
 		arbiter: '0xbaAA2a3237035A2c7fA2A33c76B44a8C6Fe18e87'
 	}
 

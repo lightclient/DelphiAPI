@@ -43,6 +43,7 @@ If the `:stake_address` is valid and has been cached in the database, the API wi
       ],
       "claims": [
         {
+          "id": 0,
           "amount": 25,
           "fee": 5,
           "surplus_fee": 0,

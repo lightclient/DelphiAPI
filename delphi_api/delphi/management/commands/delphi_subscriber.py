@@ -19,7 +19,16 @@ from utils.debug import pretty_print
 def event_processor(ch, method, properties, body):
 
     event = json.loads(body.decode())
-    pretty_print( [ ('Event Name',event['eventName']) ] )
+    
+    pretty_print([
+        ('Event Name', event['event_name']),
+        ('Timestamp', event['timestamp']),
+        ('Claimable Stake', event['claimable_stake'])
+        ('Stake', event['stake']),
+        ('Staker', event['staker']),
+        ('Arbiter', event['arbiter']),
+        ('Data', event['data'])
+    ])
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
 
