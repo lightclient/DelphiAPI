@@ -6,20 +6,21 @@ import ast
 from django.core.management.base import BaseCommand
 
 #from std_bounties import master_client
+#from bounties.sqs_client import sqs_client
 from django.conf import settings
 #from bounties.redis_client import redis_client
-#from bounties.sqs_client import sqs_client
 from app.rabbitmq_client import rabbitmq_client
 #from std_bounties.models import Event
 #import logging
-
+from utils.debug import pretty_print
 
 #logger = logging.getLogger('django')
 
 def event_processor(ch, method, properties, body):
 
-    #event = ast.literal_eval(body)
-    print("%r" % body)
+    event = json.loads(body.decode())
+    pretty_print( [ ('Event Name',event['eventName']) ] )
+
     ch.basic_ack(delivery_tag = method.delivery_tag)
 
     # '{"eventName":"StakeCreated",
