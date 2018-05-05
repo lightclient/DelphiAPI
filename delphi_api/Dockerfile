@@ -1,10 +1,17 @@
- FROM python:3
- ENV PYTHONUNBUFFERED 1
- ARG auto_build="true"
- ENV auto_build=$auto_build
- RUN mkdir /code
- WORKDIR /code
- ADD requirements.txt /code/
- RUN pip install -r requirements.txt
- ADD . /code/
- EXPOSE 83 
+FROM python:3
+ENV PYTHONUNBUFFERED 1
+ARG auto_build="true"
+ENV auto_build=$auto_build
+
+RUN mkdir -p /usr/src/app
+
+WORKDIR /usr/src/app
+
+COPY requirements.txt /usr/src/app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+#COPY . /usr/src/app
+
+EXPOSE 5000
+
+#CMD ["python3", "run.py"]
