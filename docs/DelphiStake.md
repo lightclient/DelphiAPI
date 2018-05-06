@@ -5,9 +5,11 @@ Each event that the DelphiStake and DelphiVoting smart contracts emit should be 
 ## Events
 
 ### Claimant Whitelisted
+Before going into business with a staker, the staker's counterparty should expect to be "whitelisted for claims" such that a clear path exists for the adjudication of disputes should.
+
 ##### Event Parameters
 
-| Attribute | Type | description |
+| Attribute | Type | Description |
 |-----------|------|-------------|
 | `_claimant`  | `address` | address that was just whitelisted on the stake |
 
@@ -21,7 +23,7 @@ Whitelisted claimant can use this function to make a claim for remuneration. Onc
 
 ##### Event Parameters
 
-| Attribute | Type | description |
+| Attribute | Type | Description |
 |-----------|------|-------------|
 | `_claimant`  | `address` | the address of who ever filed the claim (_**not nessesarily the claimant**_) |
 |  `_claimId`  | `uint` | the index of the claim in the contract's `claims` array |
@@ -36,7 +38,7 @@ Increase the arbiter fee being offered for this claim. Regardless of how the cla
 
 ##### Event Parameters
 
-| Attribute | Type | description |
+| Attribute | Type | Description |
 |-----------|------|-------------|
 | `_increasedBy`  | `address` | The address that increased the fee |
 | `_claimId`      | `uint`    | ID associated with the claim in question |
@@ -52,7 +54,7 @@ Once a claim has been opened, either party can propose settlements to resolve th
 
 ##### Event Parameters
 
-| Attribute | Type | description |
+| Attribute | Type | Description |
 |-----------|------|-------------|
 | `_proposedBy`   | `address` | The address which proposed a settlement |
 | `_claimId`      | `uint`    | ID associated with the claim |
@@ -68,7 +70,7 @@ Once either party in a claim has proposed a settlement, the opposite party can c
 
 ##### Event Parameters
 
-| Attribute | Type | description |
+| Attribute | Type | Description |
 |-----------|------|-------------|
 | `_acceptedBy`   | `address` | The address that was just whitelisted on the stake |
 | `_claimId`      | `uint`    | ID associated with the claim |
@@ -84,7 +86,7 @@ Either party in a claim can call settlementFailed at any time to move the claim 
 
 ##### Event Parameters
 
-| Attribute | Type | description |
+| Attribute | Type | Description |
 |-----------|------|-------------|
 | `_acceptedBy`   | `address` | The address that was just whitelisted on the stake |
 | `_claimId`      | `uint`    | ID associated with the claim |
@@ -100,7 +102,7 @@ This function can only be invoked by the stake's arbiter, and is used to resolve
 
 ##### Event Parameters
 
-| Attribute | Type | description |
+| Attribute | Type | Description |
 |-----------|------|-------------|
 | `_claimId`      | `uint`    | ID associated with the claim |
 
@@ -112,7 +114,7 @@ Increases the deadline for opening claims.
 
 ##### Event Parameters
 
-| Attribute | Type | description |
+| Attribute | Type | Description |
 |-----------|------|-------------|
 | `_stakeReleaseTime`      | `uint`    | the unix time stamp (in seconds) before which claims may be opened |
 
@@ -137,7 +139,7 @@ Increases the stake in this DelphiStake.
 
 ##### Event Parameters
 
-| Attribute | Type | description |
+| Attribute | Type | Description |
 |-----------|------|-------------|
 | `_value`  | `uint` | The number of tokens to transfer into this stake be opened |
 
