@@ -55,21 +55,18 @@ services:
     # depends_on:
     #   - db
   #     - redis
-  # delphi_subscriber:
-  #   build:
-  #     context: ./delphi_api
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   env_file:
-  #     - .env
-  #   command: bash -c "sleep 15 && python3 manage.py delphi_subscriber"
-  #   volumes:
-  #     - ./delphi_api:/code
-  #   depends_on:
-  #     - rabbitmq
-  #     - db
-  #     - redis
-  #    - bounties_api
+  delphi_subscriber:
+    build:
+      context: ./delphi_api
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    command: bash -c "PYTHONPATH=/usr/src/app && sleep 15 && python3 app/event_processor/main.py"
+    volumes:
+      - ./delphi_api:/usr/src/app
+    depends_on:
+      - rabbitmq
   # sql_jobs:
   #   # In production, these run an as an hourly cronjob.
   #   # Here, we use a local.sh to just run it more often
@@ -124,7 +121,7 @@ services:
   #   tty: true
   #   depends_on:
   #     - rabbitmq
-    #   - redis
+  #     - redis
 
   mock_contract_subscriber:
     build:
