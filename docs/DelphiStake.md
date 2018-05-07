@@ -25,11 +25,11 @@ Whitelisted claimant can use this function to make a claim for remuneration. Onc
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
-| `_claimant`  | `address` | the address of who ever filed the claim (_**not nessesarily the claimant**_) |
+| `_claimant`  | `address` | the address of the claimant |
 |  `_claimId`  | `uint` | the index of the claim in the contract's `claims` array |
 
 ##### Action
-If a new claim is opened, the system should insert the claim id and the sender of the claim in the claims table with a foreign key to the associated stake. It should also query the contract for the fee offered to arbiters and include that in the claims table.
+If a new claim is opened, the system should insert the claim id and address of the claimant in the claims table with a foreign key to the associated stake. It should also query the contract for the fee offered to arbiters and include that in the claims table.
 
 
 
