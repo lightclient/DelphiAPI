@@ -1,17 +1,17 @@
 # Beginner's Guide to the *Delphi Unchained* API
 
-##About:
+## About
 
 This text file is a guide to getting started developing Delphi Unchained's API.
 
 
 
-## Step 1
+## Initial Prerequisites
 
 Familiarize yourself with the following tools and frameworks.
 
 
-###JSON files
+### JSON files
 
 its simple! see this:
 [understanding rest](https://spring.io/understanding/JSON)
@@ -21,7 +21,7 @@ and read this for using JSON in a javascript context:
 
 
 
-###REST API
+### REST API
 
 watch the following video:
 [REST video](https://www.youtube.com/watch?v=7YcW25PHnAA)
@@ -31,7 +31,7 @@ and read this:
 
 
 
-###PostgreSQL with Docker
+### PostgreSQL with Docker
 
 read:
 [about PostgreSQL](https://www.postgresql.org/about/)
@@ -46,7 +46,7 @@ and:
 
 
 
-###Falcon and gunicorn
+### Falcon and gunicorn
 
 follow the tutorial series:
 [Falcon tutorials](https://www.youtube.com/watch?v=W6JvboT8Uo8)
