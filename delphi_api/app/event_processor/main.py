@@ -33,7 +33,7 @@ def event_processor(ch, method, properties, body):
 
     if event['type'] == 'StakeCreated':
         stake = Stake(
-            event.get('stake'),
+            event.get('address'),
             event.get('staker'),
             float( event.get('claimable_stake') ),
             event.get('data'),
@@ -46,8 +46,16 @@ def event_processor(ch, method, properties, body):
 
     if event.get('type') == 'ClaimantWhitelisted':
         whitelistee = Whitelistee(
-            event.get('claimaint')
+            event.get('stake'),
+            event.get('claimant'),
+            datetime.fromtimestamp( int(event.get('deadline')) )
         )
+
+        stake = session.query(Stake).filter_by(address=event.get('stake')).first()
+        stake.whitelist.append(whitelistee)
+
+        session.add_all([stake, whitelistee])
+        session.commit()
 
     pretty_print(event)
 

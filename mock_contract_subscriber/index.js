@@ -59,7 +59,7 @@ async function handler() {
 
 	const new_stake = {
 		type: 'StakeCreated',
-		stake: '0x345cA3e014Aaf5dcA488057592ee47305D9B3e10',
+		address: '0x345cA3e014Aaf5dcA488057592ee47305D9B3e10',
 		staker: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
 		claimable_stake: '100',
 		token: '0x8f0483125FCb9aaAEFA9209D8E9d7b9C8B9Fb90F',
@@ -71,13 +71,15 @@ async function handler() {
 
 	const claimant_whitelisted = {
 		type: 'ClaimantWhitelisted',
+		stake: '0x345cA3e014Aaf5dcA488057592ee47305D9B3e10',
 		claimant: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
-		timstamp: '1525330759',
+		deadline: '1525330759',
 		transaction_from: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
 	}
 
 	// Enqueue a task.
 	await queue.enqueue(new_stake);
+	await queue.enqueue(claimant_whitelisted);
 	await queue.close();
 	process.exit(0)
 }
