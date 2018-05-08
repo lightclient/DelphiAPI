@@ -11,7 +11,7 @@ class Stake(Base):
     __tablename__ = 'stake'
     address = Column(VARCHAR(128), primary_key=True)
     staker = Column(VARCHAR(128))
-    value = Column(DECIMAL(precision=70, scale=30))
+    claimable_stake = Column(DECIMAL(precision=70, scale=30))
     data = Column(VARCHAR(128))
     minimum_fee = Column(INTEGER(unsigned=True))
     claim_deadline = Column(TIMESTAMP())
@@ -25,10 +25,10 @@ class Stake(Base):
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
 
-    def __init__(self, address, staker, value, data, minimum_fee, claim_deadline):
+    def __init__(self, address, staker, claimable_stake, data, minimum_fee, claim_deadline):
         self.address = address
         self.staker = staker
-        self.value = value
+        self.claimable_stake = claimable_stake
         self.data = data
         self.minimum_fee = minimum_fee
         self.claim_deadline = claim_deadline

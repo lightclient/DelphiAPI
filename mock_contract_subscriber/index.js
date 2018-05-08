@@ -23,13 +23,6 @@ async function handler() {
 		console.log('Queue closed')
 	});
 
-	const claimant_whitelisted = {
-		event_name: 'ClaimantWhitelisted',
-		timstamp: '1525330759',
-		contract_method_inputs: JSON.stringify({ claimant: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57'}),
-		transaction_from: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
-	}
-
 	// const new_stake = {
 	// 	logIndex: 1,
   //   transactionIndex: 0,
@@ -74,6 +67,13 @@ async function handler() {
 		data: 'i love cats',
 		release_time: '1525421121',
 		arbiter: '0xbaAA2a3237035A2c7fA2A33c76B44a8C6Fe18e87'
+	}
+
+	const claimant_whitelisted = {
+		type: 'ClaimantWhitelisted',
+		claimant: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
+		timstamp: '1525330759',
+		transaction_from: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
 	}
 
 	// Enqueue a task.

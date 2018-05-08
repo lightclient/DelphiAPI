@@ -15,5 +15,5 @@ def connect():
 
     # logger = logging.getLogger(configs.APP_NAME)
     # logger.info("connected to database")
-    print(engine)
+
     return engine
