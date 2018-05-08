@@ -11,3 +11,4 @@ ipfsapi==0.4.2
 boto3==1.5.35
 rollbar==0.13.18
 pika==0.11.2
+sqlalchemy

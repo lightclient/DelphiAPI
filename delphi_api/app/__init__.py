@@ -9,6 +9,7 @@ from app.resources.stake import Stake
 from app.util.config import setup_vyper
 from app.util.error import error_handler
 from app.util.logging import setup_logging
+from app.util.connection import connect
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +34,9 @@ def create_app():
     _setup_routes(app)
 
     return app
+
+def create_table():
+    return connect()
 
 
 def start():

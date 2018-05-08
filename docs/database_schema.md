@@ -13,11 +13,11 @@
 |------------------|--------------|-------------|
 | staker           | address      | the stake's owner |
 | value            | integer      | value of the stake in units of token |
-| token            | foreign key  | key to stake's token in the token table |
+| token            | foreign key  | key to stake's token (address) in the token table |
 | minimum_fee      | integer      | the minimum fee for each claim |
 | data             | string       | IPFS hash of data ? |
 | claim_deadline   | integer      | unix time (in seconds) of the claim deadline |
-| arbiter          | foreign key  | key to stake's arbiter in the arbiter table |
+| arbiter          | foreign key  | key to stake's arbiter (address) in the arbiter table |
 | whitelist        | foreign key  | key to stake's whitelisted claimants in other table |
 | claims           | foreign key  | key to stake's claims in claims table |
 | settlements      | foreign key  | key to stake's settlements in settlements table |
