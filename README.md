@@ -4,7 +4,7 @@
 
 ###### Running the contract subscriber
 
-Before starting you'll need [Docker]((https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac) up and running on your machine and a local Ethereum network running on your localhost:8545. [Deth](https://github.com/c-o-l-o-r/deth) plays nicely with this setup.
+Before starting you'll need [Docker](https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac) up and running on your machine and a local Ethereum network running on your localhost:8545. [Deth](https://github.com/c-o-l-o-r/deth) plays nicely with this setup.
 
 ```
 cd contract_subscriber
