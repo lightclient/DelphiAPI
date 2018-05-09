@@ -40,6 +40,6 @@ def start():
 
 def _setup_routes(app):
     app.add_route("/", RootResources())
-    app.add_route("/stake/{stake}", StakeEndpoint())
+    app.add_route("/stake/{address}", StakeEndpoint())
 
 app = create_app()
