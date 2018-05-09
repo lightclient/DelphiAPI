@@ -10,7 +10,8 @@ services:
   #     - 9324:9324
 
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:3.6.15
+    hostname: "rabbit"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
       RABBITMQ_DEFAULT_USER: "rabbitmq"
@@ -19,8 +20,11 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+    labels:
+      NAME: "rabbitmq"
     volumes:
       - "./local_queue/enabled_plugins:/etc/rabbitmq/enabled_plugins"
+
     networks:
       - delphi
 

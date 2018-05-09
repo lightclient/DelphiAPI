@@ -1,10 +1,10 @@
 'use strict';
 
 const delay = require('delay'),
-	//  rollbar = require('./rollbar'),
-	{ DelphiStake, DelphiVoting } = require('./web3_config'),
-	//{ getAsync, writeAsync } = require('./redis_config'),
-	{ sendEvents } = require('./eventsRetriever');
+	// rollbar = require('./rollbar'),
+	{ DelphiStake, DelphiVoting } = require('./config/web3'),
+	// { getAsync, writeAsync } = require('./config/redis'),
+	{ sendEvents } = require('./sender');
 
 
 let fromBlock = 0;
@@ -12,28 +12,27 @@ let fromBlock = 0;
 async function handler() {
 	while (true) {
 		try {
-			// I use past events vs. subscribe in order to preserve ordering - FIFO
-			// Also, subscribe is just polling - the socket connection does not provide the additional behavior, so these
-			// are essentially accomplishing the same thing
+
+			// Use past events vs. subscribe in order to preserve ordering - FIFO
+			// Also, subscribe is just polling - the socket connection does not provide
+			// the additional behavior, so these are essentially accomplishing the same thing
+
 			// let fromBlock = await getAsync('currentBlock') || 0;
-
 			//let voting_events = await DelphiVoting.getPastEvents({fromBlock, toBlock: 'latest'});
-			let stake_events = await DelphiStake.getPastEvents({fromBlock, toBlock: 'latest'});
 
-			// console.log("voting events:")
-			// console.log(voting_events)
-			//
-			// console.log("staking events:")
-			// console.log(stake_events)
 
-			let eventBlock = await sendEvents(stake_events);
+			// retrieve all events from the DelphiStake contract
+			let stakeEvents = await DelphiStake.getPastEvents({fromBlock, toBlock: 'latest'});
 
-			if (eventBlock) {
+			// send events to queue
+			let highestBlock = await sendEvents(stakeEvents);
+
+			if (highestBlock) {
 				//await writeAsync('currentBlock', eventBlock);
-				fromBlock = eventBlock + 1
+				fromBlock = highestBlock + 1
 			}
 
-			console.log(fromBlock)
+			console.log('Latest processed block', fromBlock)
 
 			await delay(10000);
 

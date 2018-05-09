@@ -1,10 +1,8 @@
-
-const ds_json = require('./contracts/DelphiStake.json'),
-		dv_json = require('./contracts/DelphiVoting.json'),
-		eip_json = require('./contracts/EIP20.json'),
+const ds_json = require('../contracts/DelphiStake.json'),
+		dv_json = require('../contracts/DelphiVoting.json'),
 	  Web3 = require('web3'),
 	  abiDecoder = require('abi-decoder'),
-	  { ETH_NETWORK, ETH_NETWORK_URL } = require('./constants');
+	  { ETH_NETWORK, ETH_NETWORK_URL } = require('../constants');
 
 // web3 setup
 const web3 = new Web3(ETH_NETWORK_URL);
