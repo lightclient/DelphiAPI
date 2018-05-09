@@ -1,7 +1,27 @@
 import app.util.json as json
+import falcon
+from app.migrations.models import Stake, Whitelistee
+from app.util.connection import connect
+from sqlalchemy.orm import sessionmaker
 
-class Stake(object):
+
+engine = connect()
+
+Session = sessionmaker(bind=engine)
+session = Session()
+
+class StakeEndpoint(object):
     def on_get(self, req, resp, stake):
+
+        stake_data = session.query(Stake).get(stake)
+        print(stake_data)
+        print(json.dumps(stake_data)
+        resp.body = json.dumps(stake_data)
+
+
+
+
+example =        '''
         resp.body = """
 {
   "data": {
@@ -48,3 +68,4 @@ class Stake(object):
   "errors": []
 }
 """
+'''
