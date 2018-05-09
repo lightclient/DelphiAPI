@@ -7,7 +7,7 @@ from app.util.error import error_handler
 from app.util.connection import connect
 
 from app.resources.root import RootResources, RootNameResources
-from app.resources.stake import Stake
+from app.resources.stake import StakeEndpoint
 
 
 
@@ -40,6 +40,6 @@ def start():
 
 def _setup_routes(app):
     app.add_route("/", RootResources())
-    app.add_route("/stake/{stake}", Stake())
+    app.add_route("/stake/{stake}", StakeEndpoint())
 
 app = create_app()

@@ -14,8 +14,6 @@ class StakeEndpoint(object):
     def on_get(self, req, resp, stake):
 
         stake_data = session.query(Stake).get(stake)
-        print(stake_data)
-        print(json.dumps(stake_data)
         resp.body = json.dumps(stake_data)
 
 
