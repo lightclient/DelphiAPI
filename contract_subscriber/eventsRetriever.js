@@ -5,42 +5,26 @@ const { cloneDeep, chain } = require('lodash'),
 	   // sqs = require('./sqs_config')
 		 { pretty_print } = require('./utils.js');
 
+const amqp = require('amqplib/callback_api');
+const WorkQueue = require('wrappitmq').WorkQueue;
+
+const queue = new WorkQueue({
+	queue: 'delphi_events', // Name of the queue to use. (Default: workqueue)
+	url: 'amqp://rabbitmq:rabbitmq@rabbitmq:5672' // Can also be specified on connect()
+});
+
+
 
 async function sendEvents(events) {
-
 	try {
+		await queue.connect();
+
 		let highestBlock;
 		for (let event of events) {
-
-			/*
-			let {
-				event: eventName,
-				transactionHash,
-				blockNumber,
-				returnValues: {
-					bountyId = '-1',
-					_fulfillmentId: fulfillmentId = '-1',
-					_bountyId ='-1',
-				},
-			} = event, messageParams;
-
-			const messageDeduplicationId = transactionHash + eventName;
-			const existingHash = await getAsync(messageDeduplicationId);
-
-			// this means we already synced this hash
-			// I do it this way since we keep subscribing to the same block. SQS provides de-duping, but
-			// only within shorter timeframes while evaluation is ocurring
-			if (existingHash) {
-				continue;
-			}
-
-			bountyId = bountyId === '-1' ? _bountyId : bountyId;
-			*/
 
 			const transactionHash = event.transactionHash
 			const blockNumber = event.blockNumber
 			const eventName = event.event
-
 			const rawTransaction = await getTransaction(transactionHash);
 			const transactionFrom = rawTransaction.from;
 			const rawContractMethodInputs = abiDecoder.decodeMethod(rawTransaction.input);
@@ -52,33 +36,39 @@ async function sendEvents(events) {
 			const blockData = await getBlock(blockNumber);
 			const eventTimestamp = blockData.timestamp.toString();
 
-			pretty_print([
-				["Transaction Hash", transactionHash],
-				["Block Number", blockNumber],
-				["Event Name", eventName],
-				["Raw Transaction", rawTransaction],
-				["Transaction From", rawTransaction.from],
-				["Raw Contract Methods", rawContractMethodInputs],
-				["Contract Method Inputs", contractMethodInputs],
-				["Block Data", blockData],
-				["Event Timestamp", eventTimestamp],
-			])
+			const payload = {
+				transactionHash: event.transactionHash,
+				block: event.blockNumber,
+				type: event.event,
+				address: event.address,
+				sender: rawTransaction.from,
+				params: contractMethodInputs,
+			}
 
-			// Set Up SQS Params
-			// messageParams = cloneDeep(SQS_PARAMS);
-			// messageParams.MessageAttributes.Event.StringValue = eventName;
-			// messageParams.MessageAttributes.BountyId.StringValue = bountyId;
-			// messageParams.MessageAttributes.FulfillmentId.StringValue = fulfillmentId;
-			// messageParams.MessageAttributes.MessageDeduplicationId.StringValue = messageDeduplicationId;
-			// messageParams.MessageAttributes.TransactionHash.StringValue = transactionHash;
-			// messageParams.MessageAttributes.ContractMethodInputs.StringValue = JSON.stringify(contractMethodInputs);
-			// messageParams.MessageAttributes.TimeStamp.StringValue = eventTimestamp;
-			// messageParams.MessageAttributes.TransactionFrom.StringValue = transactionFrom || '0x';
-			// messageParams.MessageDeduplicationId = messageDeduplicationId;
-			//
-			// await sqs.sendMessage(messageParams).promise();
+			console.log(contractMethodInputs)
+			// console.log("%o", event.returnValues)
+			// console.log("%o", rawContractMethodInputs.params)
+
+			// pretty_print([
+			// 	["Transaction Hash", transactionHash],
+			// 	["Block Number", blockNumber],
+			// 	["Event Name", eventName],
+			// 	["Address", event.address],
+			// 	["Raw Transaction", rawTransaction],
+			// 	["Transaction From", rawTransaction.from],
+			// 	["Raw Contract Methods", rawContractMethodInputs],
+			// 	["Contract Method Inputs", contractMethodInputs],
+			// 	["Block Data", blockData],
+			// 	["Event Timestamp", eventTimestamp],
+			// ])
+
+			await queue.enqueue(payload);
+
+
 			highestBlock = blockNumber;
 		}
+
+		await queue.close();
 
 		return highestBlock;
 	} catch (error) {

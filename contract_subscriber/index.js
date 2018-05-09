@@ -6,6 +6,9 @@ const delay = require('delay'),
 	//{ getAsync, writeAsync } = require('./redis_config'),
 	{ sendEvents } = require('./eventsRetriever');
 
+
+let fromBlock = 0;
+
 async function handler() {
 	while (true) {
 		try {
@@ -13,8 +16,6 @@ async function handler() {
 			// Also, subscribe is just polling - the socket connection does not provide the additional behavior, so these
 			// are essentially accomplishing the same thing
 			// let fromBlock = await getAsync('currentBlock') || 0;
-
-			let fromBlock = 0;
 
 			//let voting_events = await DelphiVoting.getPastEvents({fromBlock, toBlock: 'latest'});
 			let stake_events = await DelphiStake.getPastEvents({fromBlock, toBlock: 'latest'});
@@ -27,12 +28,14 @@ async function handler() {
 
 			let eventBlock = await sendEvents(stake_events);
 
-			// if (eventBlock) {
-			// 	await writeAsync('currentBlock', eventBlock);
-			// }
+			if (eventBlock) {
+				//await writeAsync('currentBlock', eventBlock);
+				fromBlock = eventBlock + 1
+			}
 
-			process.exit(0)
-			await delay(1000);
+			console.log(fromBlock)
+
+			await delay(10000);
 
 		} catch (err) {
 			// include rollbar error message soon

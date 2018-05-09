@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 
 services:
   # sqs:
@@ -11,7 +11,6 @@ services:
 
   rabbitmq:
     image: rabbitmq
-    hostname: "rabbit"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
       RABBITMQ_DEFAULT_USER: "rabbitmq"
@@ -20,10 +19,11 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
-    labels:
-      NAME: "rabbitmq"
     volumes:
       - "./local_queue/enabled_plugins:/etc/rabbitmq/enabled_plugins"
+    networks:
+      - delphi
+
 
   db:
     image: postgres
@@ -34,6 +34,8 @@ services:
     #   - psql_bounties:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - delphi
   # redis:
   #   image: "redis"
   #   volumes:
@@ -52,6 +54,8 @@ services:
       - ./delphi_api:/usr/src/app
     ports:
       - "5000:5000"
+    networks:
+      - delphi
     # depends_on:
     #   - db
   #     - redis
@@ -67,6 +71,8 @@ services:
       - ./delphi_api:/usr/src/app
     depends_on:
       - rabbitmq
+    networks:
+      - delphi
   # sql_jobs:
   #   # In production, these run an as an hourly cronjob.
   #   # Here, we use a local.sh to just run it more often
@@ -107,42 +113,45 @@ services:
   #   depends_on:
   #     - db
   #     - bounties_api
-  # contract_subscriber:
-  #   build:
-  #     context: ./contract_subscriber
-  #   restart: always
-  #   env_file:
-  #     - .env
-  #   #command: npm start
-  #   volumes:
-  #     - ./contract_subscriber:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   stdin_open: true
-  #   tty: true
-  #   depends_on:
-  #     - rabbitmq
-  #     - redis
-
-  mock_contract_subscriber:
+  contract_subscriber:
     build:
-      context: ./mock_contract_subscriber
+      context: ./contract_subscriber
     restart: always
     env_file:
       - .env
     #command: npm start
     volumes:
-      - ./mock_contract_subscriber:/usr/src/app
+      - ./contract_subscriber:/usr/src/app
       - /usr/src/app/node_modules
-    depends_on:
-      - rabbitmq
+    networks:
+      - delphi
     stdin_open: true
     tty: true
+    depends_on:
+      - rabbitmq
+  #     - redis
+
+  # mock_contract_subscriber:
+  #   build:
+  #     context: ./mock_contract_subscriber
+  #   restart: always
+  #   env_file:
+  #     - .env
+  #   #command: npm start
+  #   volumes:
+  #     - ./mock_contract_subscriber:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   depends_on:
+  #     - rabbitmq
+  #   stdin_open: true
+  #   tty: true
+  #   networks:
+  #     - delphi
 # volumes:
 #   psql_bounties:
 #     external: true
 #   redis_bounties:
 #     external: true
-# networks:
-#   delphi:
-#     #driver: bridge
-#     external: true
+networks:
+  delphi:
+    name: delphi

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, create_engine
-from sqlalchemy.dialects.mysql import INTEGER, TIMESTAMP, VARCHAR, DECIMAL
+from sqlalchemy.dialects.mysql import INTEGER, TIMESTAMP, VARCHAR, DECIMAL, BIGINT
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
@@ -13,8 +13,8 @@ class Stake(Base):
     staker = Column(VARCHAR(128))
     claimable_stake = Column(DECIMAL(precision=70, scale=30))
     data = Column(VARCHAR(128))
-    minimum_fee = Column(INTEGER(unsigned=True))
-    claim_deadline = Column(TIMESTAMP())
+    minimum_fee = Column(DECIMAL(precision=70, scale=30))
+    claim_deadline = Column(DECIMAL(precision=70, scale=2))
 
     # token = Column()
     # arbiter = Column()
@@ -42,7 +42,7 @@ class Whitelistee(Base):
 
     stake = Column(VARCHAR(128), ForeignKey('stake.address'), primary_key=True)
     claimant = Column(VARCHAR(128))
-    deadline = Column(TIMESTAMP)
+    deadline = Column(DECIMAL(precision=70, scale=2))
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
 
