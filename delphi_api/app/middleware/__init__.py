@@ -1,5 +1,4 @@
 import app.util.json as json
-from app.config import settings
 from app.util.error import HTTPError
 
 

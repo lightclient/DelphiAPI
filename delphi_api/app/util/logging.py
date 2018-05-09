@@ -1,8 +1,6 @@
 import logging
 import logging.config
 
-from app.config import settings
-
 def pretty_print(list):
 
     if(type(list) is dict):
@@ -45,8 +43,8 @@ def setup_logging():
         },
         "formatters": {
             "standard": {
-                "format": settings.get("LOG_FORMAT"),
-                "datefmt": settings.get("LOG_DATE_FORMAT")
+                # "format": settings.get("LOG_FORMAT"),
+                # "datefmt": settings.get("LOG_DATE_FORMAT")
             }
         },
         "handlers": {
@@ -59,7 +57,7 @@ def setup_logging():
         "loggers": {
             "": {
                 "handlers": ["console"],
-                "level": settings.get("LOG_LEVEL")
+                # "level": settings.get("LOG_LEVEL")
             }
         }
     }

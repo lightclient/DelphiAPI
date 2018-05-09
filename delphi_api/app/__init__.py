@@ -1,22 +1,17 @@
+import falcon
 import logging
 
-import falcon
-
-from app.config import parser, settings
 from app.middleware import CrossDomain, JSONTranslator
-from app.resources.root import RootResources, RootNameResources
-from app.resources.stake import Stake
-from app.util.config import setup_vyper
-from app.util.error import error_handler
 from app.util.logging import setup_logging
+from app.util.error import error_handler
 from app.util.connection import connect
 
+from app.resources.root import RootResources, RootNameResources
+from app.resources.stake import Stake
+
+
+
 logger = logging.getLogger(__name__)
-
-
-def configure(**overrides):
-    logging.getLogger("vyper").setLevel(logging.WARNING)
-    setup_vyper(parser, overrides)
 
 
 def create_app():
@@ -24,8 +19,8 @@ def create_app():
 
     app = falcon.API(
         middleware=[
-            CrossDomain(),
-            JSONTranslator()
+            # CrossDomain(),
+            # JSONTranslator()
         ],
     )
 
@@ -46,3 +41,5 @@ def start():
 def _setup_routes(app):
     app.add_route("/", RootResources())
     app.add_route("/stake/{stake}", Stake())
+
+app = create_app()
