@@ -26,6 +26,7 @@ def create_app():
 
     app.add_error_handler(Exception, error_handler)
 
+    #adding endpoints for the rest api
     _setup_routes(app)
 
     return app
@@ -37,9 +38,12 @@ def create_table():
 def start():
     logger.info("Environment: {}".format(settings.get("ENV_NAME")))
 
-
+#create endpoints
 def _setup_routes(app):
     app.add_route("/", RootResources())
+
+    #StakeEndpoint defined in app.resources.stake.py
     app.add_route("/stake/{address}", StakeEndpoint())
 
+#entry point for python code
 app = create_app()
