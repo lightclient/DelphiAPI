@@ -27,17 +27,17 @@ def seed(engine):
         100,
         'I love cats',
         5,
-        datetime.now() + timedelta(days=14)
+        999999999        #standing in for unix time
     )
 
     w = Whitelistee(
         s.address,
         '0x0000000000000000000000000000000000000001',
-        datetime.now() + timedelta(days=21)
+        999999999             #standing in for unix time
     )
 
     s.whitelist.append(w)
-
-    # session.add_all([s,w])
     #
-    # session.commit()
+    session.add_all([s,w])
+    #
+    session.commit()
