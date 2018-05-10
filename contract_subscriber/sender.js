@@ -18,15 +18,6 @@ async function sendEvents(events) {
 			// send payload to queue
 			await queue.enqueue(payload)
 
-			// ** debug code ** //
-			if (process.env['ENV'] == "dev") {
-				console.log('Type: ', payload.type)
-				console.log('Contract Address: ', payload.address)
-				console.log('Sender: ', payload.sender)
-				console.log('contract Methods: %o', contractMethodInputs)
-			}
-			/* *************** */
-
 			highestBlock = event.blockNumber
 		}
 
@@ -72,6 +63,15 @@ async function buildPayload(event) {
 			sender: rawTransaction.from,
 			params: contractMethodInputs,
 		}
+
+		// ** debug code ** //
+		if (process.env['ENV'] == "DEV") {
+			console.log('Type: ', payload.type)
+			console.log('Contract Address: ', payload.address)
+			console.log('Sender: ', payload.sender)
+			console.log('contract Methods: %o', contractMethodInputs)
+		}
+		/* *************** */
 
 		return payload
 
