@@ -16,7 +16,7 @@ session = Session()
 class StakeEndpoint(object):
     def on_get(self, req, resp, address):
 
-        stake = session.query(Stake).filter_by(address=address).first()
+        stake = session.query(Stake).filter_by(address=address).first() #can you not use query(Stake).get(address)? since the address is the primary key?
         whitelist = [ el.claimant for el in stake.whitelist ]
 
         resp.body = json.dumps({
