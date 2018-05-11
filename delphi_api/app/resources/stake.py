@@ -1,6 +1,5 @@
 import app.util.json as json
 
-import app.util.json as json
 import falcon
 from app.migrations.models import Stake, Whitelistee
 from app.util.connection import connect

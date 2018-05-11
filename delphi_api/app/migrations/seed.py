@@ -37,7 +37,7 @@ def seed(engine):
     )
 
     s.whitelist.append(w)
+
+    # session.add_all([s,w])
     #
-    session.add_all([s,w])
-    #
-    session.commit()
+    # session.commit()

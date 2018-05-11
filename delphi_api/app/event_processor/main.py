@@ -11,7 +11,7 @@ from app.migrations.models import Stake, Whitelistee
 from app.util.connection import connect
 from sqlalchemy.orm import sessionmaker
 from app.util.logging import pretty_print
-from rabbitmq import client
+from app.event_processor.rabbitmq import client
 
 engine = connect()
 
@@ -26,11 +26,18 @@ session = Session()
 #
 # s.whitelist.append(w)
 
-def event_processor(ch, method, properties, body):
+def message_handler(ch, method, properties, body):
 
     # converts body from a byte string to a dictionary
     event = json.loads(body.decode())
 
+    event_processor(event)
+
+    # pretty_print(event)
+
+    ch.basic_ack(delivery_tag = method.delivery_tag)
+
+def event_processor(event):
     if event.get('type') == 'StakeCreated':
 
         params = event.get('params')
@@ -62,9 +69,6 @@ def event_processor(ch, method, properties, body):
         session.add_all([stake, whitelistee])
         session.commit()
 
-    # pretty_print(event)
-
-    ch.basic_ack(delivery_tag = method.delivery_tag)
-
-client.basic_consume(event_processor, queue='delphi_events')
-client.start_consuming()
+if __name__ == "__main__":
+    client.basic_consume(message_handler, queue='delphi_events')
+    client.start_consuming()
