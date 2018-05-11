@@ -2,4 +2,5 @@
 coverage.xml
 coverage.lcov
 mock_front_end
+mock_contract_subscriber
 .pytest_cache
