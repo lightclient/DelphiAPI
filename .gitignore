@@ -2,3 +2,4 @@
 coverage.xml
 coverage.lcov
 mock_front_end
+.pytest_cache
