@@ -1,5 +1,5 @@
 # Testing
 
+## Backend Tests
 
-## Smoke Test the Database and API Server:
-[smokeTest README](../delphi_api/test/README.md)
+A set of backend tests are located in the test folder:          [Tests](../delphi_api/test/)
