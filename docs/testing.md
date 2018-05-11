@@ -1,26 +1,5 @@
 # Testing
 
 
-
-### Start API independent of front end for testing
-
-1. Spin up docker containers for the database and api:
-``` 
-docker-compose up db
-docker-compose up delphi_api
-``` 
-
-2. In the delphi_api container run the migration:
-``` 
-docker exec -it delphiapi_delphi_api_1 bash
-python migrate.py
-```
-
-3. Check that data was seeded into the database:
-```
-docker exec -it delphiapi_db_1 bash
-psql -U postgres
-\c delphi
-\x auto
-SELECT * from stake;
-```
+## Smoke Test the Database and API Server:
+[smokeTest README](../delphi_api/test/README.md)
