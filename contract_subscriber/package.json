@@ -14,7 +14,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "nyc report --reporter=text-lcov -a mocha > coverage.lcov",
+    "test": "mocha",
     "testnoreport": "nyc -a mocha"
   },
   "author": "",

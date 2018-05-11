@@ -12,8 +12,11 @@ async function sendEvents(events) {
 		let highestBlock;
 		for (let event of events) {
 
+			// retrieves a transaction object
+			const rawTransaction = await getTransaction(event.transactionHash)
+
 			// build payload to send to queue using the event
-			const payload = await buildPayload(event)
+			const payload = buildPayload(event, rawTransaction)
 
 			// send payload to queue
 			await queue.enqueue(payload)
@@ -32,14 +35,12 @@ async function sendEvents(events) {
 	}
 }
 
-async function buildPayload(event) {
+function buildPayload(event, transaction) {
 
 	try {
-		// retrieves a transaction object
-		const rawTransaction = await getTransaction(event.transactionHash)
 
 		// decodes the raw bytes into the transaction's parameters
-		const rawContractMethodInputs = abiDecoder.decodeMethod(rawTransaction.input)
+		const rawContractMethodInputs = abiDecoder.decodeMethod(transaction.input)
 
 		// maps the transaction's paramerters to a nicer format
 		const contractMethodInputs = chain(rawContractMethodInputs.params)
@@ -60,7 +61,7 @@ async function buildPayload(event) {
 			// the important stuff
 			type: event.event,
 			address: event.address,
-			sender: rawTransaction.from,
+			sender: transaction.from,
 			params: contractMethodInputs,
 		}
 
@@ -84,3 +85,4 @@ async function buildPayload(event) {
 }
 
 module.exports.sendEvents = sendEvents;
+module.exports.buildPayload = buildPayload;
