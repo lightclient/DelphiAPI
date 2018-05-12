@@ -1,6 +1,6 @@
 # API Service
 
-The API service is a tradition client-server architecture. It transmits data stored within its database upon request.
+The API service is a traditional client-server architecture. It transmits data stored within its database upon request.
 
 ## Endpoints
 

@@ -1,5 +1,6 @@
 # Testing
 
 
-## Smoke Test the Database and API Server:
-[smokeTest README](../delphi_api/test/README.md)
+## Backend Tests:
+* [test folder](../delphi_api/test/)
+  * [README](../delphi_api/test/README.md)

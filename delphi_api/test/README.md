@@ -1,7 +1,9 @@
 # API Server Testing
 
 
-## Smoke Test - smokeTest.sh
+## Smoke Test
+[smokeTest.sh](smokeTest.sh)
+
 A backend smoke test to quickly verify that the PostgreSQL database and API Server are working together.
 
 1. Spins up docker containers for the PostgreSQL database and API server.
@@ -12,5 +14,5 @@ A backend smoke test to quickly verify that the PostgreSQL database and API Serv
 
 Usage:
 ```
-$ ./smokeTest.sh
+./smokeTest.sh
 ```
