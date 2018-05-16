@@ -40,7 +40,8 @@ class Whitelistee(Base):
     """ user entity class """
     __tablename__ = 'whitelistee'
 
-    stake = Column(VARCHAR(128), ForeignKey('stake.address'), primary_key=True)
+    id = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)
+    stake = Column(VARCHAR(128), ForeignKey('stake.address'))
     claimant = Column(VARCHAR(128))
     deadline = Column(DECIMAL(precision=70, scale=2))
     update_time = Column(TIMESTAMP, server_default=func.now())
