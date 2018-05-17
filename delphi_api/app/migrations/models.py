@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, create_engine
-from sqlalchemy.dialects.mysql import INTEGER, TIMESTAMP, VARCHAR, DECIMAL, BIGINT
+from sqlalchemy.dialects.mysql import INTEGER, TIMESTAMP, VARCHAR, DECIMAL, BIGINT, BOOLEAN
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
@@ -7,7 +7,7 @@ from sqlalchemy.sql import func
 Base = declarative_base()
 
 class Stake(Base):
-    """ user entity class """
+    """ user entity class http://localhost:5000/stake/0x000000000000000000000000000000000000000"""
     __tablename__ = 'stake'
     address = Column(VARCHAR(128), primary_key=True)
     staker = Column(VARCHAR(128))
@@ -17,13 +17,13 @@ class Stake(Base):
     claim_deadline = Column(DECIMAL(precision=70, scale=2))
 
     # token = Column()
-    # arbiter = Column()
+    #arbiter = Column(VARCHAR(128), ForeignKey('arbiter.address'))
     whitelist = relationship('Whitelistee')
     # claims = Column()
     # settlements = Column()
 
     update_time = Column(TIMESTAMP, server_default=func.now())
-    create_time = Column(TIMESTAMP, server_default=func.now())
+    create_time = Column(TIMESTAMP, server_default=func.now())https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=safari+hat
 
     def __init__(self, address, staker, claimable_stake, data, minimum_fee, claim_deadline):
         self.address = address
@@ -40,7 +40,8 @@ class Whitelistee(Base):
     """ user entity class """
     __tablename__ = 'whitelistee'
 
-    stake = Column(VARCHAR(128), ForeignKey('stake.address'), primary_key=True)
+    id = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)
+    stake = Column(VARCHAR(128), ForeignKey('stake.address'))
     claimant = Column(VARCHAR(128))
     deadline = Column(DECIMAL(precision=70, scale=2))
     update_time = Column(TIMESTAMP, server_default=func.now())
@@ -50,3 +51,63 @@ class Whitelistee(Base):
         self.stake = stake
         self.claimant = claimant
         self.deadline = deadline
+
+class Claim(Base):
+    """ user entity class """
+    __tablename__ = 'claim'
+
+    id = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)
+    stake = Column(VARCHAR(128), ForeignKey('stake.address'))
+    index = Column(DECIMAL(precision=70, scale=30))
+    claimant = Column(VARCHAR(128))
+    arbiter = Column(VARCHAR(128), ForeignKey('arbiter.address'))
+    surplus_fee = Column(DECIMAL(precision=70, scale=30))
+    data = Column(VARCHAR(128))
+    ruling = Column(DECIMAL(precision=70, scale=30))
+    ruled = Column(BOOLEAN)
+    settlement_failed = Column(BOOLEAN)
+    update_time = Column(TIMESTAMP, server_default=func.now())
+    create_time = Column(TIMESTAMP, server_default=func.now())
+
+    def __init__(self, stake, id, claimant, arbiter, surplus_fee, data, ruling, ruled, settlement_failed):
+        self.stake = stake
+        self.id = id
+        self.claimant = claimant
+        self.arbiter = arbiter
+        self.surplus_fee = surplus_fee
+        self.data = data
+        self.ruling = ruling
+        self.ruled = ruled
+        self.settlement_failed = settlement_failed
+
+class Token(Base):
+    """ user entity class """
+    __tablename__ = 'token'
+
+    address = Column(VARCHAR(128), primary_key=True)
+    name = Column(VARCHAR(128))
+    symbol = Column(VARCHAR(128))
+    decimals = Column(DECIMAL(precision=70, scale=30))
+    update_time = Column(TIMESTAMP, server_default=func.now())
+    create_time = Column(TIMESTAMP, server_default=func.now())
+
+    def __init__(self, address, name, symbol, decimals):
+        self.address = address
+        self.name = name
+        self.symbol = symbol
+        self.decimals = decimals
+
+class Arbiter(Base):
+    """ user entity class """
+    __tablename__ = 'arbiter'
+
+    address = Column(VARCHAR(128), primary_key=True)
+    name = Column(VARCHAR(128))
+    description = Column(VARCHAR(128))
+    update_time = Column(TIMESTAMP, server_default=func.now())
+    create_time = Column(TIMESTAMP, server_default=func.now())
+
+    def __init__(self, address, name, description):
+        self.address = address
+        self.name = name
+        self.description = description

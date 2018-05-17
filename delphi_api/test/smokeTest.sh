@@ -1,3 +1,5 @@
+#!/bin/bash
+
 docker kill delphiapi_delphi_api_1 > /dev/null
 docker kill delphiapi_db_1 > /dev/null
 docker-compose up -d db > /dev/null

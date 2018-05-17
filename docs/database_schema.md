@@ -40,8 +40,8 @@
 | Column Name      | Type         | Description |
 |------------------|--------------|-------------|
 | claimant         | address      | address of claimant |
-| sender           | address      | address of user who opened the claim |
-| id               | integer      | index of claim in contract's claim array |
+| arbiter          | foreign key  | key to stake's arbiter (address) in the arbiter table
+| index            | integer      | index of claim in contract's claim array |
 | surplus_fee      | integer      | the amount paid in addition to the minimum fee |
 | data             | string       | IPFS of claim's evidence |
 | ruling           | integer      | ruling code for claim |
