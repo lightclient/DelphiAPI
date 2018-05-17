@@ -23,7 +23,7 @@ class Stake(Base):
     # settlements = Column()
 
     update_time = Column(TIMESTAMP, server_default=func.now())
-    create_time = Column(TIMESTAMP, server_default=func.now())https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=safari+hat
+    create_time = Column(TIMESTAMP, server_default=func.now())
 
     def __init__(self, address, staker, claimable_stake, data, minimum_fee, claim_deadline):
         self.address = address

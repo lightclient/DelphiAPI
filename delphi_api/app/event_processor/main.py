@@ -38,10 +38,11 @@ def message_handler(ch, method, properties, body):
     ch.basic_ack(delivery_tag = method.delivery_tag)
 
 def event_processor(event):
+
+    # break the paramaters out into a more accessible form
+    params = event.get('params')
+
     if event.get('type') == 'StakeCreated':
-
-        params = event.get('params')
-
         stake = Stake(
             event.get('address'),
             event.get('sender'),
@@ -55,8 +56,6 @@ def event_processor(event):
         session.commit()
 
     if event.get('type') == 'ClaimantWhitelisted':
-        params = event.get('params')
-
         whitelistee = Whitelistee(
             event.get('address'),
             params.get('claimant'),
@@ -68,6 +67,14 @@ def event_processor(event):
 
         session.add_all([stake, whitelistee])
         session.commit()
+
+    if event.get('type') == 'ReleaseTimeIncreased':
+        stake = session.query(Stake).filter_by(address=event.get('address')).first()
+
+        stake.claim_deadline = int(Decimal( params.get('stakeReleaseTime') ))
+
+        session.add(stake)
+        session.commit
 
 if __name__ == "__main__":
     client.basic_consume(message_handler, queue='delphi_events')
