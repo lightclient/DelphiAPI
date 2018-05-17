@@ -40,7 +40,9 @@ class Whitelistee(Base):
     """ user entity class """
     __tablename__ = 'whitelistee'
 
-    id = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)
+    # used for sql alchemy relationships
+    _id = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)
+
     stake = Column(VARCHAR(128), ForeignKey('stake.address'))
     claimant = Column(VARCHAR(128))
     deadline = Column(DECIMAL(precision=70, scale=2))
@@ -56,24 +58,30 @@ class Claim(Base):
     """ user entity class """
     __tablename__ = 'claim'
 
-    id = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)
+    # used for sql alchemy relationships
+    _id = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)
+
     stake = Column(VARCHAR(128), ForeignKey('stake.address'))
-    index = Column(DECIMAL(precision=70, scale=30))
+    id = Column(INTEGER)
     claimant = Column(VARCHAR(128))
+    amount = Column(DECIMAL(precision=70, scale=30))
     arbiter = Column(VARCHAR(128), ForeignKey('arbiter.address'))
+    fee = Column(DECIMAL(precision=70, scale=30))
     surplus_fee = Column(DECIMAL(precision=70, scale=30))
     data = Column(VARCHAR(128))
-    ruling = Column(DECIMAL(precision=70, scale=30))
+    ruling = Column(DECIMAL(precision=70, scale=30)) # TODO make small int
     ruled = Column(BOOLEAN)
     settlement_failed = Column(BOOLEAN)
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
 
-    def __init__(self, stake, id, claimant, arbiter, surplus_fee, data, ruling, ruled, settlement_failed):
+    def __init__(self, stake, id, claimant, amount, arbiter, fee, surplus_fee, data, ruling, ruled, settlement_failed):
         self.stake = stake
         self.id = id
         self.claimant = claimant
+        self.amount = amount
         self.arbiter = arbiter
+        self.fee = fee
         self.surplus_fee = surplus_fee
         self.data = data
         self.ruling = ruling
