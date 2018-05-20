@@ -1,13 +1,13 @@
 const { cloneDeep, chain } = require('lodash'),
 	  	// { getAsync } = require('./redis_config'),
 	  	{ abiDecoder, getTransaction, getBlock } = require('./config/web3'),
-			{ queue } = require('./config/rabbitmq')
+			{ event_queue } = require('./config/rabbitmq')
 
 async function sendEvents(events) {
 
 	try {
 		// TODO save this connection at a later point ...
-		await queue.connect();
+		await event_queue.connect();
 
 		let highestBlock;
 		for (let event of events) {
@@ -19,12 +19,12 @@ async function sendEvents(events) {
 			const payload = buildPayload(event, rawTransaction)
 
 			// send payload to queue
-			await queue.enqueue(payload)
+			await event_queue.enqueue(payload)
 
 			highestBlock = event.blockNumber
 		}
 
-		await queue.close()
+		await event_queue.close()
 
 		// return the highest process block
 		return highestBlock

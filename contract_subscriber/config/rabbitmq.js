@@ -1,9 +1,15 @@
 const amqp = require('amqplib/callback_api');
 const WorkQueue = require('wrappitmq').WorkQueue;
 
-const queue = new WorkQueue({
-	queue: 'delphi_events', // Name of the queue to use. (Default: workqueue)
-	url: 'amqp://rabbitmq:rabbitmq@rabbitmq:5672' // Can also be specified on connect()
+const event_queue = new WorkQueue({
+	queue: 'delphi_events',
+	url: 'amqp://rabbitmq:rabbitmq@rabbitmq:5672'
 });
 
-exports.queue = queue
+const contract_queue = new WorkQueue({
+	queue: 'delphi_contracts',
+	url: 'amqp://rabbitmq:rabbitmq@rabbitmq:5672'
+});
+
+exports.event_queue = event_queue;
+exports.contract_queue = contract_queue;

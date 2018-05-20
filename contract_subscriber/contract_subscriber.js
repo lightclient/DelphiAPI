@@ -2,14 +2,17 @@
 
 const delay = require('delay'),
 	// rollbar = require('./rollbar'),
-	{ DelphiStake, DelphiVoting } = require('./config/web3'),
+	{ loadDelphiStake } = require('./config/web3'),
 	// { getAsync, writeAsync } = require('./config/redis'),
+	{ contract_queue } = require('./config/rabbitmq'),
 	{ sendEvents } = require('./sender');
 
 
 let fromBlock = 0;
 
 async function handler() {
+	await contract_queue.connect();
+
 	while (true) {
 		try {
 
@@ -20,21 +23,31 @@ async function handler() {
 			// let fromBlock = await getAsync('currentBlock') || 0;
 			//let voting_events = await DelphiVoting.getPastEvents({fromBlock, toBlock: 'latest'});
 
+			console.log("getting tasks")
+			// Consume tasks.
+			const cancel = await contract_queue.consume(async (task) => {
+			  console.log(task)
 
-			// retrieve all events from the DelphiStake contract
-			let stakeEvents = await DelphiStake.getPastEvents({fromBlock, toBlock: 'latest'});
+				let stake = loadDelphiStake(task.address);
 
-			// console.log(stakeEvents)
+				// retrieve all events from the DelphiStake contract
+				let stakeEvents = await stake.getPastEvents({fromBlock, toBlock: 'latest'});
 
-			// send events to queue
-			let highestBlock = await sendEvents(stakeEvents);
+				console.log(stakeEvents)
 
-			if (highestBlock) {
-				//await writeAsync('currentBlock', eventBlock);
-				fromBlock = highestBlock + 1
-			}
+				// send events to queue
+				let eventBlock = await sendEvents(stakeEvents);
 
-			console.log('Latest processed block', fromBlock)
+				if (eventBlock) {
+					task.currentBlock = eventBlock;
+				}
+
+				await contract_queue.enqueue(task)
+			  // Will be acknowledged when work() is done.
+			});
+
+			// Cancel consumer to stop receiving tasks.
+			await cancel();
 
 			await delay(10000);
 
@@ -47,6 +60,8 @@ async function handler() {
 			process.exit(1);
 		}
 	}
+
+	await contract_queue.close()
 }
 
 handler();

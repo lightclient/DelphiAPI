@@ -40,12 +40,16 @@ services:
       - "5432:5432"
     networks:
       - delphi
-  # redis:
-  #   image: "redis"
-  #   volumes:
-  #     - redis_bounties:/data
-  #   ports:
-  #     - "6379:6379"
+      
+  redis:
+    image: "redis"
+    # volumes:
+    #   - redis_bounties:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - delphi
+
   delphi_api:
     build:
       context: ./delphi_api
@@ -133,7 +137,25 @@ services:
     tty: true
     depends_on:
       - rabbitmq
-  #     - redis
+      - redis
+
+  factory_subscriber:
+    build:
+      context: ./contract_subscriber
+    restart: always
+    env_file:
+      - .env
+    #command: npm start
+    volumes:
+      - ./contract_subscriber:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - delphi
+    stdin_open: true
+    tty: true
+    depends_on:
+      - rabbitmq
+      - redis
 
   # mock_contract_subscriber:
   #   build:

@@ -1,0 +1,3281 @@
+{
+  "contractName": "DelphiStakeFactory",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "masterCopy",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "stakes",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_masterCopy",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_stakeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_contractAddress",
+          "type": "address"
+        }
+      ],
+      "name": "StakeCreated",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_value",
+          "type": "uint256"
+        },
+        {
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "name": "_minimumFee",
+          "type": "uint256"
+        },
+        {
+          "name": "_data",
+          "type": "string"
+        },
+        {
+          "name": "_stakeReleaseTime",
+          "type": "uint256"
+        },
+        {
+          "name": "_arbiter",
+          "type": "address"
+        }
+      ],
+      "name": "createDelphiStake",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getNumStakes",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b506040516020806109f38339810180604052810190808051906020019092919050505080600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505061096f806100846000396000f300608060405260043610610061576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168062f4c40a1461006657806324df90ab14610091578063a619486e14610158578063d5a44f86146101af575b600080fd5b34801561007257600080fd5b5061007b61021c565b6040518082815260200191505060405180910390f35b34801561009d57600080fd5b5061015660048036038101908080359060200190929190803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919291929080359060200190929190803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610228565b005b34801561016457600080fd5b5061016d6107b7565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156101bb57600080fd5b506101da600480360381019080803590602001909291905050506107dd565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60008080549050905090565b60008573ffffffffffffffffffffffffffffffffffffffff166323b872dd33308a6040518463ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019350505050602060405180830381600087803b15801561030157600080fd5b505af1158015610315573d6000803e3d6000fd5b505050506040513d602081101561032b57600080fd5b8101908080519060200190929190505050151561034757600080fd5b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1661037261081b565b808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050604051809103906000f0801580156103c4573d6000803e3d6000fd5b50905060008190806001815401808255809150509060018203906000526020600020016000909192909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550508573ffffffffffffffffffffffffffffffffffffffff1663095ea7b3600060016000805490500381548110151561046057fe5b9060005260206000200160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16896040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b15801561051157600080fd5b505af1158015610525573d6000803e3d6000fd5b505050506040513d602081101561053b57600080fd5b810190808051906020019092919050505050600060016000805490500381548110151561056457fe5b9060005260206000200160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663b6298d458888888888886040518763ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001858152602001806020018481526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001828103825285818151815260200191508051906020019080838360005b83811015610691578082015181840152602081019050610676565b50505050905090810190601f1680156106be5780820380516001836020036101000a031916815260200191505b50975050505050505050600060405180830381600087803b1580156106e257600080fd5b505af11580156106f6573d6000803e3d6000fd5b505050507f55a2fda8c395c2c0b28705dc59d4f0feac9c7bc0898802876460e51bbc90095e600160008054905003600060016000805490500381548110151561073b57fe5b9060005260206000200160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16604051808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060405180910390a150505050505050565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000818154811015156107ec57fe5b906000526020600020016000915054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6040516101188061082c833901905600608060405234801561001057600080fd5b506040516020806101188339810180604052810190808051906020019092919050505060008173ffffffffffffffffffffffffffffffffffffffff161415151561005957600080fd5b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550506070806100a86000396000f300608060405273ffffffffffffffffffffffffffffffffffffffff60005416366000803760008036600084600019f43d6000803e8060008114603f573d6000f35b3d6000fd00a165627a7a72305820048f62917428e995b48c7b2ba18475475eca20dbfd0463de62f05c433cc9994f0029a165627a7a72305820a8044f533abc9c82ba1cdf163852db378c62ad8986db1ee08bb7506b668812f60029",
+  "deployedBytecode": "0x608060405260043610610061576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168062f4c40a1461006657806324df90ab14610091578063a619486e14610158578063d5a44f86146101af575b600080fd5b34801561007257600080fd5b5061007b61021c565b6040518082815260200191505060405180910390f35b34801561009d57600080fd5b5061015660048036038101908080359060200190929190803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919291929080359060200190929190803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610228565b005b34801561016457600080fd5b5061016d6107b7565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156101bb57600080fd5b506101da600480360381019080803590602001909291905050506107dd565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60008080549050905090565b60008573ffffffffffffffffffffffffffffffffffffffff166323b872dd33308a6040518463ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019350505050602060405180830381600087803b15801561030157600080fd5b505af1158015610315573d6000803e3d6000fd5b505050506040513d602081101561032b57600080fd5b8101908080519060200190929190505050151561034757600080fd5b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1661037261081b565b808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050604051809103906000f0801580156103c4573d6000803e3d6000fd5b50905060008190806001815401808255809150509060018203906000526020600020016000909192909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550508573ffffffffffffffffffffffffffffffffffffffff1663095ea7b3600060016000805490500381548110151561046057fe5b9060005260206000200160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16896040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b15801561051157600080fd5b505af1158015610525573d6000803e3d6000fd5b505050506040513d602081101561053b57600080fd5b810190808051906020019092919050505050600060016000805490500381548110151561056457fe5b9060005260206000200160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663b6298d458888888888886040518763ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808781526020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001858152602001806020018481526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001828103825285818151815260200191508051906020019080838360005b83811015610691578082015181840152602081019050610676565b50505050905090810190601f1680156106be5780820380516001836020036101000a031916815260200191505b50975050505050505050600060405180830381600087803b1580156106e257600080fd5b505af11580156106f6573d6000803e3d6000fd5b505050507f55a2fda8c395c2c0b28705dc59d4f0feac9c7bc0898802876460e51bbc90095e600160008054905003600060016000805490500381548110151561073b57fe5b9060005260206000200160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16604051808381526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060405180910390a150505050505050565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000818154811015156107ec57fe5b906000526020600020016000915054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6040516101188061082c833901905600608060405234801561001057600080fd5b506040516020806101188339810180604052810190808051906020019092919050505060008173ffffffffffffffffffffffffffffffffffffffff161415151561005957600080fd5b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550506070806100a86000396000f300608060405273ffffffffffffffffffffffffffffffffffffffff60005416366000803760008036600084600019f43d6000803e8060008114603f573d6000f35b3d6000fd00a165627a7a72305820048f62917428e995b48c7b2ba18475475eca20dbfd0463de62f05c433cc9994f0029a165627a7a72305820a8044f533abc9c82ba1cdf163852db378c62ad8986db1ee08bb7506b668812f60029",
+  "sourceMap": "119:944:1:-;;;279:83;8:9:-1;5:2;;;30:1;27;20:12;5:2;279:83:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;346:11;333:10;;:24;;;;;;;;;;;;;;;;;;279:83;119:944;;;;;;",
+  "deployedSourceMap": "119:944:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;966:94;;8:9:-1;5:2;;;30:1;27;20:12;5:2;966:94:1;;;;;;;;;;;;;;;;;;;;;;;366:596;;8:9:-1;5:2;;;30:1;27;20:12;5:2;366:596:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;248:25;;8:9:-1;5:2;;;30:1;27;20:12;5:2;248:25:1;;;;;;;;;;;;;;;;;;;;;;;;;;;216:27;;8:9:-1;5:2;;;30:1;27;20:12;5:2;216:27:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;966:94;1021:4;1042:6;:13;;;;1035:20;;966:94;:::o;366:596::-;643:16;590:6;:19;;;610:10;622:4;628:6;590:45;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;590:45:1;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;590:45:1;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;590:45:1;;;;;;;;;;;;;;;;582:54;;;;;;;;672:10;;;;;;;;;;;662:21;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;662:21:1;643:40;;689:6;713:8;689:34;;39:1:-1;33:3;27:10;23:18;57:10;52:3;45:23;79:10;72:17;;0:93;689:34:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;730:6;:14;;;745:6;768:1;752:6;:13;;;;:17;745:25;;;;;;;;;;;;;;;;;;;;;;;;;;;772:6;730:49;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;730:49:1;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;730:49:1;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;730:49:1;;;;;;;;;;;;;;;;;786:6;809:1;793:6;:13;;;;:17;786:25;;;;;;;;;;;;;;;;;;;;;;;;;;;:41;;;828:6;836;844:11;857:5;864:17;883:8;786:106;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;786:106:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;786:106:1;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;786:106:1;;;;899:58;928:1;912:6;:13;;;;:17;931:6;954:1;938:6;:13;;;;:17;931:25;;;;;;;;;;;;;;;;;;;;;;;;;;;899:58;;;;;;;;;;;;;;;;;;;;;;;;;;;;366:596;;;;;;;:::o;248:25::-;;;;;;;;;;;;;:::o;216:27::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;119:944::-;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.18;\nimport \"tokens/eip20/EIP20.sol\";\nimport \"./inherited/Proxy.sol\";\nimport \"./DelphiStake.sol\";\n\ncontract DelphiStakeFactory {\n\n  event StakeCreated(uint _stakeId, address _contractAddress);\n\n  DelphiStake[] public stakes;\n\n  address public masterCopy;\n\n\n  function DelphiStakeFactory(address _masterCopy){\n    masterCopy = _masterCopy;\n  }\n\n  function createDelphiStake(uint _value, EIP20 _token, uint _minimumFee, string _data, uint _stakeReleaseTime, address _arbiter)\n  public\n  {\n    // Revert if the specified value to stake cannot be transferred in\n    require(_token.transferFrom(msg.sender, this, _value));\n\n    address newStake = new Proxy(masterCopy);\n    stakes.push(DelphiStake(newStake));\n\n    _token.approve(stakes[stakes.length - 1], _value);\n\n    stakes[stakes.length - 1].initDelphiStake(_value, _token, _minimumFee, _data, _stakeReleaseTime, _arbiter);\n\n    StakeCreated(stakes.length - 1, stakes[stakes.length - 1]);\n  }\n\n  function getNumStakes()\n  public\n  constant\n  returns (uint)\n  {\n    return stakes.length;\n  }\n\n}\n",
+  "sourcePath": "/usr/src/app/Delphi/contracts/DelphiStakeFactory.sol",
+  "ast": {
+    "absolutePath": "/usr/src/app/Delphi/contracts/DelphiStakeFactory.sol",
+    "exportedSymbols": {
+      "DelphiStakeFactory": [
+        1204
+      ]
+    },
+    "id": 1205,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1089,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".18"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "absolutePath": "tokens/eip20/EIP20.sol",
+        "file": "tokens/eip20/EIP20.sol",
+        "id": 1090,
+        "nodeType": "ImportDirective",
+        "scope": 1205,
+        "sourceUnit": 5896,
+        "src": "25:32:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/usr/src/app/Delphi/contracts/inherited/Proxy.sol",
+        "file": "./inherited/Proxy.sol",
+        "id": 1091,
+        "nodeType": "ImportDirective",
+        "scope": 1205,
+        "sourceUnit": 2201,
+        "src": "58:31:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/usr/src/app/Delphi/contracts/DelphiStake.sol",
+        "file": "./DelphiStake.sol",
+        "id": 1092,
+        "nodeType": "ImportDirective",
+        "scope": 1205,
+        "sourceUnit": 1088,
+        "src": "90:27:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [
+          2200
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1204,
+        "linearizedBaseContracts": [
+          1204
+        ],
+        "name": "DelphiStakeFactory",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1098,
+            "name": "StakeCreated",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1097,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1094,
+                  "indexed": false,
+                  "name": "_stakeId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1098,
+                  "src": "171:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1093,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "171:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1096,
+                  "indexed": false,
+                  "name": "_contractAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1098,
+                  "src": "186:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1095,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "186:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "170:41:1"
+            },
+            "src": "152:60:1"
+          },
+          {
+            "constant": false,
+            "id": 1101,
+            "name": "stakes",
+            "nodeType": "VariableDeclaration",
+            "scope": 1204,
+            "src": "216:27:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+              "typeString": "contract DelphiStake[]"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 1099,
+                "name": "DelphiStake",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1087,
+                "src": "216:11:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                  "typeString": "contract DelphiStake"
+                }
+              },
+              "id": 1100,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "216:13:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage_ptr",
+                "typeString": "contract DelphiStake[]"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 1103,
+            "name": "masterCopy",
+            "nodeType": "VariableDeclaration",
+            "scope": 1204,
+            "src": "248:25:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 1102,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "248:7:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1112,
+              "nodeType": "Block",
+              "src": "327:35:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1110,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 1108,
+                      "name": "masterCopy",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1103,
+                      "src": "333:10:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 1109,
+                      "name": "_masterCopy",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1105,
+                      "src": "346:11:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "333:24:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 1111,
+                  "nodeType": "ExpressionStatement",
+                  "src": "333:24:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1113,
+            "implemented": true,
+            "isConstructor": true,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "DelphiStakeFactory",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1106,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1105,
+                  "name": "_masterCopy",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1113,
+                  "src": "307:19:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1104,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "307:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "306:21:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1107,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "327:0:1"
+            },
+            "scope": 1204,
+            "src": "279:83:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1193,
+              "nodeType": "Block",
+              "src": "505:457:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 1131,
+                              "name": "msg",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 6071,
+                              "src": "610:3:1",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_magic_message",
+                                "typeString": "msg"
+                              }
+                            },
+                            "id": 1132,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "sender",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "610:10:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          {
+                            "argumentTypes": null,
+                            "id": 1133,
+                            "name": "this",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 6092,
+                            "src": "622:4:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_DelphiStakeFactory_$1204",
+                              "typeString": "contract DelphiStakeFactory"
+                            }
+                          },
+                          {
+                            "argumentTypes": null,
+                            "id": 1134,
+                            "name": "_value",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1115,
+                            "src": "628:6:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            },
+                            {
+                              "typeIdentifier": "t_contract$_DelphiStakeFactory_$1204",
+                              "typeString": "contract DelphiStakeFactory"
+                            },
+                            {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 1129,
+                            "name": "_token",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1117,
+                            "src": "590:6:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_EIP20_$5895",
+                              "typeString": "contract EIP20"
+                            }
+                          },
+                          "id": 1130,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "transferFrom",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 5828,
+                          "src": "590:19:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$_t_uint256_$returns$_t_bool_$",
+                            "typeString": "function (address,address,uint256) external returns (bool)"
+                          }
+                        },
+                        "id": 1135,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "590:45:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 1128,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        6074,
+                        6075
+                      ],
+                      "referencedDeclaration": 6074,
+                      "src": "582:7:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 1136,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "582:54:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1137,
+                  "nodeType": "ExpressionStatement",
+                  "src": "582:54:1"
+                },
+                {
+                  "assignments": [
+                    1139
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1139,
+                      "name": "newStake",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1194,
+                      "src": "643:16:1",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 1138,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "643:7:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1144,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1142,
+                        "name": "masterCopy",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1103,
+                        "src": "672:10:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 1141,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "NewExpression",
+                      "src": "662:9:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_creation_nonpayable$_t_address_$returns$_t_contract$_Proxy_$2200_$",
+                        "typeString": "function (address) returns (contract Proxy)"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 1140,
+                        "name": "Proxy",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 2200,
+                        "src": "666:5:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Proxy_$2200",
+                          "typeString": "contract Proxy"
+                        }
+                      }
+                    },
+                    "id": 1143,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "662:21:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_Proxy_$2200",
+                      "typeString": "contract Proxy"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "643:40:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 1149,
+                            "name": "newStake",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1139,
+                            "src": "713:8:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 1148,
+                          "name": "DelphiStake",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1087,
+                          "src": "701:11:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_DelphiStake_$1087_$",
+                            "typeString": "type(contract DelphiStake)"
+                          }
+                        },
+                        "id": 1150,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "701:21:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1145,
+                        "name": "stakes",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1101,
+                        "src": "689:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                          "typeString": "contract DelphiStake[] storage ref"
+                        }
+                      },
+                      "id": 1147,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "689:11:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_contract$_DelphiStake_$1087_$returns$_t_uint256_$",
+                        "typeString": "function (contract DelphiStake) returns (uint256)"
+                      }
+                    },
+                    "id": 1151,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "689:34:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1152,
+                  "nodeType": "ExpressionStatement",
+                  "src": "689:34:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 1156,
+                          "name": "stakes",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1101,
+                          "src": "745:6:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                            "typeString": "contract DelphiStake[] storage ref"
+                          }
+                        },
+                        "id": 1161,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          },
+                          "id": 1160,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 1157,
+                              "name": "stakes",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 1101,
+                              "src": "752:6:1",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                                "typeString": "contract DelphiStake[] storage ref"
+                              }
+                            },
+                            "id": 1158,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "length",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "752:13:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "-",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "31",
+                            "id": 1159,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "768:1:1",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_1_by_1",
+                              "typeString": "int_const 1"
+                            },
+                            "value": "1"
+                          },
+                          "src": "752:17:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "745:25:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1162,
+                        "name": "_value",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1115,
+                        "src": "772:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1153,
+                        "name": "_token",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1117,
+                        "src": "730:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_EIP20_$5895",
+                          "typeString": "contract EIP20"
+                        }
+                      },
+                      "id": 1155,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "approve",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 5868,
+                      "src": "730:14:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
+                        "typeString": "function (address,uint256) external returns (bool)"
+                      }
+                    },
+                    "id": 1163,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "730:49:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 1164,
+                  "nodeType": "ExpressionStatement",
+                  "src": "730:49:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1172,
+                        "name": "_value",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1115,
+                        "src": "828:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1173,
+                        "name": "_token",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1117,
+                        "src": "836:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_EIP20_$5895",
+                          "typeString": "contract EIP20"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1174,
+                        "name": "_minimumFee",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1119,
+                        "src": "844:11:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1175,
+                        "name": "_data",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1121,
+                        "src": "857:5:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1176,
+                        "name": "_stakeReleaseTime",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1123,
+                        "src": "864:17:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1177,
+                        "name": "_arbiter",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1125,
+                        "src": "883:8:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_contract$_EIP20_$5895",
+                          "typeString": "contract EIP20"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 1165,
+                          "name": "stakes",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1101,
+                          "src": "786:6:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                            "typeString": "contract DelphiStake[] storage ref"
+                          }
+                        },
+                        "id": 1170,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          },
+                          "id": 1169,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 1166,
+                              "name": "stakes",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 1101,
+                              "src": "793:6:1",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                                "typeString": "contract DelphiStake[] storage ref"
+                              }
+                            },
+                            "id": 1167,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "length",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "793:13:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "-",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "31",
+                            "id": 1168,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "809:1:1",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_1_by_1",
+                              "typeString": "int_const 1"
+                            },
+                            "value": "1"
+                          },
+                          "src": "793:17:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "786:25:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      },
+                      "id": 1171,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "initDelphiStake",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 397,
+                      "src": "786:41:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_nonpayable$_t_uint256_$_t_contract$_EIP20_$5895_$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$_t_address_$returns$__$",
+                        "typeString": "function (uint256,contract EIP20,uint256,string memory,uint256,address) external"
+                      }
+                    },
+                    "id": 1178,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "786:106:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1179,
+                  "nodeType": "ExpressionStatement",
+                  "src": "786:106:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 1184,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 1181,
+                            "name": "stakes",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1101,
+                            "src": "912:6:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                              "typeString": "contract DelphiStake[] storage ref"
+                            }
+                          },
+                          "id": 1182,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "length",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": null,
+                          "src": "912:13:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "-",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "hexValue": "31",
+                          "id": 1183,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "928:1:1",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_1_by_1",
+                            "typeString": "int_const 1"
+                          },
+                          "value": "1"
+                        },
+                        "src": "912:17:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 1185,
+                          "name": "stakes",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1101,
+                          "src": "931:6:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                            "typeString": "contract DelphiStake[] storage ref"
+                          }
+                        },
+                        "id": 1190,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          },
+                          "id": 1189,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 1186,
+                              "name": "stakes",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 1101,
+                              "src": "938:6:1",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                                "typeString": "contract DelphiStake[] storage ref"
+                              }
+                            },
+                            "id": 1187,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "length",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "938:13:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "-",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "31",
+                            "id": 1188,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "954:1:1",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_1_by_1",
+                              "typeString": "int_const 1"
+                            },
+                            "value": "1"
+                          },
+                          "src": "938:17:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "931:25:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      ],
+                      "id": 1180,
+                      "name": "StakeCreated",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1098,
+                      "src": "899:12:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_address_$returns$__$",
+                        "typeString": "function (uint256,address)"
+                      }
+                    },
+                    "id": 1191,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "899:58:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1192,
+                  "nodeType": "ExpressionStatement",
+                  "src": "899:58:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1194,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "createDelphiStake",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1126,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1115,
+                  "name": "_value",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "393:11:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1114,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "393:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1117,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "406:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_EIP20_$5895",
+                    "typeString": "contract EIP20"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1116,
+                    "name": "EIP20",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 5895,
+                    "src": "406:5:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_EIP20_$5895",
+                      "typeString": "contract EIP20"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1119,
+                  "name": "_minimumFee",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "420:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1118,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "420:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1121,
+                  "name": "_data",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "438:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 1120,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "438:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1123,
+                  "name": "_stakeReleaseTime",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "452:22:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1122,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "452:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1125,
+                  "name": "_arbiter",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "476:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1124,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "476:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "392:101:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1127,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "505:0:1"
+            },
+            "scope": 1204,
+            "src": "366:596:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1202,
+              "nodeType": "Block",
+              "src": "1029:31:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 1199,
+                      "name": "stakes",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1101,
+                      "src": "1042:6:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                        "typeString": "contract DelphiStake[] storage ref"
+                      }
+                    },
+                    "id": 1200,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "length",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": null,
+                    "src": "1042:13:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1198,
+                  "id": 1201,
+                  "nodeType": "Return",
+                  "src": "1035:20:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1203,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getNumStakes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1195,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "987:2:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1198,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1197,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1203,
+                  "src": "1021:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1196,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1021:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1020:6:1"
+            },
+            "scope": 1204,
+            "src": "966:94:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1205,
+        "src": "119:944:1"
+      }
+    ],
+    "src": "0:1064:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/usr/src/app/Delphi/contracts/DelphiStakeFactory.sol",
+    "exportedSymbols": {
+      "DelphiStakeFactory": [
+        1204
+      ]
+    },
+    "id": 1205,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1089,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".18"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "absolutePath": "tokens/eip20/EIP20.sol",
+        "file": "tokens/eip20/EIP20.sol",
+        "id": 1090,
+        "nodeType": "ImportDirective",
+        "scope": 1205,
+        "sourceUnit": 5896,
+        "src": "25:32:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/usr/src/app/Delphi/contracts/inherited/Proxy.sol",
+        "file": "./inherited/Proxy.sol",
+        "id": 1091,
+        "nodeType": "ImportDirective",
+        "scope": 1205,
+        "sourceUnit": 2201,
+        "src": "58:31:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/usr/src/app/Delphi/contracts/DelphiStake.sol",
+        "file": "./DelphiStake.sol",
+        "id": 1092,
+        "nodeType": "ImportDirective",
+        "scope": 1205,
+        "sourceUnit": 1088,
+        "src": "90:27:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [
+          2200
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1204,
+        "linearizedBaseContracts": [
+          1204
+        ],
+        "name": "DelphiStakeFactory",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1098,
+            "name": "StakeCreated",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1097,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1094,
+                  "indexed": false,
+                  "name": "_stakeId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1098,
+                  "src": "171:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1093,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "171:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1096,
+                  "indexed": false,
+                  "name": "_contractAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1098,
+                  "src": "186:24:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1095,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "186:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "170:41:1"
+            },
+            "src": "152:60:1"
+          },
+          {
+            "constant": false,
+            "id": 1101,
+            "name": "stakes",
+            "nodeType": "VariableDeclaration",
+            "scope": 1204,
+            "src": "216:27:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+              "typeString": "contract DelphiStake[]"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 1099,
+                "name": "DelphiStake",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1087,
+                "src": "216:11:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                  "typeString": "contract DelphiStake"
+                }
+              },
+              "id": 1100,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "216:13:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage_ptr",
+                "typeString": "contract DelphiStake[]"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 1103,
+            "name": "masterCopy",
+            "nodeType": "VariableDeclaration",
+            "scope": 1204,
+            "src": "248:25:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 1102,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "248:7:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1112,
+              "nodeType": "Block",
+              "src": "327:35:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1110,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 1108,
+                      "name": "masterCopy",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1103,
+                      "src": "333:10:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 1109,
+                      "name": "_masterCopy",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1105,
+                      "src": "346:11:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "333:24:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 1111,
+                  "nodeType": "ExpressionStatement",
+                  "src": "333:24:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1113,
+            "implemented": true,
+            "isConstructor": true,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "DelphiStakeFactory",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1106,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1105,
+                  "name": "_masterCopy",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1113,
+                  "src": "307:19:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1104,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "307:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "306:21:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1107,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "327:0:1"
+            },
+            "scope": 1204,
+            "src": "279:83:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1193,
+              "nodeType": "Block",
+              "src": "505:457:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 1131,
+                              "name": "msg",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 6071,
+                              "src": "610:3:1",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_magic_message",
+                                "typeString": "msg"
+                              }
+                            },
+                            "id": 1132,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "sender",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "610:10:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          {
+                            "argumentTypes": null,
+                            "id": 1133,
+                            "name": "this",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 6092,
+                            "src": "622:4:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_DelphiStakeFactory_$1204",
+                              "typeString": "contract DelphiStakeFactory"
+                            }
+                          },
+                          {
+                            "argumentTypes": null,
+                            "id": 1134,
+                            "name": "_value",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1115,
+                            "src": "628:6:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            },
+                            {
+                              "typeIdentifier": "t_contract$_DelphiStakeFactory_$1204",
+                              "typeString": "contract DelphiStakeFactory"
+                            },
+                            {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 1129,
+                            "name": "_token",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1117,
+                            "src": "590:6:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_EIP20_$5895",
+                              "typeString": "contract EIP20"
+                            }
+                          },
+                          "id": 1130,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "transferFrom",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 5828,
+                          "src": "590:19:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$_t_uint256_$returns$_t_bool_$",
+                            "typeString": "function (address,address,uint256) external returns (bool)"
+                          }
+                        },
+                        "id": 1135,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "590:45:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 1128,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        6074,
+                        6075
+                      ],
+                      "referencedDeclaration": 6074,
+                      "src": "582:7:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 1136,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "582:54:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1137,
+                  "nodeType": "ExpressionStatement",
+                  "src": "582:54:1"
+                },
+                {
+                  "assignments": [
+                    1139
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1139,
+                      "name": "newStake",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1194,
+                      "src": "643:16:1",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 1138,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "643:7:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1144,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1142,
+                        "name": "masterCopy",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1103,
+                        "src": "672:10:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 1141,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "NewExpression",
+                      "src": "662:9:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_creation_nonpayable$_t_address_$returns$_t_contract$_Proxy_$2200_$",
+                        "typeString": "function (address) returns (contract Proxy)"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 1140,
+                        "name": "Proxy",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 2200,
+                        "src": "666:5:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Proxy_$2200",
+                          "typeString": "contract Proxy"
+                        }
+                      }
+                    },
+                    "id": 1143,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "662:21:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_Proxy_$2200",
+                      "typeString": "contract Proxy"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "643:40:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 1149,
+                            "name": "newStake",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1139,
+                            "src": "713:8:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 1148,
+                          "name": "DelphiStake",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1087,
+                          "src": "701:11:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_DelphiStake_$1087_$",
+                            "typeString": "type(contract DelphiStake)"
+                          }
+                        },
+                        "id": 1150,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "701:21:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1145,
+                        "name": "stakes",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1101,
+                        "src": "689:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                          "typeString": "contract DelphiStake[] storage ref"
+                        }
+                      },
+                      "id": 1147,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "689:11:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_contract$_DelphiStake_$1087_$returns$_t_uint256_$",
+                        "typeString": "function (contract DelphiStake) returns (uint256)"
+                      }
+                    },
+                    "id": 1151,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "689:34:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1152,
+                  "nodeType": "ExpressionStatement",
+                  "src": "689:34:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 1156,
+                          "name": "stakes",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1101,
+                          "src": "745:6:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                            "typeString": "contract DelphiStake[] storage ref"
+                          }
+                        },
+                        "id": 1161,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          },
+                          "id": 1160,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 1157,
+                              "name": "stakes",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 1101,
+                              "src": "752:6:1",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                                "typeString": "contract DelphiStake[] storage ref"
+                              }
+                            },
+                            "id": 1158,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "length",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "752:13:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "-",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "31",
+                            "id": 1159,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "768:1:1",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_1_by_1",
+                              "typeString": "int_const 1"
+                            },
+                            "value": "1"
+                          },
+                          "src": "752:17:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "745:25:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1162,
+                        "name": "_value",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1115,
+                        "src": "772:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1153,
+                        "name": "_token",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1117,
+                        "src": "730:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_EIP20_$5895",
+                          "typeString": "contract EIP20"
+                        }
+                      },
+                      "id": 1155,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "approve",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 5868,
+                      "src": "730:14:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
+                        "typeString": "function (address,uint256) external returns (bool)"
+                      }
+                    },
+                    "id": 1163,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "730:49:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 1164,
+                  "nodeType": "ExpressionStatement",
+                  "src": "730:49:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1172,
+                        "name": "_value",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1115,
+                        "src": "828:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1173,
+                        "name": "_token",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1117,
+                        "src": "836:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_EIP20_$5895",
+                          "typeString": "contract EIP20"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1174,
+                        "name": "_minimumFee",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1119,
+                        "src": "844:11:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1175,
+                        "name": "_data",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1121,
+                        "src": "857:5:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1176,
+                        "name": "_stakeReleaseTime",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1123,
+                        "src": "864:17:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1177,
+                        "name": "_arbiter",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1125,
+                        "src": "883:8:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_contract$_EIP20_$5895",
+                          "typeString": "contract EIP20"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 1165,
+                          "name": "stakes",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1101,
+                          "src": "786:6:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                            "typeString": "contract DelphiStake[] storage ref"
+                          }
+                        },
+                        "id": 1170,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          },
+                          "id": 1169,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 1166,
+                              "name": "stakes",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 1101,
+                              "src": "793:6:1",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                                "typeString": "contract DelphiStake[] storage ref"
+                              }
+                            },
+                            "id": 1167,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "length",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "793:13:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "-",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "31",
+                            "id": 1168,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "809:1:1",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_1_by_1",
+                              "typeString": "int_const 1"
+                            },
+                            "value": "1"
+                          },
+                          "src": "793:17:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "786:25:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      },
+                      "id": 1171,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "initDelphiStake",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 397,
+                      "src": "786:41:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_nonpayable$_t_uint256_$_t_contract$_EIP20_$5895_$_t_uint256_$_t_string_memory_ptr_$_t_uint256_$_t_address_$returns$__$",
+                        "typeString": "function (uint256,contract EIP20,uint256,string memory,uint256,address) external"
+                      }
+                    },
+                    "id": 1178,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "786:106:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1179,
+                  "nodeType": "ExpressionStatement",
+                  "src": "786:106:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 1184,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 1181,
+                            "name": "stakes",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1101,
+                            "src": "912:6:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                              "typeString": "contract DelphiStake[] storage ref"
+                            }
+                          },
+                          "id": 1182,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "length",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": null,
+                          "src": "912:13:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "-",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "hexValue": "31",
+                          "id": 1183,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "928:1:1",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_1_by_1",
+                            "typeString": "int_const 1"
+                          },
+                          "value": "1"
+                        },
+                        "src": "912:17:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 1185,
+                          "name": "stakes",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1101,
+                          "src": "931:6:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                            "typeString": "contract DelphiStake[] storage ref"
+                          }
+                        },
+                        "id": 1190,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          },
+                          "id": 1189,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 1186,
+                              "name": "stakes",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 1101,
+                              "src": "938:6:1",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                                "typeString": "contract DelphiStake[] storage ref"
+                              }
+                            },
+                            "id": 1187,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "length",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "938:13:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "-",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "hexValue": "31",
+                            "id": 1188,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "954:1:1",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_1_by_1",
+                              "typeString": "int_const 1"
+                            },
+                            "value": "1"
+                          },
+                          "src": "938:17:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "931:25:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_contract$_DelphiStake_$1087",
+                          "typeString": "contract DelphiStake"
+                        }
+                      ],
+                      "id": 1180,
+                      "name": "StakeCreated",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1098,
+                      "src": "899:12:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_address_$returns$__$",
+                        "typeString": "function (uint256,address)"
+                      }
+                    },
+                    "id": 1191,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "899:58:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1192,
+                  "nodeType": "ExpressionStatement",
+                  "src": "899:58:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1194,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "createDelphiStake",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1126,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1115,
+                  "name": "_value",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "393:11:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1114,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "393:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1117,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "406:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_EIP20_$5895",
+                    "typeString": "contract EIP20"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 1116,
+                    "name": "EIP20",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 5895,
+                    "src": "406:5:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_EIP20_$5895",
+                      "typeString": "contract EIP20"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1119,
+                  "name": "_minimumFee",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "420:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1118,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "420:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1121,
+                  "name": "_data",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "438:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 1120,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "438:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1123,
+                  "name": "_stakeReleaseTime",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "452:22:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1122,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "452:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1125,
+                  "name": "_arbiter",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1194,
+                  "src": "476:16:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1124,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "476:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "392:101:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1127,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "505:0:1"
+            },
+            "scope": 1204,
+            "src": "366:596:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1202,
+              "nodeType": "Block",
+              "src": "1029:31:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 1199,
+                      "name": "stakes",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1101,
+                      "src": "1042:6:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_contract$_DelphiStake_$1087_$dyn_storage",
+                        "typeString": "contract DelphiStake[] storage ref"
+                      }
+                    },
+                    "id": 1200,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "length",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": null,
+                    "src": "1042:13:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1198,
+                  "id": 1201,
+                  "nodeType": "Return",
+                  "src": "1035:20:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1203,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getNumStakes",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1195,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "987:2:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1198,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1197,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1203,
+                  "src": "1021:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1196,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1021:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1020:6:1"
+            },
+            "scope": 1204,
+            "src": "966:94:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1205,
+        "src": "119:944:1"
+      }
+    ],
+    "src": "0:1064:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.23+commit.124ca40d.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-05-20T01:50:43.477Z"
+}
