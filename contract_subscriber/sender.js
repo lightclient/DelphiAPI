@@ -63,6 +63,7 @@ function buildPayload(event, transaction) {
 			address: event.address,
 			sender: transaction.from,
 			params: contractMethodInputs,
+			values: event.returnValues
 		}
 
 		// ** debug code ** //
@@ -70,7 +71,8 @@ function buildPayload(event, transaction) {
 			console.log('Type: ', payload.type)
 			console.log('Contract Address: ', payload.address)
 			console.log('Sender: ', payload.sender)
-			console.log('contract Methods: %o', contractMethodInputs)
+			console.log('Contract Methods: %o', contractMethodInputs)
+			console.log('Event values: %o', payload.values)
 		}
 		/* *************** */
 

@@ -33,7 +33,8 @@ def message_handler(ch, method, properties, body):
 def event_processor(event):
 
     # break the paramaters out into a more accessible form
-    params = event.get('params')
+    params = event.get('params') # the params passed directly to the smart contract
+    values = event.get('values') # the values emitted from the event
 
     #################
     # STAKE CREATED #
@@ -73,7 +74,7 @@ def event_processor(event):
     if event.get('type') == 'ClaimOpened':
         claim = Claim(
             stake=event.get('address'),
-            id=params.get('id'),
+            id=sanitize( values.get('_claimId') ),
             claimant=params.get('claimant'),
             amount=sanitize( params.get('amount') ),
             arbiter=params.get('arbiter'),

@@ -24,6 +24,8 @@ async function handler() {
 			// retrieve all events from the DelphiStake contract
 			let stakeEvents = await DelphiStake.getPastEvents({fromBlock, toBlock: 'latest'});
 
+			// console.log(stakeEvents)
+
 			// send events to queue
 			let highestBlock = await sendEvents(stakeEvents);
 
