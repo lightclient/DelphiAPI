@@ -15,23 +15,17 @@ async function handler() {
 
 	while (true) {
 		try {
-
 			// Use past events vs. subscribe in order to preserve ordering - FIFO
 			// Also, subscribe is just polling - the socket connection does not provide
 			// the additional behavior, so these are essentially accomplishing the same thing
 
-			// let fromBlock = await getAsync('currentBlock') || 0;
-			//let voting_events = await DelphiVoting.getPastEvents({fromBlock, toBlock: 'latest'});
-
-			console.log("getting tasks")
-			// Consume tasks.
 			const cancel = await contract_queue.consume(async (task) => {
 			  console.log(task)
 
 				let stake = loadDelphiStake(task.address);
 
 				// retrieve all events from the DelphiStake contract
-				let stakeEvents = await stake.getPastEvents({fromBlock, toBlock: 'latest'});
+				let stakeEvents = await stake.getPastEvents({fromBlock: task.currentBlock, toBlock: 'latest'});
 
 				console.log(stakeEvents)
 
@@ -39,7 +33,7 @@ async function handler() {
 				let eventBlock = await sendEvents(stakeEvents);
 
 				if (eventBlock) {
-					task.currentBlock = eventBlock;
+					task.currentBlock = eventBlock + 1;
 				}
 
 				await contract_queue.enqueue(task)

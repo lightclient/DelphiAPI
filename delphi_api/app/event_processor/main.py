@@ -41,7 +41,7 @@ def event_processor(event):
     #################
     if event.get('type') == 'StakeCreated':
         stake = Stake(
-            address=event.get('address'),
+            address=values.get('_contractAddress'),
             staker=event.get('sender'),
             claimable_stake=sanitize( params.get('value') ),
             data=params.get('data'),

@@ -11,7 +11,6 @@ async function sendEvents(events) {
 
 		let highestBlock;
 		for (let event of events) {
-
 			// retrieves a transaction object
 			const rawTransaction = await getTransaction(event.transactionHash)
 
@@ -38,7 +37,6 @@ async function sendEvents(events) {
 function buildPayload(event, transaction) {
 
 	try {
-
 		// decodes the raw bytes into the transaction's parameters
 		const rawContractMethodInputs = abiDecoder.decodeMethod(transaction.input)
 

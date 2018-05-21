@@ -32,6 +32,7 @@ function loadDelphiStake(address) {
 }
 
 abiDecoder.addABI(ds_json.abi);
+abiDecoder.addABI(df_json.abi);
 //abiDecoder.addABI(dv_json.abi);
 
 exports.getTransaction = web3.eth.getTransaction;

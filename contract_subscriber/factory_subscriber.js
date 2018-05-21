@@ -4,7 +4,8 @@ const delay = require('delay'),
 	// rollbar = require('./rollbar'),
 	{ DelphiStakeFactory } = require('./config/web3'),
 	{ getAsync, writeAsync } = require('./config/redis'),
-	{ contract_queue } = require('./config/rabbitmq');
+	{ contract_queue } = require('./config/rabbitmq'),
+	{ sendEvents } = require('./sender');
 
 async function handler() {
 	await contract_queue.connect();
@@ -14,9 +15,11 @@ async function handler() {
 			// Use past events vs. subscribe in order to preserve ordering - FIFO
 			// Also, subscribe is just polling - the socket connection does not provide
 			// the additional behavior, so these are essentially accomplishing the same thing
-			let fromBlock = /* await getAsync('currentBlock') || */ 0;
+			// let fromBlock = await getAsync('currentBlock') || 0;
+			let fromBlock = 0;
 			let factoryEvents = await DelphiStakeFactory.getPastEvents({fromBlock, toBlock: 'latest'});
-			let eventBlock = await processEvents(factoryEvents);
+			await processEvents(factoryEvents);
+			let eventBlock = await sendEvents(factoryEvents);
 
 			if (eventBlock) {
 				await writeAsync('currentBlock', eventBlock + 1);
@@ -38,23 +41,17 @@ async function handler() {
 }
 
 async function processEvents(events) {
-	let highestBlock;
-
 	for (let event of events) {
 		if(event.event == 'StakeCreated') {
-			console.log(`${event.blockNumber} StakeCreated: ${event.returnValues._contractAddress}`);
+			// console.log(`${event.blockNumber} StakeCreated: ${event.returnValues._contractAddress}`);
 
 			// send payload to queue
 			await contract_queue.enqueue({
 				address: event.returnValues._contractAddress,
 				currentBlock: 0
 			});
-
-			highestBlock = event.blockNumber;
 		}
 	}
-
-	return highestBlock;
 }
 
 handler();
