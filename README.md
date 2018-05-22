@@ -30,14 +30,14 @@ root@deth_dapp: npm install
 root@deth_dapp: truffle install
 root@deth_dapp: yarn contract
 ```
-###### Runing the caching layer
+###### Running the caching layer
 ```
 git clone https://github.com/c-o-l-o-r/DelphiAPI.git
 cd DelphiAPI
 docker-compose up --build
-docker exec -it delphiapi_delphi_subscriber bash
+docker exec -it delphiapi_delphi_subscriber_1 bash
 root@delphi_subscriber: python migrate.py
-docker exec -it delphiapi_contract_subscriber bash
+docker exec -it delphiapi_contract_subscriber_1 bash
 root@contract_subscriber: npm install
 root@contract_subscriber: npm start
 ```
