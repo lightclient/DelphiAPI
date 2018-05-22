@@ -16,23 +16,27 @@ class Stake(Base):
     minimum_fee = Column(DECIMAL(precision=70, scale=30))
     claim_deadline = Column(DECIMAL(precision=70, scale=2))
 
-    # token = Column()
-    #arbiter = Column(VARCHAR(128), ForeignKey('arbiter.address'))
+    token = Column(VARCHAR(129), ForeignKey('token.address'))
+    arbiter = Column(VARCHAR(128), ForeignKey('arbiter.address'))
+
     whitelist = relationship('Whitelistee')
-    # claims = Column()
-    # settlements = Column()
+    claims = relationship('Claim')
+    #settlements = Column()
 
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
 
-    def __init__(self, address, staker, claimable_stake, data, minimum_fee, claim_deadline):
+    def __init__(self, address, staker, claimable_stake, data, minimum_fee, claim_deadline, token, arbiter):
         self.address = address
         self.staker = staker
         self.claimable_stake = claimable_stake
         self.data = data
         self.minimum_fee = minimum_fee
         self.claim_deadline = claim_deadline
+        self.token = token
+        self.arbiter = arbiter
 
+        
     # def __repr__(self):
     #     return "< stake >"# % (self.image, self.first_name, self.last_name, self.username, self.password, self.email, self.active, self.update_time)
 
