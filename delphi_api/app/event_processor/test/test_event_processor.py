@@ -2,7 +2,7 @@ from decimal import Decimal
 import sys
 sys.path.append('/usr/src/app')
 
-from app.migrations.models import Base, Stake, Whitelistee
+from app.migrations.models import Base, Stake, Whitelistee, Token, Arbiter
 from app.util.connection import connect
 from sqlalchemy.orm import sessionmaker
 from app.event_processor.main import event_processor, session, engine
@@ -14,10 +14,23 @@ Base.metadata.create_all(bind=engine)
 
 def test_stake_saved_in_database():
     event_processor(stakeCreated)
-    stake = session.query(Stake).filter_by(address=stakeCreated.get('address')).first()
+    stake = session.query(Stake).filter_by(address=stakeCreated.get('values').get('_contractAddress')).first()
+
     assert stake.staker == stakeCreated.get('sender')
     assert stake.claimable_stake == int(Decimal(stakeCreated.get('params').get('value')))
     assert stake.data == stakeCreated.get('params').get('data')
+
+    # make sure token is created correctly
+    assert stake.token_id == stakeCreated.get('params').get('token')
+    assert stake.token.address == stakeCreated.get('params').get('token')
+    token = session.query(Token).filter_by(address=stake.token.address).first()
+    assert token.address == stakeCreated.get('params').get('token')
+
+    # make sure arbiter is created correctly
+    assert stake.arbiter_id == stakeCreated.get('params').get('arbiter')
+    assert stake.arbiter.address == stakeCreated.get('params').get('arbiter')
+    arbiter = session.query(Arbiter).filter_by(address=stake.arbiter.address).first()
+    assert arbiter.address == stakeCreated.get('params').get('arbiter')
 
 def test_whitelistee_is_associated_with_stake():
     event_processor(claimantWhitelisted)

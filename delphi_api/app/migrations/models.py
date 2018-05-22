@@ -16,20 +16,29 @@ class Stake(Base):
     minimum_fee = Column(DECIMAL(precision=70, scale=30))
     claim_deadline = Column(DECIMAL(precision=70, scale=2))
 
-    # token = Column()
-    #arbiter = Column(VARCHAR(128), ForeignKey('arbiter.address'))
+    # many to one relationship to token
+    token_id = Column(VARCHAR(128), ForeignKey('token.address'))
+    token = relationship('Token', back_populates="stakes")
+
+    # many to one relationship to arbiter
+    arbiter_id = Column(VARCHAR(128), ForeignKey('arbiter.address'))
+    arbiter = relationship('Arbiter', back_populates="stakes")
+
+    # one to many relationship with whitelistees and claims
     whitelist = relationship('Whitelistee')
-    # claims = Column()
+    claims = relationship('Claim')
     # settlements = Column()
 
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
 
-    def __init__(self, address, staker, claimable_stake, data, minimum_fee, claim_deadline):
+    def __init__(self, address, staker, token, claimable_stake, data, arbiter, minimum_fee, claim_deadline):
         self.address = address
         self.staker = staker
+        self.token = token
         self.claimable_stake = claimable_stake
         self.data = data
+        self.arbiter = arbiter
         self.minimum_fee = minimum_fee
         self.claim_deadline = claim_deadline
 
@@ -92,6 +101,8 @@ class Token(Base):
     """ user entity class """
     __tablename__ = 'token'
 
+    stakes = relationship("Stake", back_populates="token")
+
     address = Column(VARCHAR(128), primary_key=True)
     name = Column(VARCHAR(128))
     symbol = Column(VARCHAR(128))
@@ -99,15 +110,17 @@ class Token(Base):
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
 
-    def __init__(self, address, name, symbol, decimals):
+    def __init__(self, address):#, name, symbol, decimals):
         self.address = address
-        self.name = name
-        self.symbol = symbol
-        self.decimals = decimals
+        # self.name = name
+        # self.symbol = symbol
+        # self.decimals = decimals
 
 class Arbiter(Base):
     """ user entity class """
     __tablename__ = 'arbiter'
+
+    stakes = relationship("Stake", back_populates="arbiter")
 
     address = Column(VARCHAR(128), primary_key=True)
     name = Column(VARCHAR(128))
@@ -115,7 +128,7 @@ class Arbiter(Base):
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
 
-    def __init__(self, address, name, description):
+    def __init__(self, address):#, name, description):
         self.address = address
-        self.name = name
-        self.description = description
+        # self.name = name
+        # self.description = description

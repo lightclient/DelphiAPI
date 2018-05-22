@@ -6,7 +6,7 @@ import ast
 import sys
 sys.path.append('/usr/src/app')
 
-from app.migrations.models import Stake, Whitelistee, Claim
+from app.migrations.models import Stake, Whitelistee, Claim, Token, Arbiter
 from app.util.connection import connect
 from sqlalchemy.orm import sessionmaker
 from app.util.logging import pretty_print
@@ -40,16 +40,27 @@ def event_processor(event):
     # STAKE CREATED #
     #################
     if event.get('type') == 'StakeCreated':
+        token = session.query(Token).filter_by(address=params.get('_token')).first()
+        arbiter = session.query(Arbiter).filter_by(address=params.get('_arbiter')).first()
+
+        if token == None:
+            token = Token(address=params.get('token'))
+
+        if arbiter == None:
+            arbiter = Arbiter(address=params.get('arbiter'))
+
         stake = Stake(
             address=values.get('_contractAddress'),
             staker=event.get('sender'),
+            token=token,
             claimable_stake=sanitize( params.get('value') ),
             data=params.get('data'),
+            arbiter=arbiter,
             minimum_fee=sanitize( params.get('minimumFee') ),
             claim_deadline=sanitize( params.get('stakeReleaseTime') )
         )
 
-        session.add(stake)
+        session.add_all([stake,token,arbiter])
 
     ########################
     # CLAIMANT WHITELISTED #
