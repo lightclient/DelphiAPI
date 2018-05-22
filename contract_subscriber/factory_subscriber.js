@@ -15,8 +15,7 @@ async function handler() {
 			// Use past events vs. subscribe in order to preserve ordering - FIFO
 			// Also, subscribe is just polling - the socket connection does not provide
 			// the additional behavior, so these are essentially accomplishing the same thing
-			// let fromBlock = await getAsync('currentBlock') || 0;
-			let fromBlock = 0;
+			let fromBlock = await getAsync('currentBlock') || 0;
 			let factoryEvents = await DelphiStakeFactory.getPastEvents({fromBlock, toBlock: 'latest'});
 			await processEvents(factoryEvents);
 			let eventBlock = await sendEvents(factoryEvents);
