@@ -42,6 +42,26 @@ def test_stake_release_time_increased():
     stake = session.query(Stake).filter_by(address=claimantWhitelisted.get('address')).first()
     assert stake.claim_deadline == int(Decimal( releaseTimeIncreased.get('params').get('stakeReleaseTime') ))
 
+def test_multiple_stake_using_same_token():
+    event_processor(stakeCreated2)
+    stake = session.query(Stake).filter_by(address=stakeCreated2.get('values').get('_contractAddress')).first()
+
+    assert stake.staker == stakeCreated2.get('sender')
+    assert stake.claimable_stake == int(Decimal(stakeCreated2.get('params').get('value')))
+    assert stake.data == stakeCreated2.get('params').get('data')
+
+    # make sure token is created correctly
+    assert stake.token_id == stakeCreated2.get('params').get('token')
+    assert stake.token.address == stakeCreated2.get('params').get('token')
+    token = session.query(Token).filter_by(address=stake.token.address).first()
+    assert token.address == stakeCreated2.get('params').get('token')
+
+    # make sure arbiter is created correctly
+    assert stake.arbiter_id == stakeCreated2.get('params').get('arbiter')
+    assert stake.arbiter.address == stakeCreated2.get('params').get('arbiter')
+    arbiter = session.query(Arbiter).filter_by(address=stake.arbiter.address).first()
+    assert arbiter.address == stakeCreated2.get('params').get('arbiter')
+
 Base.metadata.reflect(bind=engine) # need to figure out what this does
 Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)

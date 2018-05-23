@@ -38,7 +38,6 @@ class StakeEndpoint(object):
 
         #TODO: de-hard-code settlements once it is implemented for the DB
 
-
         resp.body = json.dumps({
             'data': {
                 'staker': stake_info.staker,

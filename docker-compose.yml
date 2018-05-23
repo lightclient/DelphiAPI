@@ -40,7 +40,7 @@ services:
       - "5432:5432"
     networks:
       - delphi
-      
+
   redis:
     image: "redis"
     # volumes:
@@ -57,7 +57,6 @@ services:
     restart: always
     env_file:
       - .env
-    #command: bash -c "python3 run.py"
     volumes:
       - ./delphi_api:/usr/src/app
     ports:

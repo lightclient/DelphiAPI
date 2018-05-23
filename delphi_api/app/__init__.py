@@ -1,6 +1,8 @@
 import falcon
 import logging
+import os
 
+from app.migrations.migrate import migrate
 from app.middleware import CrossDomain, JSONTranslator
 from app.util.logging import setup_logging
 from app.util.error import error_handler
@@ -8,7 +10,6 @@ from app.util.connection import connect
 
 from app.resources.root import RootResources, RootNameResources
 from app.resources.stake import StakeEndpoint
-
 
 
 logger = logging.getLogger(__name__)
@@ -26,7 +27,11 @@ def create_app():
 
     app.add_error_handler(Exception, error_handler)
 
-    #adding endpoints for the rest api
+    # if this is the dev environment, clear the database when booted up
+    if os.environ['ENV'] == 'DEV':
+        engine = create_table()
+        migrate(engine)
+
     _setup_routes(app)
 
     return app

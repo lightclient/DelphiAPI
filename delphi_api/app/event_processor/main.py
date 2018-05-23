@@ -40,8 +40,8 @@ def event_processor(event):
     # STAKE CREATED #
     #################
     if event.get('type') == 'StakeCreated':
-        token = session.query(Token).filter_by(address=params.get('_token')).first()
-        arbiter = session.query(Arbiter).filter_by(address=params.get('_arbiter')).first()
+        token = session.query(Token).filter_by(address=params.get('token')).first()
+        arbiter = session.query(Arbiter).filter_by(address=params.get('arbiter')).first()
 
         if token == None:
             token = Token(address=params.get('token'))
@@ -126,7 +126,7 @@ def event_processor(event):
     if event.get('type') == 'StakeIncreased':
         stake = session.query(Stake).filter_by(address=event.get('address')).first()
 
-        stake.claimable_stake += sanitize( params.get('_value') )
+        stake.claimable_stake += sanitize( params.get('value') )
 
         session.add(stake)
 

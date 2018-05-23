@@ -1,8 +1,6 @@
-from app.migrations.seed import seed
+from app.migrations.migrate import migrate
 from app import create_table
-
-env = 'dev' # hardcoded to dev to prevent production migration
 
 engine = create_table()
 
-seed(engine)
+migrate(engine)
