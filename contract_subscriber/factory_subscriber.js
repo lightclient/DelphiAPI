@@ -8,10 +8,18 @@ const delay = require('delay'),
 	{ sendEvents } = require('./sender');
 
 async function handler() {
-	await contract_queue.connect();
+	try {
+		for(let i = 0; i < 10; i++) {
+			try {
+				await contract_queue.connect();
+			} catch(err) {
+				console.log("Unable to connect, retrying...")
+			}
 
-	while (true) {
-		try {
+			await delay(1000 * 2);
+		}
+
+		while (true) {
 			// Use past events vs. subscribe in order to preserve ordering - FIFO
 			// Also, subscribe is just polling - the socket connection does not provide
 			// the additional behavior, so these are essentially accomplishing the same thing
@@ -24,27 +32,25 @@ async function handler() {
 				await writeAsync('currentBlock', eventBlock + 1);
 			}
 
-			await delay(10000);
-
-		} catch (err) {
-			// include rollbar error message soon
-			// rollbar.error(err);
-			console.log(err);
-
-			// exit with error so kubernettes will automatically restart the job
-			process.exit(1);
+			await delay(5000);
 		}
-	}
 
-	await contract_queue.close()
+		await contract_queue.close()
+
+	} catch (err) {
+	// include rollbar error message soon
+	// rollbar.error(err);=
+	console.log(err);
+
+	// exit with error so kubernettes will automatically restart the job
+	process.exit(1);
+	}
 }
 
+// add new stake to the contract queue
 async function processEvents(events) {
 	for (let event of events) {
 		if(event.event == 'StakeCreated') {
-			// console.log(`${event.blockNumber} StakeCreated: ${event.returnValues._contractAddress}`);
-
-			// send payload to queue
 			await contract_queue.enqueue({
 				address: event.returnValues._contractAddress,
 				currentBlock: 0

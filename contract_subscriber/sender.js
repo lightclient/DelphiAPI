@@ -10,14 +10,13 @@ async function sendEvents(events) {
 		await event_queue.connect();
 
 		let highestBlock;
-		for (let event of events) {
-			// retrieves a transaction object
-			const rawTransaction = await getTransaction(event.transactionHash)
 
-			// build payload to send to queue using the event
+		// only get the relevant information from each block and queue the result
+		// to be processed in the event processor
+		for (let event of events) {
+			const rawTransaction = await getTransaction(event.transactionHash)
 			const payload = buildPayload(event, rawTransaction)
 
-			// send payload to queue
 			await event_queue.enqueue(payload)
 
 			highestBlock = event.blockNumber

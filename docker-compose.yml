@@ -17,6 +17,7 @@ services:
       RABBITMQ_DEFAULT_USER: "rabbitmq"
       RABBITMQ_DEFAULT_PASS: "rabbitmq"
       RABBITMQ_DEFAULT_VHOST: "/"
+
     ports:
       - "15672:15672"
       - "5672:5672"
@@ -27,7 +28,6 @@ services:
 
     networks:
       - delphi
-
 
   db:
     image: postgres
@@ -126,14 +126,14 @@ services:
     restart: always
     env_file:
       - .env
-    #command: npm start
-    volumes:
-      - ./contract_subscriber:/usr/src/app
-      - /usr/src/app/node_modules
+    command: npm run contract
+    # volumes:
+    #   - ./contract_subscriber:/usr/src/app
+    #   - /usr/src/app/node_modules
     networks:
       - delphi
-    stdin_open: true
-    tty: true
+    # stdin_open: true
+    # tty: true
     depends_on:
       - rabbitmq
       - redis
@@ -144,17 +144,17 @@ services:
     restart: always
     env_file:
       - .env
-    #command: npm start
-    volumes:
-      - ./contract_subscriber:/usr/src/app
-      - /usr/src/app/node_modules
+    command: npm run factory
+    # volumes:
+    #   - ./contract_subscriber:/usr/src/app
+    #   - /usr/src/app/node_modules
     networks:
       - delphi
-    stdin_open: true
-    tty: true
-    depends_on:
-      - rabbitmq
-      - redis
+    # stdin_open: true
+    # tty: true
+    # depends_on:
+    #   - rabbitmq
+    #   - redis
 
   # mock_contract_subscriber:
   #   build:
