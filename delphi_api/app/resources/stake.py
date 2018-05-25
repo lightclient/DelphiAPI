@@ -16,5 +16,5 @@ class StakeEndpoint(object):
     def on_get(self, req, resp, address):
 
         #entry point for stake data
-        stake_info = session.query(Stake).get(address).first()
+        stake_info = session.query(Stake).get(address)
         resp.body = stake_info.toJSON()

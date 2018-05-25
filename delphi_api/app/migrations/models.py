@@ -1,3 +1,6 @@
+import app.util.json as json
+from decimal import Decimal
+
 from sqlalchemy import Column, ForeignKey, create_engine
 from sqlalchemy.dialects.mysql import INTEGER, TIMESTAMP, VARCHAR, DECIMAL, BIGINT, BOOLEAN
 from sqlalchemy.orm import relationship
@@ -180,3 +183,4 @@ class Arbiter(Base):
         self.address = address
         # self.name = name
         # self.description = description
+
