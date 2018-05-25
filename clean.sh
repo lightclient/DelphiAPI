@@ -7,5 +7,5 @@ docker exec delphiapi_rabbitmq_1 bash -c "rabbitmqctl stop_app && rabbitmqctl re
 docker exec delphiapi_redis_1 redis-cli FLUSHALL
 
 # clear database
-# docker-compose stop delphi_subscriber
-# docker-compose start delphi_subscriber
+docker-compose down
+# docker-compose start
