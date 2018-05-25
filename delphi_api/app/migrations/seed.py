@@ -22,29 +22,28 @@ def seed(engine):
     # session = Session()
 
     tok = Token(
-        '0x0000000000000000000000000000000000000333',
-        'test-token',
-        'test-symbol',
-        3.14159
+        '0x0000000000000000000000000000000000000333'#,
+        #'test-token',
+        #'test-symbol',
+        #3.14159
     )
     
     arb = Arbiter(
-        '0x0000000000000000000000000000000000000334',
-        'AVGTBAS Arbitration',
-        'A very good TCR-based arbiter set'
+        '0x0000000000000000000000000000000000000334'#,
+        #'AVGTBAS Arbitration',
+        #'A very good TCR-based arbiter set'
     )
 
     
     sta = Stake(
-        '0x0000000000000000000000000000000000000000',
-        '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
-        100,
-        'I love cats',
-        5,
-        999999999,        #standing in for unix time
-        '0x0000000000000000000000000000000000000333',
-        '0x0000000000000000000000000000000000000334'
-
+        address='0x0000000000000000000000000000000000000000',
+        staker='0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
+        token=tok,
+        claimable_stake=100,
+        data='I love cats',
+        minimum_fee=.5,
+        arbiter=arb,
+        claim_deadline=999999999        #standing in for unix time
     )
     
     whi = Whitelistee(
