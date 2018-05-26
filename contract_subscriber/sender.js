@@ -1,7 +1,7 @@
 const { cloneDeep, chain } = require('lodash'),
 	  	// { getAsync } = require('./redis_config'),
 	  	{ abiDecoder, getTransaction, getBlock } = require('./config/web3'),
-			{ event_queue } = require('./config/rabbitmq')
+			{ event_queue } = require('./config/rabbitmq');
 
 async function sendEvents(events) {
 

@@ -11,29 +11,22 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.6.15
-    hostname: "rabbit"
-    environment:
-      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
-      RABBITMQ_DEFAULT_USER: "rabbitmq"
-      RABBITMQ_DEFAULT_PASS: "rabbitmq"
-      RABBITMQ_DEFAULT_VHOST: "/"
-
     ports:
       - "15672:15672"
       - "5672:5672"
     labels:
       NAME: "rabbitmq"
+    env_file:
+      - variables.env
     volumes:
       - "./local_queue/enabled_plugins:/etc/rabbitmq/enabled_plugins"
-
     networks:
       - delphi
 
   db:
     image: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: delphi
+    env_file:
+      - variables.env
     # volumes:
     #   - psql_bounties:/var/lib/postgresql/data
     ports:
@@ -56,23 +49,23 @@ services:
       dockerfile: Dockerfile
     restart: always
     env_file:
-      - .env
+      - variables.env
     volumes:
       - ./delphi_api:/usr/src/app
     ports:
       - "5000:5000"
     networks:
       - delphi
-    # depends_on:
-    #   - db
-  #     - redis
+    depends_on:
+      - db
+      - redis
   delphi_subscriber:
     build:
       context: ./delphi_api
       dockerfile: Dockerfile
     restart: always
     env_file:
-      - .env
+      - variables.env
     command: bash -c "PYTHONPATH=/usr/src/app && sleep 15 && python3 app/event_processor/main.py"
     volumes:
       - ./delphi_api:/usr/src/app
@@ -88,7 +81,7 @@ services:
   #     dockerfile: Dockerfile
   #   command: bash -c "./local.sh"
   #   env_file:
-  #     - .env
+  #     - variables.env
   #   volumes:
   #     - ./sql_jobs:/usr/src/app
   # track_bounty_expirations:
@@ -98,7 +91,7 @@ services:
   #     dockerfile: Dockerfile
   #   restart: always
   #   env_file:
-  #     - .env
+  #     - variables.env
   #   command: python3 manage.py track_bounty_expirations
   #   volumes:
   #     - ./bounties_api:/code
@@ -113,7 +106,7 @@ services:
   #     dockerfile: Dockerfile
   #   restart: always
   #   env_file:
-  #     - .env
+  #     - variables.env
   #   command: bash -c "./local.sh"
   #   volumes:
   #     - ./bounties_api:/code
@@ -125,7 +118,7 @@ services:
       context: ./contract_subscriber
     restart: always
     env_file:
-      - .env
+      - variables.env
     command: npm run contract
     # volumes:
     #   - ./contract_subscriber:/usr/src/app
@@ -143,7 +136,7 @@ services:
       context: ./contract_subscriber
     restart: always
     env_file:
-      - .env
+      - variables.env
     command: npm run factory
     # volumes:
     #   - ./contract_subscriber:/usr/src/app
@@ -161,7 +154,7 @@ services:
   #     context: ./mock_contract_subscriber
   #   restart: always
   #   env_file:
-  #     - .env
+  #     - variables.env
   #   #command: npm start
   #   volumes:
   #     - ./mock_contract_subscriber:/usr/src/app

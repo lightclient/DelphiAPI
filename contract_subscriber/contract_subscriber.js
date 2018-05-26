@@ -5,7 +5,8 @@ const delay = require('delay'),
 	{ loadDelphiStake } = require('./config/web3'),
 	// { getAsync, writeAsync } = require('./config/redis'),
 	{ contract_queue } = require('./config/rabbitmq'),
-	{ sendEvents } = require('./sender');
+	{ sendEvents } = require('./sender'),
+	{ SUBSCRIBER_DELAY } = require('./config/constants');
 
 
 let fromBlock = 0;
@@ -36,7 +37,7 @@ async function handler() {
 				console.log("Unable to connect, retrying...")
 			}
 
-			await delay(1000 * 2);
+			await delay(1000 * 3);
 		}
 
 		while (true) {
@@ -62,7 +63,7 @@ async function handler() {
 			// Cancel consumer to stop receiving tasks.
 			await consumer();
 
-			await delay(5000);
+			await delay(1000 * SUBSCRIBER_DELAY);
 		}
 
 		await contract_queue.close()

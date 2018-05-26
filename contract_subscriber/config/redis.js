@@ -1,7 +1,8 @@
 const redis = require('redis'),
-	{ promisify } = require('util');
+	{ promisify } = require('util'),
+	{ REDDIS_URL } = require('./constants');
 
-const client = redis.createClient({ url: `redis://${process.env['REDIS_HOST']}:${process.env['REDIS_PORT']}`});
+const client = redis.createClient({ url: REDDIS_URL});
 
 exports.getAsync = promisify(client.get).bind(client);
 exports.writeAsync = promisify(client.set).bind(client);

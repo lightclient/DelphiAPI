@@ -5,7 +5,8 @@ const delay = require('delay'),
 	{ DelphiStakeFactory } = require('./config/web3'),
 	{ getAsync, writeAsync } = require('./config/redis'),
 	{ contract_queue } = require('./config/rabbitmq'),
-	{ sendEvents } = require('./sender');
+	{ sendEvents } = require('./sender'),
+	{ SUBSCRIBER_DELAY } = require('./config/constants');
 
 async function handler() {
 	try {
@@ -32,7 +33,7 @@ async function handler() {
 				await writeAsync('currentBlock', eventBlock + 1);
 			}
 
-			await delay(5000);
+			await delay(1000 * SUBSCRIBER_DELAY);
 		}
 
 		await contract_queue.close()

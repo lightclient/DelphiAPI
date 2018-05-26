@@ -10,7 +10,7 @@ from sqlalchemy.sql import func
 Base = declarative_base()
 
 class Stake(Base):
-    """ user entity class http://localhost:5000/stake/0x000000000000000000000000000000000000000"""
+    """ user entity class """
     __tablename__ = 'stake'
     address = Column(VARCHAR(128), primary_key=True)
     staker = Column(VARCHAR(128))
