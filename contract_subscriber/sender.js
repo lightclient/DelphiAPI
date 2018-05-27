@@ -1,6 +1,6 @@
 const { cloneDeep, chain } = require('lodash'),
 	  	// { getAsync } = require('./redis_config'),
-	  	{ abiDecoder, getTransaction, getBlock } = require('./config/web3'),
+	  	{ abiDecoder, getTransaction, getBlock, getTokenInfo } = require('./config/web3'),
 			{ event_queue } = require('./config/rabbitmq');
 
 async function sendEvents(events) {
@@ -15,7 +15,46 @@ async function sendEvents(events) {
 		// to be processed in the event processor
 		for (let event of events) {
 			const rawTransaction = await getTransaction(event.transactionHash)
-			const payload = buildPayload(event, rawTransaction)
+
+			// decodes the raw bytes into the transaction's parameters
+			const rawContractMethodInputs = abiDecoder.decodeMethod(rawTransaction.input)
+
+			// maps the transaction's paramerters to a nicer format
+			const contractMethodInputs = chain(rawContractMethodInputs.params)
+				.keyBy('name')
+				.mapValues('value')
+				.mapKeys((value, key) => key.substring(1))
+				.value()
+
+			// unsure if we even need these ... we'll figure out later
+			// const blockData = await getBlock(blockNumber);
+			// const eventTimestamp = blockData.timestamp.toString();
+
+			// construct payload to place in queue
+			let payload = {
+				transactionHash: event.transactionHash,
+				block: event.blockNumber,
+
+				// the important stuff
+				type: event.event,
+				address: event.address,
+				sender: rawTransaction.from,
+				params: contractMethodInputs,
+				values: event.returnValues
+			}
+
+			// when a stake is created, check to see if the token associated with it
+			// has a name, symbol, or decimal defined per EIP20 & add it to the payload.
+			if(event.event == 'StakeCreated') {
+				tokenInfo = await getTokenInfo(contractMethodInputs['token']);
+				payload['token'] = tokenInfo;
+			}
+
+			// ** debug code ** //
+			if (process.env['ENV'] == 'DEV') {
+				console.log(payload);
+			}
+			/* *************** */
 
 			await event_queue.enqueue(payload)
 
@@ -33,55 +72,4 @@ async function sendEvents(events) {
 	}
 }
 
-function buildPayload(event, transaction) {
-
-	try {
-		// decodes the raw bytes into the transaction's parameters
-		const rawContractMethodInputs = abiDecoder.decodeMethod(transaction.input)
-
-		// maps the transaction's paramerters to a nicer format
-		const contractMethodInputs = chain(rawContractMethodInputs.params)
-			.keyBy('name')
-			.mapValues('value')
-			.mapKeys((value, key) => key.substring(1))
-			.value()
-
-		// unsure if we even need these ... we'll figure out later
-		// const blockData = await getBlock(blockNumber);
-		// const eventTimestamp = blockData.timestamp.toString();
-
-		// construct payload to place in queue
-		const payload = {
-			transactionHash: event.transactionHash,
-			block: event.blockNumber,
-
-			// the important stuff
-			type: event.event,
-			address: event.address,
-			sender: transaction.from,
-			params: contractMethodInputs,
-			values: event.returnValues
-		}
-
-		// ** debug code ** //
-		if (process.env['ENV'] == 'DEV') {
-			console.log('Type: ', payload.type)
-			console.log('Contract Address: ', payload.address)
-			console.log('Sender: ', payload.sender)
-			console.log('Contract Methods: %o', contractMethodInputs)
-			console.log('Event values: %o', payload.values)
-		}
-		/* *************** */
-
-		return payload
-
-	} catch (error) {
-		// let index handle and log the error
-		throw error;
-	}
-
-
-}
-
 module.exports.sendEvents = sendEvents;
-module.exports.buildPayload = buildPayload;

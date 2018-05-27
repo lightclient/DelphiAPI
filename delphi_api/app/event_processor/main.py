@@ -44,7 +44,12 @@ def event_processor(event):
         arbiter = session.query(Arbiter).filter_by(address=params.get('arbiter')).first()
 
         if token == None:
-            token = Token(address=params.get('token'))
+            token = Token(
+                address=params.get('token'),
+                name=event.get('token').get('name'),
+                symbol=event.get('token').get('symbol'),
+                decimals=event.get('token').get('decimals')
+            )
 
         if arbiter == None:
             arbiter = Arbiter(address=params.get('arbiter'))

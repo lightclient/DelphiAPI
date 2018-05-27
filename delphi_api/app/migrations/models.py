@@ -161,11 +161,11 @@ class Token(Base):
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
 
-    def __init__(self, address):#, name, symbol, decimals):
+    def __init__(self, address, name, symbol, decimals):
         self.address = address
-        # self.name = name
-        # self.symbol = symbol
-        # self.decimals = decimals
+        self.name = name
+        self.symbol = symbol
+        self.decimals = decimals
 
 class Arbiter(Base):
     """ user entity class """
@@ -183,4 +183,3 @@ class Arbiter(Base):
         self.address = address
         # self.name = name
         # self.description = description
-
