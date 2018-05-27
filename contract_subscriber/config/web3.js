@@ -1,6 +1,7 @@
 const ds_json = require('../contracts/DelphiStake.json'),
 		dv_json = require('../contracts/DelphiVoting.json'),
 		df_json = require('../contracts/DelphiStakeFactory.json'),
+		token_abi = require('human-standard-token-abi'),
 	  Web3 = require('web3'),
 	  abiDecoder = require('abi-decoder'),
 	  { ETH_NETWORK, ETH_NETWORK_URL } = require('./constants');
@@ -33,6 +34,30 @@ function loadDelphiStake(address) {
 	);
 }
 
+function loadToken(address) {
+	return new web3.eth.Contract(
+		token_abi,
+		address
+	);
+}
+
+async function getTokenInfo(address) {
+	const token = loadToken(address);
+
+	// extract useful data
+	const name = await token.methods.name().call();
+	const symbol = await token.methods.symbol().call();
+	const decimals = await token.methods.decimals().call();
+
+	const info = {
+		name: name,
+		symbol: symbol,
+		decimals: decimals
+	};
+
+	return info;
+}
+
 abiDecoder.addABI(ds_json.abi);
 abiDecoder.addABI(df_json.abi);
 //abiDecoder.addABI(dv_json.abi);
@@ -44,4 +69,5 @@ exports.abiDecoder = abiDecoder;
 // exports.DelphiVoting = DelphiVoting;
 exports.DelphiStakeFactory = DelphiStakeFactory;
 exports.loadDelphiStake = loadDelphiStake;
+exports.getTokenInfo = getTokenInfo;
 exports.web3 = web3;

@@ -29,7 +29,8 @@
     "redis": "^2.8.0",
     "rollbar": "^2.3.9",
     "web3": "^1.0.0-beta.26",
-    "wrappitmq": "^1.0.4"
+    "wrappitmq": "^1.0.4",
+    "human-standard-token-abi": "^1.0.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",

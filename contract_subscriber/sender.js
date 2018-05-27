@@ -64,7 +64,7 @@ function buildPayload(event, transaction) {
 		}
 
 		// ** debug code ** //
-		if (process.env['ENV'] == "DEV") {
+		if (process.env['ENV'] == 'DEV') {
 			console.log('Type: ', payload.type)
 			console.log('Contract Address: ', payload.address)
 			console.log('Sender: ', payload.sender)
