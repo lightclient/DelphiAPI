@@ -39,8 +39,8 @@ def objToDict(obj, exclude):
     return attributes
 
             
-def objToJSON(obj):
-    data = {'data': objToDict(obj, 'stakes'), 'errors': []}
+def objToJSON(obj, exclude):
+    data = {'data': objToDict(obj, ['stakes']), 'errors': []}
     return json.dumps(data)
 
 
