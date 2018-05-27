@@ -2,6 +2,8 @@ import falcon
 import logging
 import os
 
+from falcon_cors import CORS
+
 from app.migrations.migrate import migrate
 from app.middleware import CrossDomain, JSONTranslator
 from app.util.logging import setup_logging
@@ -18,10 +20,14 @@ logger = logging.getLogger(__name__)
 def create_app():
     setup_logging()
 
+    # cors = CORS(allow_origins_list=['http://test.com:8080'])
+    cors = CORS(allow_all_origins=True)
+
     app = falcon.API(
         middleware=[
             # CrossDomain(),
             # JSONTranslator()
+            cors.middleware
         ],
     )
 
@@ -43,12 +49,12 @@ def create_table():
 def start():
     logger.info("Environment: {}".format(settings.get("ENV_NAME")))
 
-#create endpoints
+# create endpoints
 def _setup_routes(app):
     app.add_route("/", RootResources())
 
-    #StakeEndpoint defined in app.resources.stake.py
+    # StakeEndpoint defined in app.resources.stake.py
     app.add_route("/stake/{address}", StakeEndpoint())
 
-#entry point for python code
+# entry point for python code
 app = create_app()
