@@ -1,3 +1,4 @@
+import app.util.json as json
 from app.migrations.models import *
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql import func
@@ -79,3 +80,5 @@ def seed(engine):
     session.add_all([sta,whi, cla])
     
     session.commit()
+
+    #print(json.objToJSON(sta, 'stakes'))
