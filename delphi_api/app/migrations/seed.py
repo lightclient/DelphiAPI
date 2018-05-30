@@ -23,19 +23,19 @@ def seed(engine):
     # session = Session()
 
     tok = Token(
-        '0x0000000000000000000000000000000000000333'#,
-        #'test-token',
-        #'test-symbol',
-        #3.14159
+        '0x0000000000000000000000000000000000000333',
+        'test-token',
+        'test-symbol',
+        2.0
     )
-    
+
     arb = Arbiter(
         '0x0000000000000000000000000000000000000334'#,
         #'AVGTBAS Arbitration',
         #'A very good TCR-based arbiter set'
     )
 
-    
+
     sta = Stake(
         address='0x0000000000000000000000000000000000000000',
         staker='0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
@@ -46,7 +46,7 @@ def seed(engine):
         arbiter=arb,
         claim_deadline=999999999        #standing in for unix time
     )
-    
+
     whi = Whitelistee(
          sta.address,
          '0x0000000000000000000000000000000000000001',
@@ -66,19 +66,19 @@ def seed(engine):
         False,
         True
     )
-    
+
     sta.whitelist.append(whi)
     sta.claims.append(cla)
-    
+
     Session = sessionmaker(bind=engine)
     session = Session()
 
     session.add_all([tok, arb])
 
     session.commit()
-    
+
     session.add_all([sta,whi, cla])
-    
+
     session.commit()
 
     #print(json.objToJSON(sta, 'stakes'))
