@@ -85,8 +85,6 @@ def event_processor(event):
     ################
     # CLAIM OPENED #
     ################
-    # TODO: write tests
-    # TODO: handle case where a claim is opened w/o settlement
     if event.get('type') == 'ClaimOpened':
         claim = Claim(
             stake=event.get('address'),
@@ -99,7 +97,7 @@ def event_processor(event):
             data=params.get('data'),
             ruling=0,
             ruled=False,
-            settlements=False
+            settlements=(False if event.get('function') == 'openClaim' else True)
         )
 
         stake = session.query(Stake).filter_by(address=event.get('address')).first()
@@ -125,6 +123,17 @@ def event_processor(event):
         session.add(claim)
 
     ###################
+    # STAKE WITHDRAWN #
+    ###################
+    # TODO: write test
+    if event.get('type') == 'StakeWithdrawn':
+        stake = session.query(Stake).filter_by(address=event.get('address')).first()
+
+        stake.claimable_stake = 0
+
+        session.add(stake)
+
+    ###################
     # STAKE INCREASED #
     ###################
     #TODO: write test
@@ -142,16 +151,6 @@ def event_processor(event):
 
         session.add(stake)
 
-    ###################
-    # STAKE WITHDRAWN #
-    ###################
-    # TODO: write test
-    if event.get('type') == 'StakeWithdrawn':
-        stake = session.query(Stake).filter_by(address=event.get('address')).first()
-
-        stake.claimable_stake = 0
-
-        session.add(stake)
 
     # commit the changes to the database
     session.commit()
