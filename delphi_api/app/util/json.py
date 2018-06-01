@@ -38,9 +38,12 @@ def objToDict(obj, exclude):
                 #print('non-relevant: '+attr_name+': '+str(type(attr)) )
     return attributes
 
+def ListToJSON(lis, exclude):
+    data = {'data': objListToDictList(lis, exclude), 'errors': []}
+    return json.dumps(data)
             
 def objToJSON(obj, exclude):
-    data = {'data': objToDict(obj, ['stakes']), 'errors': []}
+    data = {'data': objToDict(obj, exclude), 'errors': []}
     return json.dumps(data)
 
 
