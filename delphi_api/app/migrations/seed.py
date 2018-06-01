@@ -47,6 +47,17 @@ def seed(engine):
         claim_deadline=999999999        #standing in for unix time
     )
 
+    sta2 = Stake(
+        address='0x0000000000000000000000000000000000000001',
+        staker='0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
+        token=tok,
+        claimable_stake=100,
+        data='I love cats',
+        minimum_fee=.5,
+        arbiter=arb,
+        claim_deadline=999999999        #standing in for unix time
+    )
+
     whi = Whitelistee(
          sta.address,
          '0x0000000000000000000000000000000000000001',
@@ -70,6 +81,9 @@ def seed(engine):
     sta.whitelist.append(whi)
     sta.claims.append(cla)
 
+    sta2.whitelist.append(whi)
+    sta2.claims.append(cla)
+
     Session = sessionmaker(bind=engine)
     session = Session()
 
@@ -77,7 +91,7 @@ def seed(engine):
 
     session.commit()
 
-    session.add_all([sta,whi, cla])
+    session.add_all([sta, sta2, whi, cla])
 
     session.commit()
 

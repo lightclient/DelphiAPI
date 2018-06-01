@@ -12,11 +12,14 @@ engine = connect()
 Session = sessionmaker(bind=engine)
 session = Session()
 
-class StakeEndpoint(object):
+class StakerEndpoint(object):
     def on_get(self, req, resp, address):
 
-        #entry point for stake data
-        stake_info = session.query(Stake).get(address)
-        print(address)
-        print(stake_info.toJSON())
-        resp.body = stake_info.toJSON()
+        stakes = []
+
+        for stake in session.query(Stake).filter_by(staker=address):
+            stakes.append(stake.toJSON())
+
+        #resp.body = stakes
+        #resp.body = json.dumps(stakes)
+        resp.body = json.dumps(stakes)

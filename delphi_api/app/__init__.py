@@ -12,6 +12,7 @@ from app.util.connection import connect
 
 from app.resources.root import RootResources, RootNameResources
 from app.resources.stake import StakeEndpoint
+from app.resources.staker import StakerEndpoint
 
 
 logger = logging.getLogger(__name__)
@@ -55,6 +56,9 @@ def _setup_routes(app):
 
     # StakeEndpoint defined in app.resources.stake.py
     app.add_route("/stake/{address}", StakeEndpoint())
+
+    #StakerEndpoint defined in app.resources.staker.py
+    app.add_route("/staker/{address}", StakerEndpoint())
 
 # entry point for python code
 app = create_app()
