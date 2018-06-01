@@ -12,7 +12,7 @@ from app.util.connection import connect
 
 from app.resources.root import RootResources, RootNameResources
 from app.resources.stake import StakeEndpoint
-
+from app.resources.claimant import ClaimantEndpoint
 
 logger = logging.getLogger(__name__)
 
@@ -56,5 +56,9 @@ def _setup_routes(app):
     # StakeEndpoint defined in app.resources.stake.py
     app.add_route("/stake/{address}", StakeEndpoint())
 
+    # ClaimantsEndpoin
+    app.add_route("/claimant/{address}", ClaimantEndpoint())
+
+    
 # entry point for python code
 app = create_app()
