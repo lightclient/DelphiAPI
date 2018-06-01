@@ -119,7 +119,7 @@ services:
     restart: always
     env_file:
       - variables.env
-    # command: npm run contract
+    command: bash -c "npm install && npm run contract"
     volumes:
       - ./contract_subscriber:/usr/src/app
       - /usr/src/app/node_modules
@@ -137,7 +137,7 @@ services:
     restart: always
     env_file:
       - variables.env
-    # command: npm run factory
+    command: bash -c "npm install && npm run factory"
     volumes:
       - ./contract_subscriber:/usr/src/app
       - /usr/src/app/node_modules
