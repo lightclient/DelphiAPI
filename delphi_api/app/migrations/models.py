@@ -46,53 +46,8 @@ class Stake(Base):
         self.claim_deadline = claim_deadline
 
     def toJSON(self):
+        return json.objToJSON(self, ['stakes'])
 
-        #internal relationships (1 to many)
-        whitelist_info = [ el.claimant for el in self.whitelist ]
-        claims_info = [
-            {'claimant': el.claimant,
-             'arbiter' : el.arbiter,
-             'surplus_fee': el.surplus_fee,
-             'data': el.data,
-             'ruling': el.ruling,
-             'ruled': el.ruled,
-             'settlement_failed': el.settlement_failed
-            }
-            for el in self.claims ]
-
-        #foreign tables (1 to 1)
-        # token_info = session.query(Token).filter_by(address=stake_info.token).first()
-        # arbiter_info = session.query(Arbiter).filter_by(address=stake_info.arbiter).first()
-
-        return json.dumps({
-            'data': {
-                'staker': self.staker,
-                'value': self.claimable_stake,
-                'token': {
-                    'name': self.token.name,
-                    'symbol': self.token.symbol,
-                    'address': self.token.address
-                },
-                'minimum_fee': self.minimum_fee,
-                'data': self.data,
-                'claim_deadline': str( int(Decimal(self.claim_deadline.real)) ),
-                'arbiter': {
-                    'name': self.arbiter.name,
-                    'description': self.arbiter.description,
-                    'address': self.arbiter.address
-                },
-                'whitelisted_claimants': whitelist_info,
-                'claims': claims_info,
-                'settlements': [
-                    {
-                      "amount": 10,
-                      "staker_agrees": 0,
-                      "claimant_agrees": 0
-                    }
-                ]
-            },
-            'errors': []
-        })
     # def __repr__(self):
     #     return "< stake >"# % (self.image, self.first_name, self.last_name, self.username, self.password, self.email, self.active, self.update_time)
 
