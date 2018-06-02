@@ -14,7 +14,9 @@ session = Session()
 
 class StakeEndpoint(object):
     def on_get(self, req, resp, address):
-
         #entry point for stake data
         stake_info = session.query(Stake).get(address)
-        resp.body = stake_info.toJSON()
+        if (stake_info is None):
+            raise falcon.HTTPNotFound(description="Could not find a stake with address {}".format(address))
+        else:
+            resp.body = stake_info.toJSON()
