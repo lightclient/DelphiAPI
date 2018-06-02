@@ -17,6 +17,4 @@ class StakeEndpoint(object):
 
         #entry point for stake data
         stake_info = session.query(Stake).get(address)
-        print(address)
-        print(stake_info.toJSON())
         resp.body = stake_info.toJSON()

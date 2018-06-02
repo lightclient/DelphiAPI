@@ -15,11 +15,14 @@ session = Session()
 class StakerEndpoint(object):
     def on_get(self, req, resp, address):
 
-        stakes = []
+        #stakes = []
 
-        for stake in session.query(Stake).filter_by(staker=address):
-            stakes.append(stake.toJSON())
+        #for stake in session.query(Stake).filter_by(staker=address):
+        #    stakes.append(stake.toJSON())
+
+        stakes_info = session.query(Stake).filter_by(staker=address).all()
+        resp.body = json.listToJSON(stakes_info, ['stakes'])
 
         #resp.body = stakes
         #resp.body = json.dumps(stakes)
-        resp.body = json.dumps(stakes)
+        #resp.body = json.dumps(stakes)
