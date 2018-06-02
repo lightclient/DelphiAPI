@@ -67,12 +67,26 @@ def seed(engine):
     cla = Claim(
         sta.address,
         0,
-        'Angry guy',
-        23.5,
+        '0x0000000000000000000000000000000000000777',
+        33.3,
         arb.address,
         .65,
         .05,
         'You owe me money?',
+        0,
+        False,
+        True
+    )
+    
+    cla2 = Claim(
+        sta.address,
+        1,
+        '0x0000000000000000000000000000000000000777',
+        77.7,
+        arb.address,
+        .65,
+        .05,
+        'You still owe me money?',
         0,
         False,
         True
@@ -91,7 +105,11 @@ def seed(engine):
 
     session.commit()
 
+<<<<<<< HEAD
     session.add_all([sta, sta2, whi, cla])
+=======
+    session.add_all([sta,whi, cla,cla2])
+>>>>>>> 36733de2b2ee76f1eab885196cbcd6397fe384d8
 
     session.commit()
 

@@ -39,6 +39,7 @@ async function sendEvents(events) {
 				type: event.event,
 				address: event.address,
 				sender: rawTransaction.from,
+				function: rawContractMethodInputs.name,
 				params: contractMethodInputs,
 				values: event.returnValues
 			}
@@ -53,6 +54,7 @@ async function sendEvents(events) {
 			// ** debug code ** //
 			if (process.env['ENV'] == 'DEV') {
 				console.log(payload);
+				console.log("\n");
 			}
 			/* *************** */
 
