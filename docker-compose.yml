@@ -113,41 +113,41 @@ services:
   #   depends_on:
   #     - db
   #     - bounties_api
-  # contract_subscriber:
-  #   build:
-  #     context: ./contract_subscriber
-  #   restart: always
-  #   env_file:
-  #     - variables.env
-  #   # command: npm run contract
-  #   volumes:
-  #     - ./contract_subscriber:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   networks:
-  #     - delphi
-  #   stdin_open: true
-  #   tty: true
-  #   depends_on:
-  #     - rabbitmq
-  #     - redis
-  #
-  # factory_subscriber:
-  #   build:
-  #     context: ./contract_subscriber
-  #   restart: always
-  #   env_file:
-  #     - variables.env
-  #   # command: npm run factory
-  #   volumes:
-  #     - ./contract_subscriber:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   networks:
-  #     - delphi
-  #   stdin_open: true
-  #   tty: true
-  #   depends_on:
-  #     - rabbitmq
-  #     - redis
+  contract_subscriber:
+    build:
+      context: ./contract_subscriber
+    restart: always
+    env_file:
+      - variables.env
+    # command: npm run contract
+    volumes:
+      - ./contract_subscriber:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - delphi
+    stdin_open: true
+    tty: true
+    depends_on:
+      - rabbitmq
+      - redis
+
+  factory_subscriber:
+    build:
+      context: ./contract_subscriber
+    restart: always
+    env_file:
+      - variables.env
+    # command: npm run factory
+    volumes:
+      - ./contract_subscriber:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - delphi
+    stdin_open: true
+    tty: true
+    depends_on:
+      - rabbitmq
+      - redis
 
   # mock_contract_subscriber:
   #   build:
