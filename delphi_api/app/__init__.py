@@ -12,10 +12,7 @@ from app.util.connection import connect
 
 from app.resources.root import RootResources, RootNameResources
 
-from app.resources.stake import StakeEndpoint
-from app.resources.staker import StakerEndpoint
-from app.resources.claimant import ClaimantEndpoint
-from app.resources.whitelistee import WhitelisteeEndpoint
+from app.resources.endpoints import StakeEndpoint, StakerEndpoint, ClaimantEndpoint, WhitelisteeEndpoint
 
 logger = logging.getLogger(__name__)
 
