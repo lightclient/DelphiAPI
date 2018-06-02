@@ -11,9 +11,11 @@ from app.util.error import error_handler
 from app.util.connection import connect
 
 from app.resources.root import RootResources, RootNameResources
+
 from app.resources.stake import StakeEndpoint
 from app.resources.staker import StakerEndpoint
-
+from app.resources.claimant import ClaimantEndpoint
+from app.resources.whitelistee import WhitelisteeEndpoint
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +61,12 @@ def _setup_routes(app):
 
     #StakerEndpoint defined in app.resources.staker.py
     app.add_route("/staker/{address}", StakerEndpoint())
+
+    #ClaimantEndpoint defined in app.resources.claimant.py
+    app.add_route("/claimant/{address}", ClaimantEndpoint())
+
+    #ClaimantEndpoint defined in app.resources.whitelistee.py
+    app.add_route("/whitelistee/{address}", WhitelisteeEndpoint())
 
 # entry point for python code
 app = create_app()
