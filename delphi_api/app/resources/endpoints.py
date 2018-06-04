@@ -45,4 +45,11 @@ class WhitelisteeEndpoint(object):
         whitelists_info = session.query(Stake).filter(Stake.whitelist.any(claimant=address)).all()
         resp.body = json.listToJSON(whitelists_info, ['stakes'])
                             
-                                                    
+
+#/arbiter/{address}        
+class ArbiterEndpoint(object):
+    def on_get(self, req, resp, address):
+
+        claims_info = session.query(Claim).filter_by(arbiter=address).all()
+        resp.body = json.listToJSON(claims_info, [])
+                            
