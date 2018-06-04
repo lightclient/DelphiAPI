@@ -53,6 +53,9 @@ def start():
 def _setup_routes(app):
     app.add_route("/", RootResources())
 
+    #WhitelisteeEndpoint defined in app.resources.arbiter.py
+    app.add_route("/arbiter/{address}", ArbiterEndpoint())
+
     # StakeEndpoint defined in app.resources.stake.py
     app.add_route("/stake/{address}", StakeEndpoint())
 
@@ -62,8 +65,12 @@ def _setup_routes(app):
     #ClaimantEndpoint defined in app.resources.claimant.py
     app.add_route("/claimant/{address}", ClaimantEndpoint())
 
-    #ClaimantEndpoint defined in app.resources.whitelistee.py
+    #WhitelisteeEndpoint defined in app.resources.whitelistee.py
     app.add_route("/whitelistee/{address}", WhitelisteeEndpoint())
+
+    
+
+
 
 # entry point for python code
 app = create_app()
