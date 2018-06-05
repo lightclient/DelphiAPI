@@ -30,7 +30,6 @@ class Stake(Base):
     # one to many relationship with whitelistees and claims
     whitelist = relationship('Whitelistee')
     claims = relationship('Claim')
-    # settlements = Column()
 
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
@@ -47,9 +46,6 @@ class Stake(Base):
 
     def toJSON(self):
         return json.objToJSON(self, ['stakes'])
-
-    # def __repr__(self):
-    #     return "< stake >"# % (self.image, self.first_name, self.last_name, self.username, self.password, self.email, self.active, self.update_time)
 
 class Whitelistee(Base):
     """ user entity class """
@@ -77,6 +73,8 @@ class Claim(Base):
     _id = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)
 
     stake = Column(VARCHAR(128), ForeignKey('stake.address'))
+    settlements = relationship('Settlement')
+
     id = Column(INTEGER)
     claimant = Column(VARCHAR(128))
     amount = Column(DECIMAL(precision=70, scale=30))
@@ -89,6 +87,34 @@ class Claim(Base):
     settlement_failed = Column(BOOLEAN)
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
+
+    def __init__(self, stake, id, claimant, amount, arbiter, fee, surplus_fee, data, ruling, ruled, settlement_failed):
+        self.stake = stake
+        self.id = id
+        self.claimant = claimant
+        self.amount = amount
+        self.arbiter = arbiter
+        self.fee = fee
+        self.surplus_fee = surplus_fee
+        self.data = data
+        self.ruling = ruling
+        self.ruled = ruled
+        self.settlement_failed = settlement_failed
+
+class Settlement(Base):
+    """ user entity class """
+    __tablename__ = 'settlement'
+
+    # used for sql alchemy relationships
+    _id = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)
+
+    stake = Column(VARCHAR(128), ForeignKey('stake.address'))
+    claim = Column(INTEGER, ForeignKey('claim._id'))
+
+    id = Column(INTEGER)
+    amount = Column(DECIMAL(precision=70, scale=30))
+    stakerAgrees = Column(BOOLEAN)
+    claimantAgrees = Column(BOOLEAN)
 
     def __init__(self, stake, id, claimant, amount, arbiter, fee, surplus_fee, data, ruling, ruled, settlement_failed):
         self.stake = stake

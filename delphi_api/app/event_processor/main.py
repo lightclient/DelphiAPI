@@ -97,6 +97,7 @@ def event_processor(event):
             data=params.get('data'),
             ruling=0,
             ruled=False,
+            # determines if settlement phase was skipped
             settlements=(False if event.get('function') == 'openClaim' else True)
         )
 
@@ -111,16 +112,60 @@ def event_processor(event):
     # FEE INCREASED #
     #################
     # TODO: write tests
-    # TODO: figure out how we're gonna get claim id
     if event.get('type') == 'FeeIncreased':
         claim = session.query(Claim).filter_by(
             stake=event.get('address'),
-            id=params.get('_claimId'),
+            id=values.get('_claimId'),
         ).first()
 
-        claim.surplus_fee += sanitize( params.get('_amount') )
+        claim.surplus_fee += sanitize( values.get('_amount') )
 
         session.add(claim)
+
+    ###############
+    # CLAIM RULED #
+    ###############
+    # TODO tests
+    if event.get('type') == 'ClaimRuled':
+        stake = session.query(Stake).filter_by(address=event.get('address')).first()
+        claim = session.query(Claim).filter_by(address=event.get('address'), id=values.get('_claimId')).first()
+
+        claim.ruled = True
+        claim.ruling = params.get('ruling')
+
+        # claim justified
+        if (claim.ruling == 0):
+            # transfer fee + fee surplus to arbiter
+            # transfer the claim amount + fee back to claimant
+            pass
+
+        # claim is not justified
+        elif (claim.ruling == 1):
+            # transfer fee + fee surplus to arbiter
+            stake.claimable_stake += (claim.amount + claim.fee)
+
+        # claim is collusive
+        elif (claim.ruling == 2):
+            # arbiter gets 2x fee + fee surplus
+            # burn claim amount
+            pass
+
+        # claim cannot be ruled
+        elif (claim.ruling == 3):
+            # send claim + fee to claimant
+            stake.claimable_stake += (claim.amount + claim.fee)
+
+        session.add_all([stake, claim])
+
+    ##########################
+    # RELEASE TIME INCREASED #
+    ##########################
+    if event.get('type') == 'ReleaseTimeIncreased':
+        stake = session.query(Stake).filter_by(address=event.get('address')).first()
+
+        stake.claim_deadline = sanitize( params.get('stakeReleaseTime') )
+
+        session.add(stake)
 
     ###################
     # STAKE WITHDRAWN #
@@ -143,14 +188,6 @@ def event_processor(event):
         stake.claimable_stake += sanitize( params.get('value') )
 
         session.add(stake)
-
-    if event.get('type') == 'ReleaseTimeIncreased':
-        stake = session.query(Stake).filter_by(address=event.get('address')).first()
-
-        stake.claim_deadline = sanitize( params.get('stakeReleaseTime') )
-
-        session.add(stake)
-
 
     # commit the changes to the database
     session.commit()
