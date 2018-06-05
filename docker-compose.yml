@@ -7,7 +7,7 @@ services:
   #   volumes:
   #     - ./local_queue/elasticmq.conf:/elasticmq.conf
   #   ports:
-  #     - 9324:9324 d
+  #     - 9324:9324
 
   rabbitmq:
     image: rabbitmq:3.6.15
@@ -59,20 +59,20 @@ services:
     depends_on:
       - db
       - redis
-  # delphi_subscriber:
-  #   build:
-  #     context: ./delphi_api
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   env_file:
-  #     - variables.env
-  #   command: bash -c "PYTHONPATH=/usr/src/app && sleep 15 && python3 app/event_processor/main.py"
-  #   volumes:
-  #     - ./delphi_api:/usr/src/app
-  #   depends_on:
-  #     - rabbitmq
-  #   networks:
-  #     - delphi
+  delphi_subscriber:
+    build:
+      context: ./delphi_api
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - variables.env
+    command: bash -c "PYTHONPATH=/usr/src/app && sleep 15 && python3 app/event_processor/main.py"
+    volumes:
+      - ./delphi_api:/usr/src/app
+    depends_on:
+      - rabbitmq
+    networks:
+      - delphi
   # sql_jobs:
   #   # In production, these run an as an hourly cronjob.
   #   # Here, we use a local.sh to just run it more often
@@ -119,7 +119,7 @@ services:
     restart: always
     env_file:
       - variables.env
-    # command: npm run contract
+    command: bash -c "npm install && npm run contract"
     volumes:
       - ./contract_subscriber:/usr/src/app
       - /usr/src/app/node_modules
@@ -137,7 +137,7 @@ services:
     restart: always
     env_file:
       - variables.env
-    # command: npm run factory
+    command: bash -c "npm install && npm run factory"
     volumes:
       - ./contract_subscriber:/usr/src/app
       - /usr/src/app/node_modules
