@@ -80,6 +80,49 @@ If no stake is found, the API will return the following message.
 }
 ```
 
+
+## Get all Claims by a Sinle Challenger
+
+Retrieves a list of claims and associated claim data for which the claim
+has the specified address listed for the claimant on that claim
+
+**URL** : `/claimant/<challenger address>`
+
+**Method** : `GET`
+
+
+## Get all Stakes by a Single Staker
+
+Retrieves a list of stakes and associated stake data for which the stake
+has the specified address listed for the staker
+
+**URL** : `/staker/<staker address>`
+
+**Method** : `GET`
+
+
+## Get all Stakes for a Whitelistee
+
+Retrieves a list of stakes and associated stake data for which the stake
+has includes a whitelistee with the specififed address
+
+**URL** : `/whitelistee/<whitelistee address>`
+
+**Method** : `GET`
+
+
+## Get all Claims for an Arbiter Set
+
+Retrieves a list of claims and associated claim data for which the claim
+has the specified address listed for the arbiter
+
+**URL** : `/arbiter/<arbiter address>`
+
+**Method** : `GET`
+
+
+
+
 ## Notes
 
 * It is likely that we will break the `data` hashes into objects to represent the data stored on IPFS.
