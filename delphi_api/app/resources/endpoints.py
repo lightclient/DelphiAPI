@@ -32,7 +32,7 @@ class StakeEndpoint(object):
         if(stake_info is None):
             raise falcon.HTTPNotFound(description="Could not find a stake with address {}".format(address))
 
-        resp.body = stake_info.toJSON()
+        resp.body = json.objToJSON(stake_info, ['stakes'])
 
 
 class ClaimantEndpoint(object):
@@ -93,7 +93,7 @@ class ArbiterEndpoint(object):
 
     Parameters:
         address
-        
+
     Returns:
         JSON structure containing an array of stakes with arbiter = address
     """

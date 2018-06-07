@@ -12,8 +12,12 @@ from eth_utils import to_checksum_address
 Base = declarative_base()
 
 class Stake(Base):
-    """ user entity class """
+    """
+    ORM class defining the Stake relation in the database
+    """
+
     __tablename__ = 'stake'
+
     address = Column(VARCHAR(128), primary_key=True)
     staker = Column(VARCHAR(128))
     claimable_stake = Column(DECIMAL(precision=70, scale=30))
@@ -46,11 +50,12 @@ class Stake(Base):
         self.minimum_fee = minimum_fee
         self.claim_deadline = claim_deadline
 
-    def toJSON(self):
-        return json.objToJSON(self, ['stakes'])
 
 class Whitelistee(Base):
-    """ user entity class """
+    """
+    ORM class defining the Whitelistee relation in the database
+    """
+
     __tablename__ = 'whitelistee'
 
     # used for sql alchemy relationships
@@ -67,8 +72,12 @@ class Whitelistee(Base):
         self.claimant = to_checksum_address(claimant)
         self.deadline = deadline
 
+
 class Claim(Base):
-    """ user entity class """
+    """
+    ORM class defining the Claim relation in the database
+    """
+
     __tablename__ = 'claim'
 
     # used for sql alchemy relationships
@@ -103,8 +112,12 @@ class Claim(Base):
         self.ruled = ruled
         self.settlement_failed = settlement_failed
 
+
 class Settlement(Base):
-    """ user entity class """
+    """
+    ORM class defining the Settlement relation in the database
+    """
+
     __tablename__ = 'settlement'
 
     # used for sql alchemy relationships
@@ -131,8 +144,12 @@ class Settlement(Base):
         self.ruled = ruled
         self.settlement_failed = settlement_failed
 
+
 class Token(Base):
-    """ user entity class """
+    """
+    ORM class defining the Token relation in the database
+    """
+
     __tablename__ = 'token'
 
     stakes = relationship("Stake", back_populates="token")
@@ -150,8 +167,12 @@ class Token(Base):
         self.symbol = symbol
         self.decimals = decimals
 
+
 class Arbiter(Base):
-    """ user entity class """
+    """
+    ORM class defining the Arbiter relation in the database
+    """
+
     __tablename__ = 'arbiter'
 
     stakes = relationship("Stake", back_populates="arbiter")
