@@ -1,6 +1,6 @@
 const networks = {
     'mainNet': 'https://mainnet.infura.io/U6bpkteiO0xMIuYeiHzk',
-    'rinkeby': 'https://rinkeby.infura.io/',
+    'rinkeby': 'https://rinkeby.infura.io/U6bpkteiO0xMIuYeiHzk',
     'ropsten': 'https://ropsten.infura.io/U6bpkteiO0xMIuYeiHzk',
     'consensysrinkeby': 'https://rinkeby.infura.io/U6bpkteiO0xMIuYeiHzk',
     'localhost': 'localhost:8545',
