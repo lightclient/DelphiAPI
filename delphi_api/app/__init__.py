@@ -34,7 +34,8 @@ def create_app():
     app.add_error_handler(Exception, error_handler)
 
     # if this is the dev environment, clear the database when booted up
-    if os.environ['ENV'] == 'DEV':
+    if os.environ['CLEAR_DB'] == 'true':
+        print('CLEARING DB . . .')
         engine = create_table()
         migrate(engine)
 
@@ -68,7 +69,7 @@ def _setup_routes(app):
     #WhitelisteeEndpoint defined in app.resources.whitelistee.py
     app.add_route("/whitelistee/{address}", WhitelisteeEndpoint())
 
-    
+
 
 
 

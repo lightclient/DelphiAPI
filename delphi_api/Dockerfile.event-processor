@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /usr/src/app
 
-CMD PYTHONPATH=/usr/src/app && sleep 15 && python3 app/event_processor/main.py
+CMD PYTHONPATH=/usr/src/app && python3 app/event_processor/main.py
