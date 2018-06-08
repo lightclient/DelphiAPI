@@ -14,10 +14,27 @@ from app.util.logging import pretty_print
 from app.event_processor.rabbitmq import client
 from app.event_processor.helpers import sanitize
 
+from eth_utils import to_checksum_address
+
 engine = connect()
 
 Session = sessionmaker(bind=engine)
 session = Session()
+
+def getStake(address):
+    return session.query(Stake).filter_by( address=to_checksum_address(address) ).first()
+
+def getArbiter(address):
+    return session.query(Arbiter).filter_by( address=to_checksum_address(address) ).first()
+
+def getClaim(address, id):
+    return session.query(Claim).filter_by(
+        stake=to_checksum_address(address),
+        id=id,
+    ).first()
+
+def getToken(address):
+    return session.query(Token).filter_by( address=to_checksum_address(address) ).first()
 
 def message_handler(ch, method, properties, body):
 
@@ -25,8 +42,6 @@ def message_handler(ch, method, properties, body):
     event = json.loads(body.decode())
 
     event_processor(event)
-
-    # pretty_print(event)
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
 
@@ -40,8 +55,8 @@ def event_processor(event):
     # STAKE CREATED #
     #################
     if event.get('type') == 'StakeCreated':
-        token = session.query(Token).filter_by(address=params.get('token')).first()
-        arbiter = session.query(Arbiter).filter_by(address=params.get('arbiter')).first()
+        token = getToken(params.get('token'))
+        arbiter = getArbiter(params.get('arbiter'))
 
         if token == None:
             token = Token(
@@ -77,7 +92,7 @@ def event_processor(event):
             deadline=sanitize( params.get('deadline') )
         )
 
-        stake = session.query(Stake).filter_by(address=event.get('address')).first()
+        stake = getStake(event.get('address'))
         stake.whitelist.append(whitelistee)
 
         session.add_all([stake, whitelistee])
@@ -98,10 +113,10 @@ def event_processor(event):
             ruling=0,
             ruled=False,
             # determines if settlement phase was skipped
-            settlements=(False if event.get('function') == 'openClaim' else True)
+            settlement_failed=(False if event.get('function') == 'openClaim' else True)
         )
 
-        stake = session.query(Stake).filter_by(address=event.get('address')).first()
+        stake = getStake(event.get('address'))
 
         stake.claimable_stake -= claim.amount + claim.fee
         stake.claims.append(claim)
@@ -113,10 +128,7 @@ def event_processor(event):
     #################
     # TODO: write tests
     if event.get('type') == 'FeeIncreased':
-        claim = session.query(Claim).filter_by(
-            stake=event.get('address'),
-            id=values.get('_claimId'),
-        ).first()
+        claim = getClaim(event.get('address'), params.get('_claimId'))
 
         claim.surplus_fee += sanitize( values.get('_amount') )
 
@@ -172,7 +184,7 @@ def event_processor(event):
     ###################
     # TODO: write test
     if event.get('type') == 'StakeWithdrawn':
-        stake = session.query(Stake).filter_by(address=event.get('address')).first()
+        stake = getStake(event.get('address'))
 
         stake.claimable_stake = 0
 
@@ -183,7 +195,7 @@ def event_processor(event):
     ###################
     #TODO: write test
     if event.get('type') == 'StakeIncreased':
-        stake = session.query(Stake).filter_by(address=event.get('address')).first()
+        stake = getStake(event.get('address'))
 
         stake.claimable_stake += sanitize( params.get('value') )
 

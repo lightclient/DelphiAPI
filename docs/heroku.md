@@ -4,7 +4,7 @@
 2. `python migrate.py`
 
 ## clearing redis
-`heroku redis:cli`
+`heroku redis:cli -a delphi-api --confirm delphi-api`
 `flushall`
 
 ## clearing rabbitmq
