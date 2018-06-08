@@ -101,12 +101,13 @@ def event_processor(event):
     # CLAIM OPENED #
     ################
     if event.get('type') == 'ClaimOpened':
+        stake = getStake(event.get('address'))
         claim = Claim(
             stake=event.get('address'),
             id=sanitize( values.get('_claimId') ),
-            claimant=params.get('claimant'),
+            claimant=values.get('_claimant'),
             amount=sanitize( params.get('amount') ),
-            arbiter=params.get('arbiter'),
+            arbiter=stake.arbiter.address,
             fee=sanitize( params.get('fee') ),
             surplus_fee=0,
             data=params.get('data'),
