@@ -7,6 +7,8 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
 
+from eth_utils import to_checksum_address
+
 Base = declarative_base()
 
 class Stake(Base):
@@ -36,8 +38,8 @@ class Stake(Base):
     create_time = Column(TIMESTAMP, server_default=func.now())
 
     def __init__(self, address, staker, token, claimable_stake, data, arbiter, minimum_fee, claim_deadline):
-        self.address = address
-        self.staker = staker
+        self.address = to_checksum_address(address)
+        self.staker = to_checksum_address(staker)
         self.token = token
         self.claimable_stake = claimable_stake
         self.data = data
@@ -65,8 +67,8 @@ class Whitelistee(Base):
     create_time = Column(TIMESTAMP, server_default=func.now())
 
     def __init__(self, stake, claimant, deadline):
-        self.stake = stake
-        self.claimant = claimant
+        self.stake = to_checksum_address(stake)
+        self.claimant = to_checksum_address(claimant)
         self.deadline = deadline
 
 class Claim(Base):
@@ -91,11 +93,11 @@ class Claim(Base):
     create_time = Column(TIMESTAMP, server_default=func.now())
 
     def __init__(self, stake, id, claimant, amount, arbiter, fee, surplus_fee, data, ruling, ruled, settlement_failed):
-        self.stake = stake
+        self.stake = to_checksum_address(stake)
         self.id = id
-        self.claimant = claimant
+        self.claimant = to_checksum_address(claimant)
         self.amount = amount
-        self.arbiter = arbiter
+        self.arbiter = to_checksum_address(arbiter)
         self.fee = fee
         self.surplus_fee = surplus_fee
         self.data = data
@@ -117,7 +119,7 @@ class Token(Base):
     create_time = Column(TIMESTAMP, server_default=func.now())
 
     def __init__(self, address, name, symbol, decimals):
-        self.address = address
+        self.address = to_checksum_address(address)
         self.name = name
         self.symbol = symbol
         self.decimals = decimals
@@ -135,6 +137,6 @@ class Arbiter(Base):
     create_time = Column(TIMESTAMP, server_default=func.now())
 
     def __init__(self, address):#, name, description):
-        self.address = address
+        self.address = to_checksum_address(address)
         # self.name = name
         # self.description = description
