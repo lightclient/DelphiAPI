@@ -22,7 +22,7 @@ class StakeEndpoint(object):
         address
 
     Returns:
-        JSON structure to client of the stake with address: address
+        JSON structure to client of the stake with address = address
     """
     def on_get(self, req, resp, address):
 
