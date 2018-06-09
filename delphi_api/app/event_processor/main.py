@@ -21,6 +21,7 @@ engine = connect()
 Session = sessionmaker(bind=engine)
 session = Session()
 
+# -- query wrappers -- #
 def getStake(address):
     return session.query(Stake).filter_by( address=to_checksum_address(address) ).first()
 
@@ -35,6 +36,7 @@ def getClaim(address, id):
 
 def getToken(address):
     return session.query(Token).filter_by( address=to_checksum_address(address) ).first()
+# -- query wrappers -- #
 
 def message_handler(ch, method, properties, body):
 

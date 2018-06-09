@@ -8,4 +8,3 @@ docker exec delphiapi_redis_1 redis-cli FLUSHALL
 
 # clear database
 docker-compose down
-# docker-compose start

@@ -1,14 +1,6 @@
 version: '3.5'
 
 services:
-  # sqs:
-  #   build:
-  #     context: ./local_queue
-  #   volumes:
-  #     - ./local_queue/elasticmq.conf:/elasticmq.conf
-  #   ports:
-  #     - 9324:9324
-
   rabbitmq:
     image: rabbitmq:3.6.15
     ports:
@@ -27,8 +19,6 @@ services:
     image: postgres
     env_file:
       - variables.env
-    # volumes:
-    #   - psql_bounties:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
@@ -36,8 +26,6 @@ services:
 
   redis:
     image: "redis"
-    # volumes:
-    #   - redis_bounties:/data
     ports:
       - "6379:6379"
     networks:
@@ -58,7 +46,7 @@ services:
       - delphi
     depends_on:
       - db
-      
+
   delphi_subscriber:
     build:
       context: ./delphi_api
@@ -73,46 +61,7 @@ services:
       - rabbitmq
     networks:
       - delphi
-  # sql_jobs:
-  #   # In production, these run an as an hourly cronjob.
-  #   # Here, we use a local.sh to just run it more often
-  #   build:
-  #     context: ./sql_jobs
-  #     dockerfile: Dockerfile
-  #   command: bash -c "./local.sh"
-  #   env_file:
-  #     - variables.env
-  #   volumes:
-  #     - ./sql_jobs:/usr/src/app
-  # track_bounty_expirations:
-  #   # TODO - just make this a cronjob. It does not need to be a long-running job
-  #   build:
-  #     context: ./bounties_api
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   env_file:
-  #     - variables.env
-  #   command: python3 manage.py track_bounty_expirations
-  #   volumes:
-  #     - ./bounties_api:/code
-  #   depends_on:
-  #     - db
-  #     - bounties_api
-  # get_token_values:
-  #   # In production, these run an as an every 5 minute cronjob.
-  #   # Here, we use a local.sh to just put it in a bash loop
-  #   build:
-  #     context: ./bounties_api
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   env_file:
-  #     - variables.env
-  #   command: bash -c "./local.sh"
-  #   volumes:
-  #     - ./bounties_api:/code
-  #   depends_on:
-  #     - db
-  #     - bounties_api
+
   contract_subscriber:
     build:
       context: ./contract_subscriber
@@ -165,11 +114,7 @@ services:
   #   tty: true
   #   networks:
   #     - delphi
-# volumes:
-#   psql_bounties:
-#     external: true
-#   redis_bounties:
-#     external: true
+
 networks:
   delphi:
     name: delphi

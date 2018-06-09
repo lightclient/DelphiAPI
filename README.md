@@ -14,10 +14,18 @@ The Delphi API is a caching layer for the [Delphi](https://github.com/Bounties-N
 * [Tests](/docs/testing.md)
 
 ## Setup
+Before starting you'll need [Docker](https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac) up and running on your machine.
 
-Before starting you'll need [Docker](https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac) up and running on your machine and a local Ethereum network running on your localhost:8545. [Deth](https://github.com/c-o-l-o-r/deth) plays nicely with this setup.
+The caching layer can currently be attached to Rinkeby, Ropsten, and a localhost Ethereum network. Please modify the environment variable in the [variables.env](variables.env) file to which ever network you choose. After that, you'll be ready to start the API up.
 
-###### Starting Up A Private Ethereum Blockchain & Delphoying Delphi
+###### Running the caching layer
+```
+git clone https://github.com/c-o-l-o-r/DelphiAPI.git
+cd DelphiAPI
+docker-compose up --build
+```
+
+###### Starting Up A Private Ethereum Blockchain & Delphoying Delphi Smart Contracts
 ```
 git clone https://github.com/c-o-l-o-r/deth.git
 cd deth/dapp
@@ -30,24 +38,17 @@ root@deth_dapp: npm install
 root@deth_dapp: truffle install
 root@deth_dapp: yarn contract
 ```
-###### Running the caching layer
-```
-git clone https://github.com/c-o-l-o-r/DelphiAPI.git
-cd DelphiAPI
-docker-compose up --build
-```
 
 Locally, you will now be syncing directly from the contract. You may access the api at:
 
 http://locahost:5000
 
-If you add additional packages to a package.json or to the requirements.txt file, you'll need to rebuild the individual service.  To rebuild all services, you may run:
+If you add additional packages to a package.json or requirements.txt file, you'll need to rebuild the individual service.  To rebuild all services, you may run:
 ```
 docker-compose down
 docker-compose build
 docker-compose up
 ```
-By default, the sync will connect to deth. To change to a rinkeby sync or other, you will need to adjust the eth_network key in the [environment file](/.env). As an example, it can be changed to `eth_network=rinkeby`.
 
 ## API Schema and Documentation
 
@@ -59,7 +60,7 @@ We plan to closely follow the architecture described in the [BountiesAPI repo](h
 
 The **frontend or client** can be any third party service or collaborator that integrates with the [delphi ethereum contract](https://github.com/Bounties-Network/Delphi).  This API works as a caching and storage layer for what is input into the standard bounties contract. Due to storage costs, the contract puts the majority of the data into IPFS. To understand further, read the documentation on the [Delphi contract](https://github.com/Bounties-Network/Delphi).
 
-The [**contract subscriber**](/contract_subscriber) listens for events from the contract. In the case a resync is occurring, it will listen to all historical events, starting from the genesis block. In order for the subscriber to know what it has already accessed, the redis cache stores a currentBlock key. Additionally, the redis cache stores the hashes for all transactions that have already been evaluated and stored to the db. The contract subscriber will ignore transactions that have already been written, and will not search through blocks prior to the currentBlock key. When the subscriber picks up on a new event, it looks up the original transaction via web3 and passes the event data along with the original contract function inputs to RabbitMQ. A RabbitMQ fifo queue is used. This means we will never have duplication on keys and all events will be handled in the order they come through.
+The [**contract & factory subscribers**](/contract_subscriber) listen for events from the contracts. In the case a resync is occurring, it will listen to all historical events, starting from the genesis block. In order for the subscriber to know what it has already accessed, the redis cache stores a currentBlock key. When the subscriber picks up on a new event, it looks up the original transaction via web3 and passes the event data along with the original contract function inputs to RabbitMQ. A RabbitMQ fifo queue is used. This means we will never have duplication on keys and all events will be handled in the order they come through.
 
 The [**delphi subscriber**](/delphi_api/app/event_processor) listens to events that have been passed into RabbitMQ by the contract subscriber.  The delphi subscriber uses the data from the event, the inputs to the original contract function, and the IPFS stored data to write the appropriate values to the DB via SQLAlchemy.
 
