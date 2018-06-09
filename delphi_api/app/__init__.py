@@ -34,7 +34,7 @@ def create_app():
     app.add_error_handler(Exception, error_handler)
 
     # if this is the dev environment, clear the database when booted up
-    if os.environ['CLEAR_DB'] == 'true':
+    if os.environ['ENV'] == 'DEV':
         print('CLEARING DB . . .')
         engine = create_table()
         migrate(engine)

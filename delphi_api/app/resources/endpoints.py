@@ -26,7 +26,7 @@ class StakeEndpoint(object):
 
         resp.body = stake_info.toJSON()
 
-        
+
 #/claimant/{address}
 class ClaimantEndpoint(object):
     def on_get(self, req, resp, address):
@@ -34,27 +34,26 @@ class ClaimantEndpoint(object):
         claims_info = session.query(Claim).filter_by(claimant=to_checksum_address(address)).all()
         resp.body = json.listToJSON(claims_info, [])
 
-        
-#/staker/{address}        
+
+#/staker/{address}
 class StakerEndpoint(object):
     def on_get(self, req, resp, address):
-        
+
         stakes_info = session.query(Stake).filter_by(staker=to_checksum_address(address)).all()
         resp.body = json.listToJSON(stakes_info, ['stakes'])
 
-        
+
 #/whitelistee/{address}
 class WhitelisteeEndpoint(object):
     def on_get(self, req, resp, address):
 
         whitelists_info = session.query(Stake).filter(Stake.whitelist.any(claimant=to_checksum_address(address))).all()
         resp.body = json.listToJSON(whitelists_info, ['stakes'])
-                            
 
-#/arbiter/{address}        
+
+#/arbiter/{address}
 class ArbiterEndpoint(object):
     def on_get(self, req, resp, address):
 
         claims_info = session.query(Claim).filter_by(arbiter=to_checksum_address(address)).all()
         resp.body = json.listToJSON(claims_info, [])
-                            

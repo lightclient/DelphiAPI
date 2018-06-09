@@ -47,7 +47,31 @@ class Stake(Base):
         self.claim_deadline = claim_deadline
 
     def toJSON(self):
-        return json.objToJSON(self, ['stakes'])
+        obj = {
+            'data': {
+                'staker': self.staker,
+                'claimable_stake': self.claimable_stake,
+                'token': {
+                    'name': self.token.name,
+                    'symbol': self.token.symbol,
+                    'address': self.token.address
+                },
+                'minimum_fee': self.minimum_fee,
+                'data': self.data,
+                'claim_deadline': str( int(Decimal(self.claim_deadline.real)) ),
+                'arbiter': {
+                    'name': '',
+                    'description': '',
+                    'address': self.arbiter.address
+                },
+                'whitelist': [w.claimant for w in self.whitelist],
+                'claims': [json.loads(c.toJSON()) for c in self.claims],
+                'settlements': [] # TODO
+            },
+            'errors': []
+        }
+
+        return json.dumps(obj)
 
 class Whitelistee(Base):
     """ user entity class """
@@ -102,6 +126,20 @@ class Claim(Base):
         self.ruling = ruling
         self.ruled = ruled
         self.settlement_failed = settlement_failed
+
+    def toJSON(self):
+        obj = {
+            "id": self.id,
+            "amount": self.amount,
+            "fee": self.fee,
+            "surplus_fee": self.surplus_fee,
+            "data": self.data,
+            "ruling": self.ruling,
+            "ruled": self.ruled,
+            "settlement_failed": self.settlement_failed
+        }
+
+        return json.dumps(obj)
 
 class Settlement(Base):
     """ user entity class """

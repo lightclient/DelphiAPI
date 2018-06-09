@@ -68,18 +68,21 @@ def test_open_claims_on_stake():
     event_processor(claim1)
 
     assert len(stake.claims) == 1
-    assert stake.claims[0].claimant == claim1.get('params').get('claimant')
+    assert stake.claims[0].claimant == claim1.get('values').get('_claimant')
     assert stake.claims[0].data == claim1.get('params').get('data')
     assert str(int(stake.claims[0].fee)) == claim1.get('params').get('fee')
 
     event_processor(claim2)
 
     assert len(stake.claims) == 2
-    assert stake.claims[1].claimant == claim2.get('params').get('claimant')
+    assert stake.claims[1].claimant == claim2.get('values').get('_claimant')
     assert stake.claims[1].data == claim2.get('params').get('data')
     assert str(int(stake.claims[1].fee)) == claim2.get('params').get('fee')
 
+def test_rule_on_claim():
+    stake = session.query(Stake).filter_by(address=stakeCreated.get('values').get('_contractAddress')).first()
 
+    event_processor()
 
 Base.metadata.reflect(bind=engine) # need to figure out what this does
 Base.metadata.drop_all(bind=engine)

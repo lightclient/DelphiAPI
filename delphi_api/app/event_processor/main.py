@@ -140,8 +140,8 @@ def event_processor(event):
     ###############
     # TODO tests
     if event.get('type') == 'ClaimRuled':
-        stake = session.query(Stake).filter_by(address=event.get('address')).first()
-        claim = session.query(Claim).filter_by(address=event.get('address'), id=values.get('_claimId')).first()
+        stake = getStake(event.get('address'))
+        claim = getClaim(stake.address, values.get('_claimId'))
 
         claim.ruled = True
         claim.ruling = params.get('ruling')

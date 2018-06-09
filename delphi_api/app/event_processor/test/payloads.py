@@ -84,14 +84,13 @@ claim1 = {
     'address': '0x345cA3e014Aaf5dcA488057592ee47305D9B3e10',
     'sender': '0xf17f52151EbEF6C7334FAD080c5704D77216b732',
     'params': {
-         'claimant': '0xf17f52151EbEF6C7334FAD080c5704D77216b732',
          'amount': '1',
          'fee': '10',
-         'data': 'i love cats',
-         'arbiter': '0xEF49B306959c68981902a9565063Ba1EE6566146'
+         'data': 'i love cats'
     },
     'values': {
-        '_claimId': '0'
+        '_claimId': '0',
+        '_claimant': '0xf17f52151EbEF6C7334FAD080c5704D77216b732',
     },
     'function': 'openClaim'
 }
@@ -103,17 +102,28 @@ claim2 = {
     'address': '0x345cA3e014Aaf5dcA488057592ee47305D9B3e10',
     'sender': '0xf17f52151EbEF6C7334FAD080c5704D77216b732',
     'params': {
-         'claimant': '0xf17f52151EbEF6C7334FAD080c5704D77216b732',
          'amount': '2',
          'fee': '9',
-         'data': 'you are bad!!',
-         'arbiter': '0xEF49B306959c68981902a9565063Ba1EE6566146'
+         'data': 'you are bad!!'
     },
     'values': {
-        '_claimId': '1'
+        '_claimId': '0',
+        '_claimant': '0xf17f52151EbEF6C7334FAD080c5704D77216b732'
     },
     'function': 'openClaim'
 }
+
+ruleOnClaim1 = {
+    'transactionHash': '0xe9aabe3feaf9fa8759ce2f86d673036c59b9a182398ee3c8913e4b4dea2b3e9b',
+    'block': 35,
+    'type': 'ClaimRuled',
+    'address': '0x345cA3e014Aaf5dcA488057592ee47305D9B3e10',
+    'sender': '0xEF49B306959c68981902a9565063Ba1EE6566146',
+    'params': {
+         ''
+    }
+}
+
 
 releaseTimeIncreased = {
     'transactionHash': '0xe9aabe3feaf9fa8759ce2f86d673036c59b9a182398ee3c8913e4b4dea2b3e9b',

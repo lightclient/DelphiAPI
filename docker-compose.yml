@@ -58,7 +58,7 @@ services:
       - delphi
     depends_on:
       - db
-      - redis
+      
   delphi_subscriber:
     build:
       context: ./delphi_api

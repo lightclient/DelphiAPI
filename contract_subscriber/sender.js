@@ -16,10 +16,6 @@ async function sendEvents(events) {
 		for (let event of events) {
 			const rawTransaction = await getTransaction(event.transactionHash)
 
-      console.log('RAWWW')
-      console.log(event)
-      console.log(rawTransaction)
-
 			// decodes the raw bytes into the transaction's parameters
 			const rawContractMethodInputs = abiDecoder.decodeMethod(rawTransaction.input)
 
