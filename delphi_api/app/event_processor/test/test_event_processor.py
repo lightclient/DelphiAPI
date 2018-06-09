@@ -2,7 +2,9 @@ from decimal import Decimal
 import sys
 sys.path.append('/usr/src/app')
 
-from app.migrations.models import Base, Stake, Whitelistee, Token, Arbiter
+from eth_utils import to_checksum_address
+
+from app.migrations.models import Base, Stake, Whitelistee, Token, Arbiter, Claim
 from app.util.connection import connect
 from sqlalchemy.orm import sessionmaker
 from app.event_processor.main import event_processor, session, engine
@@ -36,11 +38,6 @@ def test_whitelistee_is_associated_with_stake():
     event_processor(claimantWhitelisted)
     stake = session.query(Stake).filter_by(address=claimantWhitelisted.get('address')).first()
     assert stake.whitelist[0].claimant == claimantWhitelisted.get('params').get('claimant')
-
-def test_stake_release_time_increased():
-    event_processor(releaseTimeIncreased)
-    stake = session.query(Stake).filter_by(address=claimantWhitelisted.get('address')).first()
-    assert stake.claim_deadline == int(Decimal( releaseTimeIncreased.get('params').get('stakeReleaseTime') ))
 
 def test_multiple_stake_using_same_token():
     event_processor(stakeCreated2)
@@ -79,10 +76,36 @@ def test_open_claims_on_stake():
     assert stake.claims[1].data == claim2.get('params').get('data')
     assert str(int(stake.claims[1].fee)) == claim2.get('params').get('fee')
 
-def test_rule_on_claim():
-    stake = session.query(Stake).filter_by(address=stakeCreated.get('values').get('_contractAddress')).first()
+def test_ruling_3_on_claim():
+    stake = session.query(Stake).filter_by(address=ruleOnClaim1.get('address')).first()
+    claim = session.query(Claim).filter_by( stake=ruleOnClaim1.get('address'), id=ruleOnClaim1.get('values').get('_claimId') ).first()
 
-    event_processor()
+    old_stake_value = stake.claimable_stake + claim.amount + claim.fee
+
+    event_processor(ruleOnClaim1)
+
+    assert claim.ruled == True
+    assert str(int(claim.ruling)) == ruleOnClaim1.get('params').get('ruling')
+    assert int(stake.claimable_stake) == int(old_stake_value)
+
+def test_stake_release_time_increased():
+    stake = session.query(Stake).filter_by(address=claimantWhitelisted.get('address')).first()
+    event_processor(releaseTimeIncreased)
+    assert stake.claim_deadline == int(Decimal( releaseTimeIncreased.get('params').get('stakeReleaseTime') ))
+
+def test_withdraw_stake():
+    stake = session.query(Stake).filter_by(address=withdrawStake.get('address')).first()
+    event_processor(withdrawStake)
+    assert stake.claimable_stake == 0
+
+def test_increase_stake():
+    stake = session.query(Stake).filter_by(address=increaseStake.get('address')).first()
+
+    old_stake_value = stake.claimable_stake
+
+    event_processor(increaseStake)
+    assert int(stake.claimable_stake) == (int(old_stake_value) + int(increaseStake.get('params').get('value')))
+
 
 Base.metadata.reflect(bind=engine) # need to figure out what this does
 Base.metadata.drop_all(bind=engine)

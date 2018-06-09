@@ -120,10 +120,12 @@ ruleOnClaim1 = {
     'address': '0x345cA3e014Aaf5dcA488057592ee47305D9B3e10',
     'sender': '0xEF49B306959c68981902a9565063Ba1EE6566146',
     'params': {
-         ''
+         'ruling': '3'
+    },
+    'values': {
+        '_claimId': '0'
     }
 }
-
 
 releaseTimeIncreased = {
     'transactionHash': '0xe9aabe3feaf9fa8759ce2f86d673036c59b9a182398ee3c8913e4b4dea2b3e9b',
@@ -133,5 +135,24 @@ releaseTimeIncreased = {
     'sender': '0xf17f52151EbEF6C7334FAD080c5704D77216b732',
     'params': {
          'stakeReleaseTime': '1589280934319'
+    }
+}
+
+withdrawStake = {
+    'transactionHash': '0xe9aabe3feaf9fa8759ce2f86d673036c59b9a182398ee3c8913e4b4dea2b3e9b',
+    'block': 35,
+    'type': 'StakeWithdrawn',
+    'address': '0x345cA3e014Aaf5dcA488057592ee47305D9B3e10',
+    'sender': '0x627306090abaB3A6e1400e9345bC60c78a8BEf57'
+}
+
+increaseStake = {
+    'transactionHash': '0xe9aabe3feaf9fa8759ce2f86d673036c59b9a182398ee3c8913e4b4dea2b3e9b',
+    'block': 35,
+    'type': 'StakeIncreased',
+    'address': '0x345cA3e014Aaf5dcA488057592ee47305D9B3e10',
+    'sender': '0x627306090abaB3A6e1400e9345bC60c78a8BEf57',
+    'params': {
+        'value': '10'
     }
 }

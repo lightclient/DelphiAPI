@@ -147,24 +147,24 @@ def event_processor(event):
         claim.ruling = params.get('ruling')
 
         # claim justified
-        if (claim.ruling == 0):
+        if (int(claim.ruling) == 0):
             # transfer fee + fee surplus to arbiter
             # transfer the claim amount + fee back to claimant
             pass
 
         # claim is not justified
-        elif (claim.ruling == 1):
+        elif (int(claim.ruling) == 1):
             # transfer fee + fee surplus to arbiter
             stake.claimable_stake += (claim.amount + claim.fee)
 
         # claim is collusive
-        elif (claim.ruling == 2):
+        elif (int(claim.ruling) == 2):
             # arbiter gets 2x fee + fee surplus
             # burn claim amount
             pass
 
         # claim cannot be ruled
-        elif (claim.ruling == 3):
+        elif (int(claim.ruling) == 3):
             # send claim + fee to claimant
             stake.claimable_stake += (claim.amount + claim.fee)
 
@@ -174,7 +174,7 @@ def event_processor(event):
     # RELEASE TIME INCREASED #
     ##########################
     if event.get('type') == 'ReleaseTimeIncreased':
-        stake = session.query(Stake).filter_by(address=event.get('address')).first()
+        stake = getStake(event.get('address'))
 
         stake.claim_deadline = sanitize( params.get('stakeReleaseTime') )
 
@@ -183,7 +183,6 @@ def event_processor(event):
     ###################
     # STAKE WITHDRAWN #
     ###################
-    # TODO: write test
     if event.get('type') == 'StakeWithdrawn':
         stake = getStake(event.get('address'))
 
@@ -194,7 +193,6 @@ def event_processor(event):
     ###################
     # STAKE INCREASED #
     ###################
-    #TODO: write test
     if event.get('type') == 'StakeIncreased':
         stake = getStake(event.get('address'))
 
