@@ -7,6 +7,8 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
 
+from eth_utils import to_checksum_address
+
 Base = declarative_base()
 
 class Stake(Base):
@@ -30,14 +32,13 @@ class Stake(Base):
     # one to many relationship with whitelistees and claims
     whitelist = relationship('Whitelistee')
     claims = relationship('Claim')
-    # settlements = Column()
 
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
 
     def __init__(self, address, staker, token, claimable_stake, data, arbiter, minimum_fee, claim_deadline):
-        self.address = address
-        self.staker = staker
+        self.address = to_checksum_address(address)
+        self.staker = to_checksum_address(staker)
         self.token = token
         self.claimable_stake = claimable_stake
         self.data = data
@@ -46,28 +47,10 @@ class Stake(Base):
         self.claim_deadline = claim_deadline
 
     def toJSON(self):
-
-        #internal relationships (1 to many)
-        whitelist_info = [ el.claimant for el in self.whitelist ]
-        claims_info = [
-            {'claimant': el.claimant,
-             'arbiter' : el.arbiter,
-             'surplus_fee': el.surplus_fee,
-             'data': el.data,
-             'ruling': el.ruling,
-             'ruled': el.ruled,
-             'settlement_failed': el.settlement_failed
-            }
-            for el in self.claims ]
-
-        #foreign tables (1 to 1)
-        # token_info = session.query(Token).filter_by(address=stake_info.token).first()
-        # arbiter_info = session.query(Arbiter).filter_by(address=stake_info.arbiter).first()
-
-        return json.dumps({
+        obj = {
             'data': {
                 'staker': self.staker,
-                'value': self.claimable_stake,
+                'claimable_stake': self.claimable_stake,
                 'token': {
                     'name': self.token.name,
                     'symbol': self.token.symbol,
@@ -77,24 +60,18 @@ class Stake(Base):
                 'data': self.data,
                 'claim_deadline': str( int(Decimal(self.claim_deadline.real)) ),
                 'arbiter': {
-                    'name': self.arbiter.name,
-                    'description': self.arbiter.description,
+                    'name': '',
+                    'description': '',
                     'address': self.arbiter.address
                 },
-                'whitelisted_claimants': whitelist_info,
-                'claims': claims_info,
-                'settlements': [
-                    {
-                      "amount": 10,
-                      "staker_agrees": 0,
-                      "claimant_agrees": 0
-                    }
-                ]
+                'whitelist': [w.claimant for w in self.whitelist],
+                'claims': [json.loads(c.toJSON()) for c in self.claims],
+                'settlements': [] # TODO
             },
             'errors': []
-        })
-    # def __repr__(self):
-    #     return "< stake >"# % (self.image, self.first_name, self.last_name, self.username, self.password, self.email, self.active, self.update_time)
+        }
+
+        return json.dumps(obj)
 
 class Whitelistee(Base):
     """ user entity class """
@@ -110,8 +87,8 @@ class Whitelistee(Base):
     create_time = Column(TIMESTAMP, server_default=func.now())
 
     def __init__(self, stake, claimant, deadline):
-        self.stake = stake
-        self.claimant = claimant
+        self.stake = to_checksum_address(stake)
+        self.claimant = to_checksum_address(claimant)
         self.deadline = deadline
 
 class Claim(Base):
@@ -122,6 +99,8 @@ class Claim(Base):
     _id = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)
 
     stake = Column(VARCHAR(128), ForeignKey('stake.address'))
+    settlements = relationship('Settlement')
+
     id = Column(INTEGER)
     claimant = Column(VARCHAR(128))
     amount = Column(DECIMAL(precision=70, scale=30))
@@ -134,6 +113,48 @@ class Claim(Base):
     settlement_failed = Column(BOOLEAN)
     update_time = Column(TIMESTAMP, server_default=func.now())
     create_time = Column(TIMESTAMP, server_default=func.now())
+
+    def __init__(self, stake, id, claimant, amount, arbiter, fee, surplus_fee, data, ruling, ruled, settlement_failed):
+        self.stake = to_checksum_address(stake)
+        self.id = id
+        self.claimant = to_checksum_address(claimant)
+        self.amount = amount
+        self.arbiter = to_checksum_address(arbiter)
+        self.fee = fee
+        self.surplus_fee = surplus_fee
+        self.data = data
+        self.ruling = ruling
+        self.ruled = ruled
+        self.settlement_failed = settlement_failed
+
+    def toJSON(self):
+        obj = {
+            "id": self.id,
+            "amount": self.amount,
+            "fee": self.fee,
+            "surplus_fee": self.surplus_fee,
+            "data": self.data,
+            "ruling": self.ruling,
+            "ruled": self.ruled,
+            "settlement_failed": self.settlement_failed
+        }
+
+        return json.dumps(obj)
+
+class Settlement(Base):
+    """ user entity class """
+    __tablename__ = 'settlement'
+
+    # used for sql alchemy relationships
+    _id = Column(INTEGER, nullable=False, primary_key=True, autoincrement=True)
+
+    stake = Column(VARCHAR(128), ForeignKey('stake.address'))
+    claim = Column(INTEGER, ForeignKey('claim._id'))
+
+    id = Column(INTEGER)
+    amount = Column(DECIMAL(precision=70, scale=30))
+    stakerAgrees = Column(BOOLEAN)
+    claimantAgrees = Column(BOOLEAN)
 
     def __init__(self, stake, id, claimant, amount, arbiter, fee, surplus_fee, data, ruling, ruled, settlement_failed):
         self.stake = stake
@@ -162,7 +183,7 @@ class Token(Base):
     create_time = Column(TIMESTAMP, server_default=func.now())
 
     def __init__(self, address, name, symbol, decimals):
-        self.address = address
+        self.address = to_checksum_address(address)
         self.name = name
         self.symbol = symbol
         self.decimals = decimals
@@ -180,6 +201,6 @@ class Arbiter(Base):
     create_time = Column(TIMESTAMP, server_default=func.now())
 
     def __init__(self, address):#, name, description):
-        self.address = address
+        self.address = to_checksum_address(address)
         # self.name = name
         # self.description = description
