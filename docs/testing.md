@@ -9,4 +9,3 @@
 
 ## Event Processor Tests
 * [test folder](../delphi_api/app/event_processor/test/)
-  * [README](../delphi_api/app/event_processor/test/README.md)
