@@ -12,8 +12,12 @@ from eth_utils import to_checksum_address
 Base = declarative_base()
 
 class Stake(Base):
-    """ user entity class """
+    """
+    ORM class defining the Stake relation in the database
+    """
+
     __tablename__ = 'stake'
+
     address = Column(VARCHAR(128), primary_key=True)
     staker = Column(VARCHAR(128))
     claimable_stake = Column(DECIMAL(precision=70, scale=30))
@@ -46,35 +50,12 @@ class Stake(Base):
         self.minimum_fee = minimum_fee
         self.claim_deadline = claim_deadline
 
-    def toJSON(self):
-        obj = {
-            'data': {
-                'staker': self.staker,
-                'claimable_stake': self.claimable_stake,
-                'token': {
-                    'name': self.token.name,
-                    'symbol': self.token.symbol,
-                    'address': self.token.address
-                },
-                'minimum_fee': self.minimum_fee,
-                'data': self.data,
-                'claim_deadline': str( int(Decimal(self.claim_deadline.real)) ),
-                'arbiter': {
-                    'name': '',
-                    'description': '',
-                    'address': self.arbiter.address
-                },
-                'whitelist': [w.claimant for w in self.whitelist],
-                'claims': [json.loads(c.toJSON()) for c in self.claims],
-                'settlements': [] # TODO
-            },
-            'errors': []
-        }
-
-        return json.dumps(obj)
 
 class Whitelistee(Base):
-    """ user entity class """
+    """
+    ORM class defining the Whitelistee relation in the database
+    """
+
     __tablename__ = 'whitelistee'
 
     # used for sql alchemy relationships
@@ -91,8 +72,12 @@ class Whitelistee(Base):
         self.claimant = to_checksum_address(claimant)
         self.deadline = deadline
 
+
 class Claim(Base):
-    """ user entity class """
+    """
+    ORM class defining the Claim relation in the database
+    """
+
     __tablename__ = 'claim'
 
     # used for sql alchemy relationships
@@ -127,22 +112,12 @@ class Claim(Base):
         self.ruled = ruled
         self.settlement_failed = settlement_failed
 
-    def toJSON(self):
-        obj = {
-            "id": self.id,
-            "amount": self.amount,
-            "fee": self.fee,
-            "surplus_fee": self.surplus_fee,
-            "data": self.data,
-            "ruling": self.ruling,
-            "ruled": self.ruled,
-            "settlement_failed": self.settlement_failed
-        }
-
-        return json.dumps(obj)
 
 class Settlement(Base):
-    """ user entity class """
+    """
+    ORM class defining the Settlement relation in the database
+    """
+
     __tablename__ = 'settlement'
 
     # used for sql alchemy relationships
@@ -169,8 +144,12 @@ class Settlement(Base):
         self.ruled = ruled
         self.settlement_failed = settlement_failed
 
+
 class Token(Base):
-    """ user entity class """
+    """
+    ORM class defining the Token relation in the database
+    """
+
     __tablename__ = 'token'
 
     stakes = relationship("Stake", back_populates="token")
@@ -188,8 +167,12 @@ class Token(Base):
         self.symbol = symbol
         self.decimals = decimals
 
+
 class Arbiter(Base):
-    """ user entity class """
+    """
+    ORM class defining the Arbiter relation in the database
+    """
+
     __tablename__ = 'arbiter'
 
     stakes = relationship("Stake", back_populates="arbiter")
