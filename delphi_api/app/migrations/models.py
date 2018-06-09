@@ -50,6 +50,33 @@ class Stake(Base):
         self.minimum_fee = minimum_fee
         self.claim_deadline = claim_deadline
 
+    def toJSON(self):
+        obj = {
+            'data': {
+                'staker': self.staker,
+                'claimable_stake': self.claimable_stake,
+                'token': {
+                    'name': self.token.name,
+                    'symbol': self.token.symbol,
+                    'address': self.token.address
+                },
+                'minimum_fee': self.minimum_fee,
+                'data': self.data,
+                'claim_deadline': str( int(Decimal(self.claim_deadline.real)) ),
+                'arbiter': {
+                    'name': '',
+                    'description': '',
+                    'address': self.arbiter.address
+                },
+                'whitelist': [w.claimant for w in self.whitelist],
+                'claims': [json.loads(c.toJSON()) for c in self.claims],
+                'settlements': [] # TODO
+            },
+            'errors': []
+        }
+
+        return json.dumps(obj)
+
 
 class Whitelistee(Base):
     """
