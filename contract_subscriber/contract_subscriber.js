@@ -6,8 +6,8 @@ const delay = require('delay'),
 	// { getAsync, writeAsync } = require('./config/redis'),
 	{ contract_queue } = require('./config/rabbitmq'),
 	{ sendEvents } = require('./sender'),
-	{ SUBSCRIBER_DELAY } = require('./config/constants');
 
+const SUBSCRIBER_DELAY = process.env['SUBSCRIBER_DELAY'] || 10;
 
 let fromBlock = 0;
 

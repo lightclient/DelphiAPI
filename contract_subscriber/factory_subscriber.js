@@ -5,20 +5,14 @@ const delay = require('delay'),
 	{ DelphiStakeFactory } = require('./config/web3'),
 	{ getAsync, writeAsync } = require('./config/redis'),
 	{ contract_queue } = require('./config/rabbitmq'),
-	{ sendEvents } = require('./sender'),
-	{ SUBSCRIBER_DELAY } = require('./config/constants');
+	{ sendEvents } = require('./sender')
+
+const SUBSCRIBER_DELAY = process.env['SUBSCRIBER_DELAY'] || 10;
 
 async function handler() {
 	try {
-		for(let i = 0; i < 10; i++) {
-			try {
-				await contract_queue.connect();
-			} catch(err) {
-				console.log("Unable to connect, retrying...")
-			}
 
-			await delay(1000 * 2);
-		}
+		await contract_queue.connect();
 
 		while (true) {
 			// Use past events vs. subscribe in order to preserve ordering - FIFO

@@ -3,11 +3,18 @@ const ds_json = require('../contracts/DelphiStake.json'),
 		df_json = require('../contracts/DelphiStakeFactory.json'),
 		token_abi = require('human-standard-token-abi'),
 	  Web3 = require('web3'),
-	  abiDecoder = require('abi-decoder'),
-	  { ETH_NETWORK, ETH_NETWORK_URL } = require('./constants');
+	  abiDecoder = require('abi-decoder')
 
-// web3 setup
-const web3 = new Web3(ETH_NETWORK_URL);
+const ETH_NETWORK = process.env['ETH_NETWORK'] || 'rinkeby';
+
+// available infura networks
+const networks = {
+    'mainNet': 'https://mainnet.infura.io/U6bpkteiO0xMIuYeiHzk',
+    'rinkeby': 'https://rinkeby.infura.io/U6bpkteiO0xMIuYeiHzk',
+    'ropsten': 'https://ropsten.infura.io/U6bpkteiO0xMIuYeiHzk',
+    'localhost': 'localhost:8545',
+    'deth': 'http://ganache:8545',
+}
 
 // this is where DelphiStakeFactory has been deployed in the ethersphere
 factoryAddress = {
@@ -15,6 +22,9 @@ factoryAddress = {
 	ropsten: '0xcac53a387d8e38c10a6a077482bd1741340e4e6e',
 	rinkeby: '0x5751a4a918435b0ae87f1f28308597baa729d5c7'
 }
+
+// web3 setup
+const web3 = new Web3(networks[ETH_NETWORK]);
 
 const DelphiStakeFactory = new web3.eth.Contract(
 	df_json.abi,
@@ -61,5 +71,4 @@ exports.getBlock = web3.eth.getBlock;
 exports.loadDelphiStake = loadDelphiStake;
 exports.getTokenInfo = getTokenInfo;
 exports.abiDecoder = abiDecoder;
-
 exports.DelphiStakeFactory = DelphiStakeFactory;

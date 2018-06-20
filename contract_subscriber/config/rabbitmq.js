@@ -1,6 +1,7 @@
-const { RABBITMQ_URL } = require('./constants')
 const amqp = require('amqplib/callback_api');
 const WorkQueue = require('wrappitmq').WorkQueue;
+
+RABBITMQ_URL = process.env['RABBITMQ_BIGWIG_URL'];
 
 const event_queue = new WorkQueue({
 	queue: 'delphi_events',
