@@ -11,7 +11,6 @@ const SUBSCRIBER_DELAY = process.env['SUBSCRIBER_DELAY'] || 10;
 
 async function handler() {
 	try {
-
 		await contract_queue.connect();
 
 		while (true) {
@@ -34,7 +33,7 @@ async function handler() {
 
 	} catch (err) {
 	// include rollbar error message soon
-	// rollbar.error(err);=
+	// rollbar.error(err);
 	console.log(err);
 
 	// exit with error so kubernettes will automatically restart the job

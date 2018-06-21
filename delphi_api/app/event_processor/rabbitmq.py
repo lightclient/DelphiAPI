@@ -3,15 +3,10 @@ import time
 import os
 
 url = ''
-if os.environ['ENV'] == 'DEV':
-    url = 'amqp://%s:%s@%s:%s' % (
-        os.environ['RABBITMQ_DEFAULT_USER'],
-        os.environ['RABBITMQ_DEFAULT_PASS'],
-        os.environ['RABBITMQ_HOST'],
-        os.environ['RABBITMQ_PORT']
-    )
+if os.environ.get('RABBITMQ_BIGWIG_URL'):
+    url = os.environ.get('RABBITMQ_BIGWIG_URL')
 else:
-    url = os.environ['RABBITMQ_BIGWIG_URL']
+    url = 'amqp://guest:guest@localhost:5672'
 
 parameters = pika.URLParameters(url)
 connection = pika.BlockingConnection(parameters)

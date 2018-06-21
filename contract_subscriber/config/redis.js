@@ -1,7 +1,7 @@
 const redis = require('redis'),
 	{ promisify } = require('util'),
 
-REDIS_URL = process.env['REDIS_URL'];
+REDIS_URL = process.env['REDIS_URL'] || 'redis://localhost:6379';
 
 const client = redis.createClient({ url: REDIS_URL});
 

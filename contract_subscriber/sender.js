@@ -1,10 +1,8 @@
 const { cloneDeep, chain } = require('lodash'),
-	  	// { getAsync } = require('./redis_config'),
 	  	{ abiDecoder, getTransaction, getBlock, getTokenInfo } = require('./config/web3'),
 			{ event_queue } = require('./config/rabbitmq');
 
 async function sendEvents(events) {
-
 	try {
 		// TODO save this connection at a later point ...
 		await event_queue.connect();
@@ -52,10 +50,8 @@ async function sendEvents(events) {
 			}
 
 			// ** debug code ** //
-			if (process.env['ENV'] == 'DEV') {
-				console.log(payload);
-				console.log("\n");
-			}
+			console.log(payload);
+			console.log("\n");
 			/* *************** */
 
 			await event_queue.enqueue(payload)

@@ -5,40 +5,15 @@ const delay = require('delay'),
 	{ loadDelphiStake } = require('./config/web3'),
 	// { getAsync, writeAsync } = require('./config/redis'),
 	{ contract_queue } = require('./config/rabbitmq'),
-	{ sendEvents } = require('./sender'),
+	{ sendEvents } = require('./sender')
 
 const SUBSCRIBER_DELAY = process.env['SUBSCRIBER_DELAY'] || 10;
 
 let fromBlock = 0;
 
-/*
-@param fn - the function you want to backoff
-@param retries - the number of times to retry the function
-@param wait - the time to wait between tries in second
-// */
-// async function backoff(fn, retries, wait) {
-// 	for(let i = 0; i < retries; i++) {
-// 		try {
-// 			await fn();
-// 		} catch(err) {
-// 			console.log("Unable to connect, retrying...")
-// 		}
-//
-// 		await delay(1000 * wait);
-// 	}
-// }
-
 async function handler() {
 	try {
-		for(let i = 0; i < 10; i++) {
-			try {
-				await contract_queue.connect();
-			} catch(err) {
-				console.log("Unable to connect, retrying...")
-			}
-
-			await delay(1000 * 3);
-		}
+		await contract_queue.connect();
 
 		while (true) {
 			// poll the next contract on the queue
@@ -60,7 +35,7 @@ async function handler() {
 				await contract_queue.enqueue(task)
 			});
 
-			// Cancel consumer to stop receiving tasks.
+			// cancel consumer to stop receiving tasks
 			await consumer();
 
 			await delay(1000 * SUBSCRIBER_DELAY);
