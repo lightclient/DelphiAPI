@@ -19,7 +19,7 @@ import os
 #       range.
 #
 
-bind = '0.0.0.0:%s' % ( os.environ['PORT'] || 5000 )
+bind = '0.0.0.0:%s' % ( os.environ.get('PORT', 5000) )
 backlog = 2048
 
 #

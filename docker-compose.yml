@@ -8,6 +8,10 @@ services:
       - "5672:5672"
     labels:
       NAME: "rabbitmq"
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=SWQOKODSQALRPCLNMEQG
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
     env_file:
       - variables.env
     volumes:
@@ -68,7 +72,7 @@ services:
     restart: always
     env_file:
       - variables.env
-    command: bash -c "npm install && npm run contract"
+    command: bash -c "sleep 20 && npm install && npm run contract"
     volumes:
       - ./contract_subscriber:/usr/src/app
       - /usr/src/app/node_modules

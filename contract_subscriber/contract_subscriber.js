@@ -13,12 +13,13 @@ let fromBlock = 0;
 
 async function handler() {
 	try {
-		await contract_queue.connect();
-
 		while (true) {
+			// connect to queue each time so that unacked messages are redelivered
+			await contract_queue.connect();
+
 			// poll the next contract on the queue
 			const consumer = await contract_queue.consume(async (task) => {
-			  console.log(task)
+				console.log(task)
 
 				let stake = loadDelphiStake(task.address);
 
@@ -35,13 +36,10 @@ async function handler() {
 				await contract_queue.enqueue(task)
 			});
 
-			// cancel consumer to stop receiving tasks
-			await consumer();
-
+			await consumer(); // cancel consumer to stop receiving tasks
 			await delay(1000 * SUBSCRIBER_DELAY);
+			await contract_queue.close()
 		}
-
-		await contract_queue.close()
 	} catch (err) {
 			// rollbar.error(err);
 			console.log(err);

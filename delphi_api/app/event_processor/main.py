@@ -5,6 +5,7 @@ import ast
 
 import sys
 sys.path.append('/usr/src/app')
+sys.path.append('/Users/matt/Development/deth/dapp/DelphiAPI/delphi_api')
 
 from app.migrations.models import Stake, Whitelistee, Claim, Token, Arbiter
 from app.util.connection import connect

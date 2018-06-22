@@ -69,9 +69,5 @@ def _setup_routes(app):
     #WhitelisteeEndpoint defined in app.resources.whitelistee.py
     app.add_route("/whitelistee/{address}", WhitelisteeEndpoint())
 
-
-
-
-
 # entry point for python code
 app = create_app()
